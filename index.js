@@ -12,7 +12,7 @@ module.exports = function (gulp) {
 
   gulp.task('.jshintrc', function () {
     gulp.src('.jshintrc', {base: base})
-        .pipe(gulp.dest('.')
+        .pipe(gulp.dest('.'))
   })
 
   gulp.task('test', function () {
