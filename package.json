@@ -15,6 +15,7 @@
   "readmeFilename": "README.md",
   "gitHead": "ed0c3846af36677347e7fad6e85adb878645398e",
   "dependencies": {
-    "gulp-mocha": "~0.4.1"
+    "gulp-mocha": "~0.4.1",
+    "mkdirp": "~0.3.5"
   }
 }
