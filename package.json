@@ -1,0 +1,17 @@
+{
+  "name": "fibo-gulptasks",
+  "version": "0.0.0",
+  "description": "common gulp tasks among projects",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/fibo/fibo-gulptasks.git"
+  },
+  "author": "fibo",
+  "license": "MIT",
+  "readmeFilename": "README.md",
+  "gitHead": "ed0c3846af36677347e7fad6e85adb878645398e"
+}
