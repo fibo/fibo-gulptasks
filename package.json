@@ -1,6 +1,6 @@
 {
   "name": "fibo-gulptasks",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "common gulp tasks among projects",
   "main": "index.js",
   "scripts": {
@@ -13,5 +13,8 @@
   "author": "fibo",
   "license": "MIT",
   "readmeFilename": "README.md",
-  "gitHead": "ed0c3846af36677347e7fad6e85adb878645398e"
+  "gitHead": "ed0c3846af36677347e7fad6e85adb878645398e",
+  "dependencies": {
+    "gulp-mocha": "~0.4.1"
+  }
 }
