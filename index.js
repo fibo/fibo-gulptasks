@@ -1,4 +1,3 @@
-
 var gmocha = require('gulp-mocha')
   , mkdirp = require('mkdirp')
   , path   = require('path')
@@ -26,7 +25,7 @@ module.exports = function (gulp) {
 
   gulp.task('test', function () {
     gulp.src('test/*js')
-        .pipe(mocha({reporter: 'nyan'}))
+        .pipe(gmocha({reporter: 'list'}))
   })
 
   gulp.task('default', ['test'])
