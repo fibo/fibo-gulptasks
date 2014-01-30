@@ -23,6 +23,14 @@ module.exports = function (gulp) {
         .pipe(gulp.dest(destPath))
   })
 
+  gulp.task('.travis.yml', function () {
+    var destPath = './'
+      , srcPath  = path.join(rootDir, '.travis.yml')
+
+    gulp.src(srcPath)
+        .pipe(gulp.dest(destPath))
+  })
+
   gulp.task('test', function () {
     gulp.src('test/*js')
         .pipe(gmocha({reporter: 'list'}))
@@ -30,6 +38,6 @@ module.exports = function (gulp) {
 
   gulp.task('default', ['test'])
 
-  gulp.task('scaffold', ['mkdirs', '.jshintrc'])
+  gulp.task('scaffold', ['mkdirs', '.jshintrc', '.travis.yml'])
 }
 
