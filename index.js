@@ -1,16 +1,33 @@
 
-process.on('uncaughtException', function(err) {
-    // handle the error safely
-    console.log(err);
-});
-
-var gmocha = require('gulp-mocha')
+var exec   = require('child_process').exec
+  , gmocha = require('gulp-mocha')
+  , gutil  = require('gulp-util')
   , mkdirp = require('mkdirp')
   , path   = require('path')
-  , exec   = require('child_process').exec
 
 // rootDir does not depend on package name
 var rootDir = path.join('node_modules', require('./package.json').name , 'root')
+
+function npmInstall (packageName, flag) {
+  var npmCommand = 'npm install ' + packageName + flag
+    , child      = exec(npmCommand)
+
+  gutil.log(npmCommand)
+
+  child.stderr.pipe(process.stderr)
+}
+
+function npmInstallDependency (packageName) {
+  npmInstall(packageName, ' --save')
+}
+
+function npmInstallDevDependency (packageName) {
+  npmInstall(packageName, ' --save-dev')
+}
+
+function npmInstallGlobal (packageName) {
+  npmInstall(packageName, ' -g')
+}
 
 module.exports = function (gulp) {
 
@@ -44,8 +61,34 @@ module.exports = function (gulp) {
         .pipe(gmocha({reporter: 'list'}))
   })
 
-  gulp.task('npm:install', function () {
-    var child = exec('npm install mocha --save-dev').stderr.pipe(process.stderr)
+  gulp.task('npm:install', [
+    'npm:install:dependencies'
+  , 'npm:install:devDependencies'
+  , 'npm:install:global'
+  ])
+
+  gulp.task('npm:install:dependencies', function () {
+    var dependencies = ['inherits']
+
+    dependencies.forEach(function (packageName) {
+      npmInstallDependency(packageName)
+    })
+  })
+
+  gulp.task('npm:install:devDependencies', function () {
+    var devDependencies = ['gulp', 'mocha', 'should']
+
+    devDependencies.forEach(function (packageName) {
+      npmInstallDevDependency(packageName)
+    })
+  })
+
+  gulp.task('npm:install:global', function () {
+    var globalDependencies = ['docpad', 'gulp']
+
+    globalDependencies.forEach(function (packageName) {
+      npmInstallGlobal(packageName)
+    })
   })
 
   gulp.task('default', ['test'])
