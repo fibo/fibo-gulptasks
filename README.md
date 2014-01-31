@@ -10,7 +10,7 @@ Install packages
 ```bash
 npm install -g gulp
 npm install --save-dev gulp gulp-util
-npm install --save-dev git://github.com/fibo/fibo-gulptasks.git
+npm install --save-dev git+ssh://git@github.com/fibo/fibo-gulptasks.git
 ```
 
 Then create a *gulpfile.js* like this
