@@ -13,11 +13,15 @@ npm install --save-dev gulp gulp-util
 npm install --save-dev git+ssh://git@github.com/fibo/fibo-gulptasks.git
 ```
 
-Then create a *gulpfile.js* like this
+Then create a *gulpfile.js*
 
-```js
+```bash
+cat <<EOF > gulpfile.js
+
 var gulp = require('gulp')
 
 require('fibo-gulptasks')(gulp)
+
+EOF
 ```
 
