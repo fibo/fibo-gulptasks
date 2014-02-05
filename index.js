@@ -70,25 +70,19 @@ module.exports = function (gulp) {
   gulp.task('npm:install:dependencies', function () {
     var dependencies = ['inherits']
 
-    dependencies.forEach(function (packageName) {
-      npmInstallDependency(packageName)
-    })
+    dependencies.forEach(npmInstallDependency)
   })
 
   gulp.task('npm:install:devDependencies', function () {
     var devDependencies = ['gulp', 'mocha', 'should']
 
-    devDependencies.forEach(function (packageName) {
-      npmInstallDevDependency(packageName)
-    })
+    devDependencies.forEach(npmInstallDevDependency)
   })
 
   gulp.task('npm:install:global', function () {
-    var globalDependencies = ['docpad', 'gulp']
+    var globalDependencies = ['docpad', 'dox', 'gulp']
 
-    globalDependencies.forEach(function (packageName) {
-      npmInstallGlobal(packageName)
-    })
+    globalDependencies.forEach(npmInstallGlobal)
   })
 
   gulp.task('default', ['test'])
