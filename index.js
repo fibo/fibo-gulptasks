@@ -40,10 +40,6 @@ function npmInstall (packageName, flag) {
   child.stderr.pipe(process.stderr)
 }
 
-function npmInstallDependency (packageName) {
-  npmInstall(packageName, ' --save')
-}
-
 function npmInstallDevDependency (packageName) {
   npmInstall(packageName, ' --save-dev')
 }
@@ -55,15 +51,6 @@ function npmInstallGlobal (packageName) {
 module.exports = function (gulp) {
 
   gulp.task('mkdirs', function () {
-    /*
-    [
-      'classes'
-    , 'docs/out'
-    , 'docs/src/layouts'
-    , 'docs/src/partials'
-    ].forEach(function (dir) { mkdirp(dir) })
-    */
-
     config.tasks.mkdirs.folders.forEach(function (dir) { mkdirp(dir) })
   })
 
@@ -88,36 +75,19 @@ module.exports = function (gulp) {
         .pipe(gmocha({reporter: 'list'}))
   })
 
-  gulp.task('npm:install', [
-    'npm:install:dependencies'
-  , 'npm:install:devDependencies'
-  , 'npm:install:global'
-  ])
+  gulp.task('npm:install', function () {
+    var conf = config.tasks['npm:install']
 
-  gulp.task('npm:install:dependencies', function () {
-    var dependencies = ['inherits']
-
-    dependencies.forEach(npmInstallDependency)
-  })
-
-  gulp.task('npm:install:devDependencies', function () {
-    var devDependencies = ['gulp', 'mocha', 'should']
-
-    devDependencies.forEach(npmInstallDevDependency)
-  })
-
-  gulp.task('npm:install:global', function () {
-    var globalDependencies = ['docpad', 'dox', 'gulp']
-
-    globalDependencies.forEach(npmInstallGlobal)
+    conf.dev.forEach(npmInstallDevDependency)
+    conf.global.forEach(npmInstallGlobal)
   })
 
   gulp.task('config', function () {
     console.log(JSON.stringify(config, null, 4))
   })
 
-  gulp.task('default', ['config'])
+  gulp.task('default', config.tasks.default)
 
-  gulp.task('scaffold', ['mkdirs', '.jshintrc', '.travis.yml'])
+  gulp.task('scaffold', config.tasks.scaffold)
 }
 
