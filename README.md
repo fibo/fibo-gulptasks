@@ -3,7 +3,7 @@ fibo-gulptasks
 
 common gulp tasks among projects
 
-# Install
+## Installation
 
 Install packages
 
@@ -23,5 +23,13 @@ var gulp = require('gulp')
 require('fibo-gulptasks')(gulp)
 
 EOF
+```
+
+## Configuration
+
+Config is stored in *config.md* file, you can see it in JSON format launching
+
+```bash
+gulp config
 ```
 
