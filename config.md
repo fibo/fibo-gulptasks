@@ -13,7 +13,7 @@ Calls the following tasks
 
   * config
 
-#### folders
+### mkdirs
 
   * src
   * docs/out
@@ -22,8 +22,6 @@ Calls the following tasks
   * test
 
 ### index.js
-
-### mkdirs
 
 ### npm:install
 

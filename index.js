@@ -51,7 +51,7 @@ function npmInstallGlobal (packageName) {
 module.exports = function (gulp) {
 
   gulp.task('mkdirs', function () {
-    config.tasks.mkdirs.folders.forEach(function (dir) { mkdirp(dir) })
+    config.tasks.mkdirs.forEach(function (dir) { mkdirp(dir) })
   })
 
   gulp.task('.jshintrc', function () {
