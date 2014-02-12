@@ -70,6 +70,14 @@ module.exports = function (gulp) {
         .pipe(gulp.dest(destPath))
   })
 
+  gulp.task('index.js', function () {
+    var destPath = './'
+      , srcPath  = path.join(rootDir, 'index.js')
+
+    gulp.src(srcPath)
+        .pipe(gulp.dest(destPath))
+  })
+
   gulp.task('test', function () {
     gulp.src('test/*js')
         .pipe(gmocha({reporter: 'list'}))

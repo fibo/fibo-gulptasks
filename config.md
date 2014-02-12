@@ -3,7 +3,15 @@
 
 ## Tasks
 
-### mkdirs
+### .jshintrc
+
+### .travis.yml
+
+### default
+
+Calls the following tasks
+
+  * config
 
 #### folders
 
@@ -12,6 +20,10 @@
   * docs/src/layouts
   * docs/src/partials
   * test
+
+### index.js
+
+### mkdirs
 
 ### npm:install
 
@@ -27,12 +39,6 @@
   * dox
   * gulp
 
-### default
-
-Calls the following tasks
-
-  * config
-
 ### scaffold
 
 Calls the following tasks
@@ -40,4 +46,5 @@ Calls the following tasks
   * mkdirs
   * .jshintrc
   * .travis.yml
+  * index.js
 
