@@ -13,10 +13,13 @@ Calls the following tasks
 
   * config
 
+### dox
+
 ### mkdirs
 
   * src
   * docs/out
+  * docs/files/json/dox
   * docs/src/layouts
   * docs/src/partials
   * test
@@ -45,4 +48,8 @@ Calls the following tasks
   * .jshintrc
   * .travis.yml
   * index.js
+
+### test
+
+  * reporter: list
 

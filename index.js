@@ -22,6 +22,21 @@ var configMd  = path.join(baseDir , 'config.md')
 
 var config = mdconfFromFile(configMd).config
 
+function doxParse(source, target) {
+  var child = exec('dox')
+
+  try {
+    var fileContent = fs.readFileSync(source, {encoding: 'utf8'})
+  }
+  catch (err) { throw err }
+
+  child.stdin.write(fileContent)
+
+  child.stdout.on('data', function (json) { console.log(json) })
+
+  child.stdin.end()
+}
+
 function mdconfFromFile (filename) {
   try {
     var fileContent = fs.readFileSync(filename, {encoding: 'utf8'})
@@ -50,10 +65,6 @@ function npmInstallGlobal (packageName) {
 
 module.exports = function (gulp) {
 
-  gulp.task('mkdirs', function () {
-    config.tasks.mkdirs.forEach(function (dir) { mkdirp(dir) })
-  })
-
   gulp.task('.jshintrc', function () {
     var destPath = './'
       , srcPath  = path.join(rootDir, '.jshintrc')
@@ -70,17 +81,31 @@ module.exports = function (gulp) {
         .pipe(gulp.dest(destPath))
   })
 
+  gulp.task('config', function () {
+    console.log(JSON.stringify(config, null, 4))
+  })
+
+  gulp.task('dox', function () {
+    var conf = config.tasks.dox
+
+    var source = 'test/foo.js'
+      , target = 'docs/src/files/json/dox/foo.json'
+
+    doxParse(source, target)
+  })
+
+  gulp.task('default', config.tasks.default)
+
+  gulp.task('mkdirs', function () {
+    config.tasks.mkdirs.forEach(function (dir) { mkdirp(dir) })
+  })
+
   gulp.task('index.js', function () {
     var destPath = './'
       , srcPath  = path.join(rootDir, 'index.js')
 
     gulp.src(srcPath)
         .pipe(gulp.dest(destPath))
-  })
-
-  gulp.task('test', function () {
-    gulp.src('test/*js')
-        .pipe(gmocha({reporter: 'list'}))
   })
 
   gulp.task('npm:install', function () {
@@ -90,12 +115,14 @@ module.exports = function (gulp) {
     conf.global.forEach(npmInstallGlobal)
   })
 
-  gulp.task('config', function () {
-    console.log(JSON.stringify(config, null, 4))
+  gulp.task('scaffold', config.tasks.scaffold)
+
+  gulp.task('test', function () {
+    var conf = config.tasks.test
+
+    gulp.src('test/*js')
+        .pipe(gmocha({reporter: conf.reporter}))
   })
 
-  gulp.task('default', config.tasks.default)
-
-  gulp.task('scaffold', config.tasks.scaffold)
 }
 
