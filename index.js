@@ -98,6 +98,14 @@ function npmInstallGlobal (packageName) {
 
 module.exports = function (gulp) {
 
+  gulp.task('.npmignore', function () {
+    var destPath = './'
+      , srcPath  = path.join(rootDir, '.npmignore')
+
+    gulp.src(srcPath)
+        .pipe(gulp.dest(destPath))
+  })
+
   gulp.task('.jshintrc', function () {
     var destPath = './'
       , srcPath  = path.join(rootDir, '.jshintrc')

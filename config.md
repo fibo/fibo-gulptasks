@@ -5,6 +5,8 @@
 
 ### .jshintrc
 
+### .npmignore
+
 ### .travis.yml
 
 ### default
@@ -58,6 +60,7 @@ Installs npm packages I use in everyone of my packages.
 Calls the following tasks
 
   * mkdirs
+  * .npmignore
   * .jshintrc
   * .travis.yml
   * index.js
