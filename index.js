@@ -1,5 +1,6 @@
 
-var exec    = require('child_process').exec
+var dox     = require('dox')
+  , exec    = require('child_process').exec
   , fs      = require('fs')
   , gmocha  = require('gulp-mocha')
   , gutil   = require('gulp-util')
@@ -22,20 +23,34 @@ var configMd  = path.join(baseDir , 'config.md')
 
 var config = mdconfFromFile(configMd).config
 
+/**
+ *
+ * @param source {String} /path/to/input/file.js
+ * @param target {String} /path/to/output/file.json
+ */
+
 function doxParse(source, target) {
-  var child = exec('dox')
+  gutil.log('doxParse ' + source + ' -> ' + target)
 
   try {
     var fileContent = fs.readFileSync(source, {encoding: 'utf8'})
   }
   catch (err) { throw err }
 
-  child.stdin.write(fileContent)
+  var doxOptions = {debug: false, raw: true}
 
-  child.stdout.on('data', function (json) { console.log(json) })
+  var obj = dox.parseComments(fileContent, doxOptions)
 
-  child.stdin.end()
+  try {
+    fs.writeFileSync(target, JSON.stringify(obj, null, 4), {encoding: 'utf8'})
+  }
+  catch (err) { throw err }
 }
+
+/**
+ *
+ * @param filename {String} /path/to/file.md
+ */
 
 function mdconfFromFile (filename) {
   try {
@@ -46,6 +61,12 @@ function mdconfFromFile (filename) {
   return mdconf(fileContent)
 }
 
+/**
+ *
+ * @param packageName {String}
+ * @param flag {String} npm install option flag
+ */
+
 function npmInstall (packageName, flag) {
   var npmCommand = 'npm install ' + packageName + flag
     , child      = exec(npmCommand)
@@ -55,9 +76,21 @@ function npmInstall (packageName, flag) {
   child.stderr.pipe(process.stderr)
 }
 
+/**
+ *
+ * @param packageName {String}
+ * @api private
+ */
+
 function npmInstallDevDependency (packageName) {
   npmInstall(packageName, ' --save-dev')
 }
+
+/**
+ *
+ * @param packageName {String}
+ * @api private
+ */
 
 function npmInstallGlobal (packageName) {
   npmInstall(packageName, ' -g')
@@ -85,18 +118,35 @@ module.exports = function (gulp) {
     console.log(JSON.stringify(config, null, 4))
   })
 
+  gulp.task('docs', config.tasks.docs)
+
   gulp.task('dox', function () {
-    var conf = config.tasks.dox
+    var conf   = config.tasks.dox
+      , source
+      , srcDir = 'src'
+      , target
 
-    var source = 'test/foo.js'
-      , target = 'docs/src/files/json/dox/foo.json'
+    var files = fs.readdirSync(srcDir)
 
-    doxParse(source, target)
+    files.forEach(function (filename) {
+      // ignore index
+      if (filename === 'index.js')
+        return
+
+      // All input files should have extension .js, so adding 'on' to filename
+      // turns their extension in .json, LOL!
+      target = path.join(conf.targetdir, filename + 'on')
+      source = path.join(srcDir, filename)
+
+      doxParse(source, target)
+    })
   })
 
   gulp.task('default', config.tasks.default)
 
   gulp.task('mkdirs', function () {
+    mkdirp(config.tasks.dox.targetDir)
+
     config.tasks.mkdirs.forEach(function (dir) { mkdirp(dir) })
   })
 
