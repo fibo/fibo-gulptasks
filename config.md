@@ -51,7 +51,6 @@ Installs npm packages I use in everyone of my packages.
 #### global
 
   * docpad
-  * dox
   * gulp
 
 ### scaffold
