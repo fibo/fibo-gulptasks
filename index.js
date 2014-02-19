@@ -145,7 +145,7 @@ module.exports = function (gulp) {
   gulp.task('default', config.tasks.default)
 
   gulp.task('mkdirs', function () {
-    mkdirp(config.tasks.dox.targetDir)
+    mkdirp(config.tasks.dox.targetdir)
 
     config.tasks.mkdirs.forEach(function (dir) { mkdirp(dir) })
   })
