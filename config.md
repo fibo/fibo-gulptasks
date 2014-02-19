@@ -13,7 +13,22 @@ Calls the following tasks
 
   * config
 
+### docs
+
+Calls the following tasks
+
+  * dox
+
+### dox
+
+Parses *.js* sources with [dox](https://github.com/visionmedia/dox) and generates
+an omonym *.json* file in the *targetDir*. File *index.js* is ignored.
+
+  * targetDir: docs/src/files/json/dox
+
 ### mkdirs
+
+Create `dox.targetDir` and the following dirs
 
   * src
   * docs/out
@@ -24,6 +39,8 @@ Calls the following tasks
 ### index.js
 
 ### npm:install
+
+Installs npm packages I use in everyone of my packages.
 
 #### dev
 
@@ -45,4 +62,10 @@ Calls the following tasks
   * .jshintrc
   * .travis.yml
   * index.js
+
+### test
+
+Runs tests with [mocha](http://visionmedia.github.io/mocha/)
+
+  * reporter: list
 
