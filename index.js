@@ -1,13 +1,14 @@
 
-var dox     = require('dox')
-  , exec    = require('child_process').exec
-  , fs      = require('fs')
-  , gmocha  = require('gulp-mocha')
-  , gutil   = require('gulp-util')
-  , mdconf  = require('mdconf')
-  , mkdirp  = require('mkdirp')
-  , path    = require('path')
-  , thisPkg = require('./package.json')
+var dox      = require('dox')
+  , exec     = require('child_process').exec
+  , fs       = require('fs')
+  , gmocha   = require('gulp-mocha')
+  , gutil    = require('gulp-util')
+  , mdconf   = require('mdconf')
+  , mkdirp   = require('mkdirp')
+  , path     = require('path')
+  , template = require('gulp-template')
+  , thisPkg  = require('./package.json')
 
 var thisPkgName = thisPkg.name
 
@@ -115,35 +116,38 @@ function createTaskCopyFile (gulp, fileName) {
   })
 }
 
+/**
+ *
+ * @param gulp {Object}
+ * @param fileName {String}
+ * @param templateData {Object}
+ * @api private
+ */
+
+function createTaskRenderTemplate (gulp, fileName, templateData) {
+  gulp.task(fileName, function () {
+     var dest = fileName
+       , src  = path.join(rootDir, fileName)
+
+     gutil.log('copy ' + src + ' -> ' + dest)
+
+     return gulp.src(src)
+                .pipe(template(templateData))
+                .pipe(gulp.dest(dest))
+  })
+}
+
 module.exports = function (gulp) {
-
-  gulp.task('.npmignore', function () {
-    var destPath = './'
-      , srcPath  = path.join(rootDir, '.npmignore')
-
-    gulp.src(srcPath)
-        .pipe(gulp.dest(destPath))
-  })
-
-  gulp.task('.jshintrc', function () {
-    var destPath = './'
-      , srcPath  = path.join(rootDir, '.jshintrc')
-
-    gulp.src(srcPath)
-        .pipe(gulp.dest(destPath))
-  })
-
-  gulp.task('.travis.yml', function () {
-    var destPath = './'
-      , srcPath  = path.join(rootDir, '.travis.yml')
-
-    gulp.src(srcPath)
-        .pipe(gulp.dest(destPath))
-  })
 
   gulp.task('config', function () {
     console.log(JSON.stringify(config, null, 4))
   })
+
+  config.tasks.copyfiles.forEach(function (fileName) {
+    createTaskCopyFile(gulp, fileName)
+  })
+
+  gulp.task('copyfiles', config.tasks.copyfiles)
 
   gulp.task('docs', config.tasks.docs)
 
@@ -192,13 +196,16 @@ module.exports = function (gulp) {
     conf.global.forEach(npmInstallGlobal)
   })
 
-  gulp.task('scaffold', config.tasks.scaffold)
+  // TODO change this
+  var templateData = pkg
 
-  config.tasks.staticfiles.forEach(function (fileName) {
-    createTaskCopyFile(gulp, fileName)
+  config.tasks.rendertemplates.forEach(function (fileName) {
+    createTaskRenderTemplate(gulp, fileName, templateData)
   })
 
-  gulp.task('staticfiles', config.tasks.staticfiles)
+  gulp.task('rendertemplates', config.tasks.rendertemplates)
+
+  gulp.task('scaffold', config.tasks.scaffold)
 
   gulp.task('test', function () {
     var conf = config.tasks.test
@@ -206,6 +213,5 @@ module.exports = function (gulp) {
     gulp.src('test/*js')
         .pipe(gmocha({reporter: conf.reporter}))
   })
-
 }
 
