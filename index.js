@@ -197,7 +197,7 @@ module.exports = function (gulp) {
   })
 
   // TODO change this
-  var templateData = pkg
+  var templateData = {name:'foo',description:'descr'}
 
   config.tasks.rendertemplates.forEach(function (fileName) {
     createTaskRenderTemplate(gulp, fileName, templateData)
