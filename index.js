@@ -49,12 +49,12 @@ function doxParse(source, target) {
 
 /**
  *
- * @param filename {String} /path/to/file.md
+ * @param fileName {String} /path/to/file.md
  */
 
-function mdconfFromFile (filename) {
+function mdconfFromFile (fileName) {
   try {
-    var fileContent = fs.readFileSync(filename, {encoding: 'utf8'})
+    var fileContent = fs.readFileSync(fileName, {encoding: 'utf8'})
   }
   catch (err) { throw err }
 
@@ -94,6 +94,25 @@ function npmInstallDevDependency (packageName) {
 
 function npmInstallGlobal (packageName) {
   npmInstall(packageName, ' -g')
+}
+
+/**
+ *
+ * @param gulp {Object}
+ * @param fileName {String}
+ * @api private
+ */
+
+function createTaskCopyFile (gulp, fileName) {
+  gulp.task(fileName, function () {
+     var dest = fileName // path.dirname(fileName)
+       , src  = path.join(rootDir, fileName)
+
+     gutil.log('copy ' + src + ' -> ' + dest)
+
+     return gulp.src(src)
+                .pipe(gulp.dest(dest))
+  })
 }
 
 module.exports = function (gulp) {
@@ -136,15 +155,15 @@ module.exports = function (gulp) {
 
     var files = fs.readdirSync(srcDir)
 
-    files.forEach(function (filename) {
+    files.forEach(function (fileName) {
       // ignore index
-      if (filename === 'index.js')
+      if (fileName === 'index.js')
         return
 
-      // All input files should have extension .js, so adding 'on' to filename
+      // All input files should have extension .js, so adding 'on' to fileName
       // turns their extension in .json, LOL!
-      target = path.join(conf.targetdir, filename + 'on')
-      source = path.join(srcDir, filename)
+      target = path.join(conf.targetdir, fileName + 'on')
+      source = path.join(srcDir, fileName)
 
       doxParse(source, target)
     })
@@ -174,6 +193,12 @@ module.exports = function (gulp) {
   })
 
   gulp.task('scaffold', config.tasks.scaffold)
+
+  config.tasks.staticfiles.forEach(function (fileName) {
+    createTaskCopyFile(gulp, fileName)
+  })
+
+  gulp.task('staticfiles', config.tasks.staticfiles)
 
   gulp.task('test', function () {
     var conf = config.tasks.test
