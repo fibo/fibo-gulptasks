@@ -139,6 +139,12 @@ function createTaskRenderTemplate (gulp, fileName, templateData) {
 
 module.exports = function (gulp) {
 
+  gulp.task('.npmignore', function () {
+    var content = config.tasks['.npmignore'].join("\n")
+
+    fs.writeFileSync('.npmignore', content, {encoding: 'utf8'})
+  })
+
   gulp.task('config', function () {
     console.log(JSON.stringify(config, null, 4))
   })

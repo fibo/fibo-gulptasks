@@ -3,11 +3,20 @@
 
 ## Tasks
 
+### .npmignore
+
+Generates a .npmignore with the following content
+
+  * .travis.yml
+  * docs/
+
+Note that this task is treated a part and not in *copyfiles* cause adding a 
+*.npmignore* in the *root/* folder will tell npm to ignore such files.
+
 ### copyfiles
 
 Copies the following files
 
-  * .npmignore
   * .jshintrc
   * .travis.yml
   * docs/docpad.js
@@ -68,6 +77,7 @@ Renders the following templates
 Calls the following tasks
 
   * mkdirs
+  * .npmignore
   * copyfiles
   * rendertemplates
 
