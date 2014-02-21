@@ -126,10 +126,10 @@ function createTaskCopyFile (gulp, fileName) {
 
 function createTaskRenderTemplate (gulp, fileName, templateData) {
   gulp.task(fileName, function () {
-     var dest = fileName
+     var dest = path.dirname(fileName)
        , src  = path.join(rootDir, fileName)
 
-     gutil.log('copy ' + src + ' -> ' + dest)
+     gutil.log('render ' + src + ' -> ' + dest)
 
      return gulp.src(src)
                 .pipe(template(templateData))

@@ -1,3 +1,7 @@
+/*
+ * DocPad Configuration File
+ * http://docpad.org/docs/config
+ */
 
 var pkg = require('../package.json')
 
