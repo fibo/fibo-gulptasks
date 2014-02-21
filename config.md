@@ -21,6 +21,7 @@ Copies the following files
   * .travis.yml
   * docs/docpad.js
   * docs/src/layouts/default.html.eco
+  * docs/src/partials/method.html.eco
   * index.js
 
 ### default
@@ -48,7 +49,6 @@ Create `dox.targetDir` and the following dirs
 
   * src
   * docs/out
-  * docs/src/partials
   * test
 
 ### npm:install
