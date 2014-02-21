@@ -87,3 +87,9 @@ Runs tests with [mocha](http://visionmedia.github.io/mocha/)
 
   * reporter: list
 
+### touchfiles
+
+Copies the following files, only if they did not exist yet
+
+  * docs/src/documents/index.html.md
+

@@ -1,4 +1,7 @@
-<%= name %>
+<%= pkg.name %>
+===============
 
-> <%= description %>
+> <%= pkg.description %>
+
+<%= readmeContent %>
 
