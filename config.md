@@ -19,7 +19,7 @@ Copies the following files
 
   * .jshintrc
   * .travis.yml
-  * docs/docpad.js
+  * docs/docpad.coffee
   * docs/src/layouts/default.html.eco
   * docs/src/partials/method.html.eco
   * index.js
