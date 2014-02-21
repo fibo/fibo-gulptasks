@@ -3,11 +3,16 @@
 
 ## Tasks
 
-### .jshintrc
+### copyfiles
 
-### .npmignore
+Copies the following files
 
-### .travis.yml
+  * .npmignore
+  * .jshintrc
+  * .travis.yml
+  * docs/docpad.js
+  * docs/src/layouts/default.html.eco
+  * index.js
 
 ### default
 
@@ -34,15 +39,12 @@ Create `dox.targetDir` and the following dirs
 
   * src
   * docs/out
-  * docs/src/layouts
   * docs/src/partials
   * test
 
-### index.js
-
 ### npm:install
 
-Installs npm packages I use in everyone of my packages.
+Installs npm packages I always use.
 
 #### dev
 
@@ -55,15 +57,19 @@ Installs npm packages I use in everyone of my packages.
   * docpad
   * gulp
 
+### rendertemplates
+
+Renders the following templates
+
+  * README.markdown
+
 ### scaffold
 
 Calls the following tasks
 
   * mkdirs
-  * .npmignore
-  * .jshintrc
-  * .travis.yml
-  * index.js
+  * copyfiles
+  * rendertemplates
 
 ### test
 

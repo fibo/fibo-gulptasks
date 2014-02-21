@@ -1,6 +1,6 @@
 {
   "name": "fibo-gulptasks",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "private": true,
   "description": "common gulp tasks among projects",
   "main": "index.js",
@@ -20,6 +20,7 @@
     "mkdirp": "~0.3.5",
     "gulp-util": "~2.2.13",
     "mdconf": "0.0.2",
-    "dox": "~0.4.4"
+    "dox": "~0.4.4",
+    "gulp-template": "~0.1.1"
   }
 }

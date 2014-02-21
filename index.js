@@ -1,13 +1,14 @@
 
-var dox     = require('dox')
-  , exec    = require('child_process').exec
-  , fs      = require('fs')
-  , gmocha  = require('gulp-mocha')
-  , gutil   = require('gulp-util')
-  , mdconf  = require('mdconf')
-  , mkdirp  = require('mkdirp')
-  , path    = require('path')
-  , thisPkg = require('./package.json')
+var dox      = require('dox')
+  , exec     = require('child_process').exec
+  , fs       = require('fs')
+  , gmocha   = require('gulp-mocha')
+  , gutil    = require('gulp-util')
+  , mdconf   = require('mdconf')
+  , mkdirp   = require('mkdirp')
+  , path     = require('path')
+  , template = require('gulp-template')
+  , thisPkg  = require('./package.json')
 
 var thisPkgName = thisPkg.name
 
@@ -49,12 +50,12 @@ function doxParse(source, target) {
 
 /**
  *
- * @param filename {String} /path/to/file.md
+ * @param fileName {String} /path/to/file.md
  */
 
-function mdconfFromFile (filename) {
+function mdconfFromFile (fileName) {
   try {
-    var fileContent = fs.readFileSync(filename, {encoding: 'utf8'})
+    var fileContent = fs.readFileSync(fileName, {encoding: 'utf8'})
   }
   catch (err) { throw err }
 
@@ -96,35 +97,57 @@ function npmInstallGlobal (packageName) {
   npmInstall(packageName, ' -g')
 }
 
+/**
+ *
+ * @param gulp {Object}
+ * @param fileName {String}
+ * @api private
+ */
+
+function createTaskCopyFile (gulp, fileName) {
+  gulp.task(fileName, function () {
+     var dest = fileName // path.dirname(fileName)
+       , src  = path.join(rootDir, fileName)
+
+     gutil.log('copy ' + src + ' -> ' + dest)
+
+     return gulp.src(src)
+                .pipe(gulp.dest(dest))
+  })
+}
+
+/**
+ *
+ * @param gulp {Object}
+ * @param fileName {String}
+ * @param templateData {Object}
+ * @api private
+ */
+
+function createTaskRenderTemplate (gulp, fileName, templateData) {
+  gulp.task(fileName, function () {
+     var dest = fileName
+       , src  = path.join(rootDir, fileName)
+
+     gutil.log('copy ' + src + ' -> ' + dest)
+
+     return gulp.src(src)
+                .pipe(template(templateData))
+                .pipe(gulp.dest(dest))
+  })
+}
+
 module.exports = function (gulp) {
-
-  gulp.task('.npmignore', function () {
-    var destPath = './'
-      , srcPath  = path.join(rootDir, '.npmignore')
-
-    gulp.src(srcPath)
-        .pipe(gulp.dest(destPath))
-  })
-
-  gulp.task('.jshintrc', function () {
-    var destPath = './'
-      , srcPath  = path.join(rootDir, '.jshintrc')
-
-    gulp.src(srcPath)
-        .pipe(gulp.dest(destPath))
-  })
-
-  gulp.task('.travis.yml', function () {
-    var destPath = './'
-      , srcPath  = path.join(rootDir, '.travis.yml')
-
-    gulp.src(srcPath)
-        .pipe(gulp.dest(destPath))
-  })
 
   gulp.task('config', function () {
     console.log(JSON.stringify(config, null, 4))
   })
+
+  config.tasks.copyfiles.forEach(function (fileName) {
+    createTaskCopyFile(gulp, fileName)
+  })
+
+  gulp.task('copyfiles', config.tasks.copyfiles)
 
   gulp.task('docs', config.tasks.docs)
 
@@ -136,15 +159,15 @@ module.exports = function (gulp) {
 
     var files = fs.readdirSync(srcDir)
 
-    files.forEach(function (filename) {
+    files.forEach(function (fileName) {
       // ignore index
-      if (filename === 'index.js')
+      if (fileName === 'index.js')
         return
 
-      // All input files should have extension .js, so adding 'on' to filename
+      // All input files should have extension .js, so adding 'on' to fileName
       // turns their extension in .json, LOL!
-      target = path.join(conf.targetdir, filename + 'on')
-      source = path.join(srcDir, filename)
+      target = path.join(conf.targetdir, fileName + 'on')
+      source = path.join(srcDir, fileName)
 
       doxParse(source, target)
     })
@@ -173,6 +196,15 @@ module.exports = function (gulp) {
     conf.global.forEach(npmInstallGlobal)
   })
 
+  // TODO change this
+  var templateData = {name:'foo',description:'descr'}
+
+  config.tasks.rendertemplates.forEach(function (fileName) {
+    createTaskRenderTemplate(gulp, fileName, templateData)
+  })
+
+  gulp.task('rendertemplates', config.tasks.rendertemplates)
+
   gulp.task('scaffold', config.tasks.scaffold)
 
   gulp.task('test', function () {
@@ -181,6 +213,5 @@ module.exports = function (gulp) {
     gulp.src('test/*js')
         .pipe(gmocha({reporter: conf.reporter}))
   })
-
 }
 
