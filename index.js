@@ -25,6 +25,8 @@ var configMd  = path.join(baseDir , 'config.md')
 
 var config = mdconfFromFile(configMd).config
 
+var indexPath = 'docs/src/documents/index.html.md'
+
 /**
  *
  * @param gulp {Object}
@@ -34,7 +36,7 @@ var config = mdconfFromFile(configMd).config
 
 function createTaskCopyFile (gulp, fileName) {
   gulp.task(fileName, function () {
-     var dest = fileName // path.dirname(fileName)
+     var dest = path.dirname(fileName)
        , src  = path.join(rootDir, fileName)
 
      gutil.log('copy ' + src + ' -> ' + dest)
@@ -74,7 +76,8 @@ function createTaskRenderTemplate (gulp, fileName, templateData) {
  */
 
 function createTaskTouchFile (gulp, fileName) {
-  fs.exists(fileName, createTaskCopyFile(gulp, fileName))
+  if (!fs.existsSync(fileName))
+    createTaskCopyFile(gulp, fileName)
 }
 
 /**
@@ -152,7 +155,6 @@ function npmInstallGlobal (packageName) {
 
 
 module.exports = function (gulp) {
-
   gulp.task('.npmignore', function () {
     var content = config.tasks['.npmignore'].join("\n")
 
@@ -201,14 +203,6 @@ module.exports = function (gulp) {
     config.tasks.mkdirs.forEach(function (dir) { mkdirp(dir) })
   })
 
-  gulp.task('index.js', function () {
-    var destPath = './'
-      , srcPath  = path.join(rootDir, 'index.js')
-
-    gulp.src(srcPath)
-        .pipe(gulp.dest(destPath))
-  })
-
   gulp.task('npm:install', function () {
     var conf = config.tasks['npm:install']
 
@@ -216,18 +210,36 @@ module.exports = function (gulp) {
     conf.global.forEach(npmInstallGlobal)
   })
 
-  var readmeContent = fs.readFileSync('docs/src/documents/index.html.md', {encoding: 'utf8'})
+  var renderTemplatesConf = config.tasks.rendertemplates
+    , renderTemplatesDeps = ['copyfiles', 'touchfiles']
 
-  var templateData = {
-    pkg: pkg
-  , readmeContent: readmeContent
-  }
+  renderTemplatesConf.forEach(function (element) {
+    renderTemplatesDeps.push(element)
+  })
 
-  config.tasks.rendertemplates.forEach(function (fileName) {
+  renderTemplatesConf.forEach(function (fileName) {
+    var templateData = {
+      pkg: pkg
+    }
+
+    fs.readFile(indexPath, {encoding: 'utf8'}, function (err, data) {
+      if (err) {
+        indexPath = path.join(rootDir, indexPath)
+
+        fs.readFile(indexPath, {encoding: 'utf8'}, function (err, data) {
+          if (err) throw err
+
+          templateData.readmeContent = data
+        })
+      }
+
+      templateData.readmeContent = data
+    })
+
     createTaskRenderTemplate(gulp, fileName, templateData)
   })
 
-  gulp.task('rendertemplates', config.tasks.rendertemplates)
+  gulp.task('rendertemplates', renderTemplatesDeps)
 
   gulp.task('scaffold', config.tasks.scaffold)
 
