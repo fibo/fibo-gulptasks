@@ -76,7 +76,10 @@ function createTaskRenderTemplate (gulp, fileName, templateData) {
  */
 
 function createTaskTouchFile (gulp, fileName) {
-  if (!fs.existsSync(fileName))
+  // Create an empty task if fileName already exists
+  if (fs.existsSync(fileName))
+    gulp.task(fileName, [])
+  else
     createTaskCopyFile(gulp, fileName)
 }
 
