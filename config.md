@@ -70,7 +70,7 @@ Installs npm packages I always use.
 
 Renders the following templates
 
-  * README.markdown
+  * README.md
 
 ### scaffold
 
