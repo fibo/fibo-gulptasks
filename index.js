@@ -7,6 +7,7 @@ var dox      = require('dox')
   , mdconf   = require('mdconf')
   , mkdirp   = require('mkdirp')
   , path     = require('path')
+  , pkg      = require('../../package.json')
   , template = require('gulp-template')
   , thisPkg  = require('./package.json')
 
@@ -23,6 +24,58 @@ var configMd  = path.join(baseDir , 'config.md')
   , rootDir   = path.join(baseDir , 'root')
 
 var config = mdconfFromFile(configMd).config
+
+/**
+ *
+ * @param gulp {Object}
+ * @param fileName {String}
+ * @api private
+ */
+
+function createTaskCopyFile (gulp, fileName) {
+  gulp.task(fileName, function () {
+     var dest = fileName // path.dirname(fileName)
+       , src  = path.join(rootDir, fileName)
+
+     gutil.log('copy ' + src + ' -> ' + dest)
+
+     return gulp.src(src)
+                .pipe(gulp.dest(dest))
+  })
+}
+
+/**
+ *
+ * @param gulp {Object}
+ * @param fileName {String}
+ * @param templateData {Object}
+ * @api private
+ */
+
+function createTaskRenderTemplate (gulp, fileName, templateData) {
+  gulp.task(fileName, function () {
+     var dest = path.dirname(fileName)
+       , src  = path.join(rootDir, fileName)
+
+     gutil.log('render ' + src + ' -> ' + dest)
+
+     return gulp.src(src)
+                .pipe(template(templateData))
+                .pipe(gulp.dest(dest))
+  })
+}
+
+/**
+ * Copies a file **only** if it does not exists.
+ *
+ * @param gulp {Object}
+ * @param fileName {String}
+ * @api private
+ */
+
+function createTaskTouchFile (gulp, fileName) {
+  fs.exists(fileName, createTaskCopyFile(gulp, fileName))
+}
 
 /**
  *
@@ -97,45 +150,6 @@ function npmInstallGlobal (packageName) {
   npmInstall(packageName, ' -g')
 }
 
-/**
- *
- * @param gulp {Object}
- * @param fileName {String}
- * @api private
- */
-
-function createTaskCopyFile (gulp, fileName) {
-  gulp.task(fileName, function () {
-     var dest = fileName // path.dirname(fileName)
-       , src  = path.join(rootDir, fileName)
-
-     gutil.log('copy ' + src + ' -> ' + dest)
-
-     return gulp.src(src)
-                .pipe(gulp.dest(dest))
-  })
-}
-
-/**
- *
- * @param gulp {Object}
- * @param fileName {String}
- * @param templateData {Object}
- * @api private
- */
-
-function createTaskRenderTemplate (gulp, fileName, templateData) {
-  gulp.task(fileName, function () {
-     var dest = path.dirname(fileName)
-       , src  = path.join(rootDir, fileName)
-
-     gutil.log('render ' + src + ' -> ' + dest)
-
-     return gulp.src(src)
-                .pipe(template(templateData))
-                .pipe(gulp.dest(dest))
-  })
-}
 
 module.exports = function (gulp) {
 
@@ -202,8 +216,12 @@ module.exports = function (gulp) {
     conf.global.forEach(npmInstallGlobal)
   })
 
-  // TODO change this
-  var templateData = {name:'foo',description:'descr'}
+  var readmeContent = fs.readFileSync('docs/src/documents/index.html.md', {encoding: 'utf8'})
+
+  var templateData = {
+    pkg: pkg
+  , readmeContent: readmeContent
+  }
 
   config.tasks.rendertemplates.forEach(function (fileName) {
     createTaskRenderTemplate(gulp, fileName, templateData)
@@ -219,5 +237,11 @@ module.exports = function (gulp) {
     gulp.src('test/*js')
         .pipe(gmocha({reporter: conf.reporter}))
   })
+
+  config.tasks.touchfiles.forEach(function (fileName) {
+    createTaskTouchFile(gulp, fileName)
+  })
+
+  gulp.task('touchfiles', config.tasks.touchfiles)
 }
 
