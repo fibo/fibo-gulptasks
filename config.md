@@ -92,4 +92,5 @@ Runs tests with [mocha](http://visionmedia.github.io/mocha/)
 Copies the following files, only if they did not exist yet
 
   * docs/src/documents/index.html.md
+  * docs/package.json
 
