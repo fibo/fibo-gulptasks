@@ -18,7 +18,9 @@ Note that this task is treated a part and not in *copyfiles* cause adding a
 Generates a *.npmignore* file with the following content
 
   * .travis.yml
+  * .jshintrc
   * docs/
+  * gulpfile.js
 
 Note that this task is treated a part and not in *copyfiles* cause adding a 
 *.npmignore* in the *root/* folder will tell npm to ignore such files.
