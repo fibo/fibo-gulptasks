@@ -8,7 +8,7 @@ var dox      = require('dox')
   , mkdirp   = require('mkdirp')
   , path     = require('path')
   , template = require('gulp-template')
-  , thisPkg  = require('./package.json')
+  , thisPkg  = require('../package.json')
 
 var thisPkgName = thisPkg.name
 
