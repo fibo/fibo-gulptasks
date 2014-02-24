@@ -81,16 +81,19 @@ Create `dox.targetDir` and the following dirs
 
 Installs npm packages I always use.
 
-#### dev
+#### dependency
+
+  * gulp
+
+#### devdependency
 
   * gulp
   * mocha
   * should
 
-#### global
+### overwrite:package.json
 
-  * docpad
-  * gulp
+Overwrites package.json attributes.
 
 ### rendertemplates
 
