@@ -8,11 +8,16 @@ var dox      = require('dox')
   , mdconf   = require('mdconf')
   , mkdirp   = require('mkdirp')
   , path     = require('path')
-  , pkg      = require('../../../package.json')
   , template = require('gulp-template')
   , thisPkg  = require('../package.json')
 
 var thisPkgName = thisPkg.name
+
+if (thisPkgName === 'fibo-gulptasks')
+  // special case, when building fibo-gulptasks itself
+  pkg = thisPkg
+else
+  pkg = require('../../../package.json')
 
 /*
  * Paths relative to baseDir
