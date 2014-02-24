@@ -29,8 +29,8 @@ var indexPath = 'docs/src/documents/index.html.md'
 
 /**
  *
- * @param gulp {Object}
- * @param fileName {String}
+ * @param {Object} gulp
+ * @param {String} filename
  * @api private
  */
 
@@ -47,10 +47,28 @@ function createTaskCopyFile (gulp, fileName) {
 }
 
 /**
+ * Generates a file, use instead of *createTaskCopyFile* if file has a special
+ * meaning, like *.npmignore* and *.gitignore* and it cannot be stored as a raw file.
  *
- * @param gulp {Object}
- * @param fileName {String}
- * @param templateData {Object}
+ * @param {Object} gulp
+ * @param {String} fileName
+ * @param {Array} rows file content
+ * @api private
+ */
+
+function createTaskGenerateFile (gulp, fileName, rows) {
+  gulp.task(fileName, function () {
+    var content = rows.join("\n")
+
+    fs.writeFileSync(fileName, content, {encoding: 'utf8'})
+  })
+}
+
+/**
+ *
+ * @param {Object} gulp
+ * @param {String} fileName
+ * @param {Object} templateData
  * @api private
  */
 
@@ -70,8 +88,8 @@ function createTaskRenderTemplate (gulp, fileName, templateData) {
 /**
  * Copies a file **only** if it does not exists.
  *
- * @param gulp {Object}
- * @param fileName {String}
+ * @param {Object} gulp
+ * @param {String} fileName
  * @api private
  */
 
@@ -87,6 +105,7 @@ function createTaskTouchFile (gulp, fileName) {
  *
  * @param source {String} /path/to/input/file.js
  * @param target {String} /path/to/output/file.json
+ * @api private
  */
 
 function doxParse(source, target) {
@@ -110,6 +129,7 @@ function doxParse(source, target) {
 /**
  *
  * @param fileName {String} /path/to/file.md
+ * @api private
  */
 
 function mdconfFromFile (fileName) {
@@ -125,6 +145,7 @@ function mdconfFromFile (fileName) {
  *
  * @param packageName {String}
  * @param flag {String} npm install option flag
+ * @api private
  */
 
 function npmInstall (packageName, flag) {
@@ -138,7 +159,7 @@ function npmInstall (packageName, flag) {
 
 /**
  *
- * @param packageName {String}
+ * @param {String} packageName
  * @api private
  */
 
@@ -148,7 +169,7 @@ function npmInstallDevDependency (packageName) {
 
 /**
  *
- * @param packageName {String}
+ * @param {String} packageName
  * @api private
  */
 
@@ -157,12 +178,15 @@ function npmInstallGlobal (packageName) {
 }
 
 
-module.exports = function (gulp) {
-  gulp.task('.npmignore', function () {
-    var content = config.tasks['.npmignore'].join("\n")
+/**
+ *
+ * @param {Object} gulp
+ */
 
-    fs.writeFileSync('.npmignore', content, {encoding: 'utf8'})
-  })
+module.exports = function (gulp) {
+  createTaskGenerateFile(gulp, '.gitignore', config.tasks['.gitignore'])
+
+  createTaskGenerateFile(gulp, '.npmignore', config.tasks['.npmignore'])
 
   gulp.task('config', function () {
     console.log(JSON.stringify(config, null, 4))

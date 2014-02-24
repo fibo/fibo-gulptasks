@@ -13,6 +13,16 @@ Generates a .npmignore with the following content
 Note that this task is treated a part and not in *copyfiles* cause adding a 
 *.npmignore* in the *root/* folder will tell npm to ignore such files.
 
+### .npmignore
+
+Generates a .npmignore with the following content
+
+  * node_modules
+  * npm-debug.log
+
+Note that this task is treated a part and not in *copyfiles* cause adding a 
+*.gitignore* in the *root/* folder will tell git to ignore such files.
+
 ### copyfiles
 
 Copies the following files
