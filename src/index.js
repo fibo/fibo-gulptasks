@@ -7,6 +7,7 @@ var dox      = require('dox')
   , mdconf   = require('mdconf')
   , mkdirp   = require('mkdirp')
   , path     = require('path')
+  , pkg      = require('../../package.json')
   , template = require('gulp-template')
   , thisPkg  = require('../package.json')
 
@@ -180,10 +181,9 @@ function npmInstallGlobal (packageName) {
 /**
  *
  * @param {Object} gulp
- * @param {Object} pkg package.json object
  */
 
-module.exports = function (gulp, pkg) {
+module.exports = function (gulp) {
   createTaskGenerateFile(gulp, '.gitignore', config.tasks['.gitignore'])
 
   createTaskGenerateFile(gulp, '.npmignore', config.tasks['.npmignore'])
