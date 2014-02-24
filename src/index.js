@@ -263,7 +263,7 @@ module.exports = function (gulp) {
       }
     ]
 
-    fs.writeFileSync('./package.json', JSON.stringify(obj, null, 2), {encoding: 'utf8'})
+    fs.writeFileSync('./package.json', JSON.stringify(pkg, null, 2), {encoding: 'utf8'})
   })
 
   var renderTemplatesConf = config.tasks.rendertemplates

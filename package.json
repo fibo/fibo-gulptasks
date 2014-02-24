@@ -4,14 +4,19 @@
   "description": "common gulp tasks among projects",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha --bail --require should --reporter nyan"
   },
   "repository": {
     "type": "git",
     "url": "git://github.com/fibo/fibo-gulptasks.git"
   },
   "author": "fibo",
-  "license": "MIT",
+  "license": [
+    {
+      "type": "MIT",
+      "url": "http://fibo.mit-license.org/"
+    }
+  ],
   "readmeFilename": "README.md",
   "gitHead": "ed0c3846af36677347e7fad6e85adb878645398e",
   "dependencies": {
@@ -27,5 +32,6 @@
     "gulp": "~3.5.2",
     "mocha": "~1.17.1",
     "should": "~3.1.2"
-  }
+  },
+  "homepage": "http://www.g14n.info/fibo-gulptasks"
 }
