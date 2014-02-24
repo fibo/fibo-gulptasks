@@ -17,6 +17,7 @@ Note that this task is treated a part and not in *copyfiles* cause adding a
 
 Generates a *.npmignore* file with the following content
 
+  * .dia~
   * .travis.yml
   * .jshintrc
   * docs/
