@@ -178,8 +178,8 @@ function npmInstallDevDependency (packageName) {
  * @api private
  */
 
-function npmInstallGlobal (packageName) {
-  npmInstall(packageName, ' -g')
+function npmInstallDependency (packageName) {
+  npmInstall(packageName, ' -save')
 }
 
 
@@ -246,8 +246,24 @@ module.exports = function (gulp) {
   gulp.task('npm:install', function () {
     var conf = config.tasks['npm:install']
 
-    conf.dev.forEach(npmInstallDevDependency)
-    conf.global.forEach(npmInstallGlobal)
+    conf.devdependency.forEach(npmInstallDevDependency)
+
+    conf.dependency.forEach(npmInstallDependency)
+  })
+
+  gulp.task('overwrite:package.json', function () {
+    pkg.homepage = "http://www.g14n.info/" + pkg.name
+
+    pkg.scripts.test = "mocha --bail --require should --reporter nyan"
+
+    pkg.license = [
+      {
+        "type": "MIT",
+        "url": "http://fibo.mit-license.org/"
+      }
+    ]
+
+    fs.writeFileSync('./package.json', JSON.stringify(obj, null, 2), {encoding: 'utf8'})
   })
 
   var renderTemplatesConf = config.tasks.rendertemplates
