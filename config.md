@@ -62,6 +62,10 @@ Calls the following tasks
   * .gitignore
   * .npmignore
 
+### jshint
+
+Lints sources in `src/*js`
+
 ### mkdirs
 
 Create `dox.targetDir` and the following dirs

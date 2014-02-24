@@ -4,10 +4,11 @@ var dox      = require('dox')
   , fs       = require('fs')
   , gmocha   = require('gulp-mocha')
   , gutil    = require('gulp-util')
+  , jshint   = require('gulp-jshint')
   , mdconf   = require('mdconf')
   , mkdirp   = require('mkdirp')
   , path     = require('path')
-  , pkg      = require('../../package.json')
+  , pkg      = require('../../../package.json')
   , template = require('gulp-template')
   , thisPkg  = require('../package.json')
 
@@ -109,10 +110,12 @@ function createTaskTouchFile (gulp, fileName) {
  */
 
 function doxParse(source, target) {
+  var fileContent
+
   gutil.log('doxParse ' + source + ' -> ' + target)
 
   try {
-    var fileContent = fs.readFileSync(source, {encoding: 'utf8'})
+    fileContent = fs.readFileSync(source, {encoding: 'utf8'})
   }
   catch (err) { throw err }
 
@@ -133,8 +136,10 @@ function doxParse(source, target) {
  */
 
 function mdconfFromFile (fileName) {
+  var fileContent
+
   try {
-    var fileContent = fs.readFileSync(fileName, {encoding: 'utf8'})
+    fileContent = fs.readFileSync(fileName, {encoding: 'utf8'})
   }
   catch (err) { throw err }
 
@@ -225,6 +230,12 @@ module.exports = function (gulp) {
   gulp.task('default', config.tasks.default)
 
   gulp.task('generatefiles', config.tasks.generatefiles)
+
+  gulp.task('jshint', function () {
+    gulp.src('src/*js')
+        .pipe(jshint())
+        .pipe(jshint.reporter('default'))
+  })
 
   gulp.task('mkdirs', function () {
     mkdirp(config.tasks.dox.targetdir)
