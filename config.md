@@ -3,25 +3,25 @@
 
 ## Tasks
 
-### .npmignore
+### .gitignore
 
-Generates a .npmignore with the following content
-
-  * .travis.yml
-  * docs/
-
-Note that this task is treated a part and not in *copyfiles* cause adding a 
-*.npmignore* in the *root/* folder will tell npm to ignore such files.
-
-### .npmignore
-
-Generates a .npmignore with the following content
+Generates a *.gitignore* file with the following content
 
   * node_modules
   * npm-debug.log
 
 Note that this task is treated a part and not in *copyfiles* cause adding a 
 *.gitignore* in the *root/* folder will tell git to ignore such files.
+
+### .npmignore
+
+Generates a *.npmignore* file with the following content
+
+  * .travis.yml
+  * docs/
+
+Note that this task is treated a part and not in *copyfiles* cause adding a 
+*.npmignore* in the *root/* folder will tell npm to ignore such files.
 
 ### copyfiles
 
@@ -33,6 +33,8 @@ Copies the following files
   * docs/src/layouts/default.html.eco
   * docs/src/partials/method.html.eco
   * index.js
+  * gulpfile.js
+  * test/require.js
 
 ### default
 
@@ -52,6 +54,13 @@ Parses *.js* sources with [dox](https://github.com/visionmedia/dox) and generate
 an omonym *.json* file in the *targetDir*. File *index.js* is ignored.
 
   * targetDir: docs/src/files/json/dox
+
+### generatefiles
+
+Calls the following tasks
+
+  * .gitignore
+  * .npmignore
 
 ### mkdirs
 
@@ -87,7 +96,7 @@ Renders the following templates
 Calls the following tasks
 
   * mkdirs
-  * .npmignore
+  * generatefiles
   * copyfiles
   * rendertemplates
 
