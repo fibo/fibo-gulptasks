@@ -121,6 +121,5 @@ Runs tests with [mocha](http://visionmedia.github.io/mocha/)
 
 Copies the following files, only if they did not exist yet
 
-  * readmeContent.txt
   * docs/package.json
 

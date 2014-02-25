@@ -31,8 +31,7 @@ var configMd  = path.join(baseDir , 'config.md')
 
 var config = mdconfFromFile(configMd).config
 
-//var readmeContentPath = 'docs/src/documents/index.html.md'
-var readmeContentPath = 'readmeContent.txt'
+var readmeContentPath = 'readmeContent.md'
 
 /**
  *
@@ -283,21 +282,10 @@ module.exports = function (gulp) {
     var templateData = {
       pkg: pkg
     , readmeContent: '**TODO:** edit file ' + readmeContentPath
+    , readmeContentPath: readmeContentPath
     }
 
     fs.readFile(readmeContentPath, {encoding: 'utf8'}, function (err, data) {
-    /*
-      if (err) {
-        readmeContentPath = path.join(rootDir, readmeContentPath)
-
-        fs.readFile(readmeContentPath, {encoding: 'utf8'}, function (err, data) {
-          if (err) throw err
-
-          templateData.readmeContent = data
-        })
-      }
-      */
-
       if (!err)
         templateData.readmeContent = data
     })
