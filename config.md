@@ -33,8 +33,9 @@ Copies the following files
   * .jshintrc
   * .travis.yml
   * docs/docpad.coffee
-  * docs/out/.gitignore
+  * docs/.gitignore
   * docs/src/layouts/default.html.eco
+  * docs/src/partials/analytics.html.eco
   * docs/src/partials/method.html.eco
   * index.js
   * gulpfile.js
