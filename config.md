@@ -33,6 +33,7 @@ Copies the following files
   * .jshintrc
   * .travis.yml
   * docs/docpad.coffee
+  * docs/out/.gitignore
   * docs/src/layouts/default.html.eco
   * docs/src/partials/method.html.eco
   * index.js
@@ -122,5 +123,4 @@ Runs tests with [mocha](http://visionmedia.github.io/mocha/)
 Copies the following files, only if they did not exist yet
 
   * docs/package.json
-  * docs/out/.gitignore
 
