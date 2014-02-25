@@ -122,4 +122,5 @@ Runs tests with [mocha](http://visionmedia.github.io/mocha/)
 Copies the following files, only if they did not exist yet
 
   * docs/package.json
+  * docs/out/.gitignore
 
