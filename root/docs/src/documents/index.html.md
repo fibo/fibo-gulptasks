@@ -1,3 +1,6 @@
+---
+layout: 'default'
+---
 
-**TODO** Edit file docs/src/documents/index.html.md
+<%= readmeContent %>
 

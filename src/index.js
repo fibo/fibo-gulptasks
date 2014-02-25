@@ -31,7 +31,8 @@ var configMd  = path.join(baseDir , 'config.md')
 
 var config = mdconfFromFile(configMd).config
 
-var indexPath = 'docs/src/documents/index.html.md'
+//var readmeContentPath = 'docs/src/documents/index.html.md'
+var readmeContentPath = 'readmeContent.txt'
 
 /**
  *
@@ -281,20 +282,24 @@ module.exports = function (gulp) {
   renderTemplatesConf.forEach(function (fileName) {
     var templateData = {
       pkg: pkg
+    , readmeContent: '**TODO:** edit file ' + readmeContentPath
     }
 
-    fs.readFile(indexPath, {encoding: 'utf8'}, function (err, data) {
+    fs.readFile(readmeContentPath, {encoding: 'utf8'}, function (err, data) {
+    /*
       if (err) {
-        indexPath = path.join(rootDir, indexPath)
+        readmeContentPath = path.join(rootDir, readmeContentPath)
 
-        fs.readFile(indexPath, {encoding: 'utf8'}, function (err, data) {
+        fs.readFile(readmeContentPath, {encoding: 'utf8'}, function (err, data) {
           if (err) throw err
 
           templateData.readmeContent = data
         })
       }
+      */
 
-      templateData.readmeContent = data
+      if (!err)
+        templateData.readmeContent = data
     })
 
     createTaskRenderTemplate(gulp, fileName, templateData)

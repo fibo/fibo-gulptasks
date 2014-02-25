@@ -99,6 +99,7 @@ Overwrites package.json attributes.
 
 Renders the following templates
 
+  * docs/src/documents/index.html.md
   * README.md
 
 ### scaffold
@@ -120,6 +121,6 @@ Runs tests with [mocha](http://visionmedia.github.io/mocha/)
 
 Copies the following files, only if they did not exist yet
 
-  * docs/src/documents/index.html.md
+  * readmeContent.txt
   * docs/package.json
 
