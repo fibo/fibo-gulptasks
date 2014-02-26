@@ -54,6 +54,7 @@
     </div> <!-- div class="navbar" -->
 
   <div class="container">
+    <div style="height: 50px;"></div>
     <%- @content %>
   </div>
 

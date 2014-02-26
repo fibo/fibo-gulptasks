@@ -34,6 +34,8 @@ Copies the following files
   * .travis.yml
   * docs/docpad.coffee
   * docs/.gitignore
+  * docs/src/documents/api.html.eco
+  * docs/src/documents/spec.html.eco
   * docs/src/layouts/default.html.eco
   * docs/src/partials/analytics.html.eco
   * docs/src/partials/method.html.eco
