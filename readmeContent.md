@@ -27,6 +27,32 @@ Config is stored in *config.md* file, you can see it in JSON format launching
 gulp config
 ```
 
+# Scaffolding
+
+`fibo-gulptasks` generates files and folders by copying, touching or rendering templates.
+Almost all the content is taken from the *root/* folder
+
+| file                               | task                 | note                            |
+|------------------------------------|----------------------|---------------------------------|
+|.gitignore                          |https://github.com/fibo/fibo-gulptasks/blob/master/config.md#gitignore| |
+|.npmignore                          | | |
+|.jshintrc                           | | |
+|.travis.yml                         | | |
+|docs/docpad.coffee                  | | |
+|docs/out/.gitignore                 | | |
+|docs/package.json                   | | |
+|docs/src/documents/index.html.md    |rendertemplates       |source is *readmeContent.md* file|
+|docs/src/documents/api.html.eco     | | |
+|docs/src/documents/spec.html.eco    | | |
+|docs/src/layouts/default.html.eco   | | |
+|docs/src/partials/analytics.html.eco| | |
+|docs/src/partials/method.html.eco   | | |
+|gulpfile.js                         | | |
+|index.js                            | | |
+|package.json                        |overwrite:package.json|some attributes are overwritten  |
+|README.md                           |rendertemplates       |source is *readmeContent.md* file|
+|test/require.js                     | | |
+
 # Development
 
 Yep, this module depend on itself. To avoid npm complain
