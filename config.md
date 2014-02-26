@@ -33,7 +33,6 @@ Copies the following files
   * .jshintrc
   * .travis.yml
   * docs/docpad.coffee
-  * docs/.gitignore
   * docs/src/documents/api.html.eco
   * docs/src/documents/spec.html.eco
   * docs/src/layouts/default.html.eco
