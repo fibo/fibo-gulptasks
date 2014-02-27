@@ -7,6 +7,7 @@
 
 Generates a *.gitignore* file with the following content
 
+  * *~
   * node_modules
   * npm-debug.log
 

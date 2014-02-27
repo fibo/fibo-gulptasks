@@ -11,20 +11,12 @@ var dox      = require('dox')
   , template = require('gulp-template')
   , thisPkg  = require('../package.json')
 
-var thisPkgName = thisPkg.name
-
-if (thisPkgName === 'fibo-gulptasks')
-  // special case, when building fibo-gulptasks itself
-  pkg = thisPkg
-else
-  pkg = require('../../../package.json')
-
 /*
  * Paths relative to baseDir
  */
 
 // baseDir does not depend on current package name
-var baseDir = path.join('node_modules', thisPkgName)
+var baseDir = path.join('node_modules', thisPkg.name)
 
 var configMd  = path.join(baseDir , 'config.md')
   , rootDir   = path.join(baseDir , 'root')
@@ -191,9 +183,10 @@ function npmInstallDependency (packageName) {
 /**
  *
  * @param {Object} gulp
+ * @param {Object} pkg object from package.json
  */
 
-module.exports = function (gulp) {
+module.exports = function (gulp, pkg) {
   createTaskGenerateFile(gulp, '.gitignore', config.tasks['.gitignore'])
 
   createTaskGenerateFile(gulp, '.npmignore', config.tasks['.npmignore'])
