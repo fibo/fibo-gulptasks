@@ -258,7 +258,7 @@ module.exports = function (gulp, pkg) {
   gulp.task('overwrite:package.json', function () {
     pkg.homepage = "http://www.g14n.info/" + pkg.name
 
-    pkg.scripts.test = "mocha --bail --require should --reporter nyan"
+    pkg.scripts.test = "mocha --bail --require should --reporter min"
 
     pkg.license = [
       {
