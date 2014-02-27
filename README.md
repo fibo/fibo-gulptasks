@@ -19,8 +19,9 @@ Then create a *gulpfile.js*
 cat <<EOF > gulpfile.js
 
 var gulp = require('gulp')
+  , pkg  = require('./package.json')
 
-require('fibo-gulptasks')(gulp)
+require('fibo-gulptasks')(gulp, pkg)
 
 EOF
 ```
