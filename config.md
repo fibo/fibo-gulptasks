@@ -116,6 +116,7 @@ Calls the following tasks
   * mkdirs
   * generatefiles
   * copyfiles
+  * overwrite:package.json
   * rendertemplates
 
 ### test
