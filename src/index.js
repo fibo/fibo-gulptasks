@@ -47,6 +47,7 @@ function createTaskCopyFile (gulp, fileName) {
 /**
  * Generates a file, use instead of *createTaskCopyFile* if file has a special
  * meaning, like *.npmignore* and *.gitignore* and it cannot be stored as a raw file.
+ * Files will not be overwritten.
  *
  * @param {Object} gulp
  * @param {String} fileName
@@ -55,11 +56,14 @@ function createTaskCopyFile (gulp, fileName) {
  */
 
 function createTaskGenerateFile (gulp, fileName, rows) {
-  gulp.task(fileName, function () {
-    var content = rows.join("\n")
+  if (fs.existsSync(fileName))
+    gulp.task(fileName, [])
+  else
+    gulp.task(fileName, function () {
+      var content = rows.join("\n")
 
-    fs.writeFileSync(fileName, content, {encoding: 'utf8'})
-  })
+      fs.writeFileSync(fileName, content, {encoding: 'utf8'})
+    })
 }
 
 /**

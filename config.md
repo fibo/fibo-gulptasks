@@ -14,11 +14,12 @@ Generates a *.gitignore* file with the following content
 Note that this task is treated a part and not in *copyfiles* cause adding a 
 *.gitignore* in the *root/* folder will tell git to ignore such files.
 
+Existing *.gitignore* file will not be overwritten.
+
 ### .npmignore
 
 Generates a *.npmignore* file with the following content
 
-  * .dia~
   * .travis.yml
   * .jshintrc
   * docs/
@@ -26,6 +27,8 @@ Generates a *.npmignore* file with the following content
 
 Note that this task is treated a part and not in *copyfiles* cause adding a 
 *.npmignore* in the *root/* folder will tell npm to ignore such files.
+
+Existing *.npmignore* file will not be overwritten.
 
 ### copyfiles
 
