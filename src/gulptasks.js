@@ -12,12 +12,10 @@ var dox      = require('dox')
   , thisPkg  = require('../package.json')
 
 /*
- * Paths relative to baseDir
+ * Relative paths
  */
 
-// baseDir does not depend on current package name
-var baseDir = path.join('node_modules', thisPkg.name)
-
+var baseDir = path.join(__dirname, '..')
 var configMd  = path.join(baseDir , 'config.md')
   , rootDir   = path.join(baseDir , 'root')
 
