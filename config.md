@@ -37,11 +37,10 @@ Copies the following files
   * .jshintrc
   * .travis.yml
   * docs/docpad.coffee
+  * docs/package.json
   * docs/src/documents/api.html.eco
   * docs/src/documents/spec.html.eco
   * docs/src/layouts/default.html.eco
-  * docs/src/partials/analytics.html.eco
-  * docs/src/partials/method.html.eco
   * index.js
   * gulpfile.js
   * test/require.js
