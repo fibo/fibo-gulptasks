@@ -2,12 +2,18 @@
     {
         "tags": [],
         "description": {
-            "full": "Paths relative to baseDir",
-            "summary": "Paths relative to baseDir",
+            "full": "Relative paths",
+            "summary": "Relative paths",
             "body": ""
         },
         "ignore": false,
-        "code": "// baseDir does not depend on current package name\nvar baseDir = path.join('node_modules', thisPkg.name)\n\nvar configMd  = path.join(baseDir , 'config.md')\n  , rootDir   = path.join(baseDir , 'root')\n\nvar config = mdconfFromFile(configMd).config\n\nvar readmeContentPath = 'readmeContent.md'"
+        "code": "var baseDir = path.join(__dirname, '..')\nvar configMd  = path.join(baseDir , 'config.md')\n  , rootDir   = path.join(baseDir , 'root')\n\nvar config = mdconfFromFile(configMd).config\n\nvar readmeContentPath = 'readmeContent.md'",
+        "ctx": {
+            "type": "declaration",
+            "name": "baseDir",
+            "value": "path.join(__dirname, '..')",
+            "string": "baseDir"
+        }
     },
     {
         "tags": [
