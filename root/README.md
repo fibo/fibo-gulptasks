@@ -2,7 +2,7 @@
 
 > <%= pkg.description %>
 
-[![Build Status](https://travis-ci.org/fibo/<%= pkg.name %>.png?branch=master)](https://travis-ci.org/fibo/<%= pkg.name %>.png?branch=master) [![NPM version](https://badge.fury.io/js/<%= pkg.name %>.png)](http://badge.fury.io/js/<%= pkg.name %>)
+[![Build Status](https://travis-ci.org/fibo/<%= pkg.name %>.png?branch=master)](https://travis-ci.org/fibo/<%= pkg.name %>.png?branch=master) [![NPM version](https://badge.fury.io/js/<%= pkg.name %>.png)](http://badge.fury.io/js/<%= pkg.name %>) [![Dependency Status](https://gemnasium.com/fibo/<%= pkg.name %>.png)](https://gemnasium.com/fibo/<%= pkg.name %>)
 
 <%= readmeContent %>
 
