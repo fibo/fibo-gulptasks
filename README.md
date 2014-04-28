@@ -2,7 +2,7 @@
 
 > common gulp tasks among projects
 
-[![Build Status](https://travis-ci.org/fibo/fibo-gulptasks.png?branch=master)](https://travis-ci.org/fibo/fibo-gulptasks.png?branch=master) [![NPM version](https://badge.fury.io/js/fibo-gulptasks.png)](http://badge.fury.io/js/fibo-gulptasks)
+[![Build Status](https://travis-ci.org/fibo/fibo-gulptasks.png?branch=master)](https://travis-ci.org/fibo/fibo-gulptasks.png?branch=master) [![NPM version](https://badge.fury.io/js/fibo-gulptasks.png)](http://badge.fury.io/js/fibo-gulptasks) [![Dependency Status](https://gemnasium.com/fibo/fibo-gulptasks.png)](https://gemnasium.com/fibo/fibo-gulptasks)
 
 # Installation
 
