@@ -61,14 +61,14 @@ Almost all the content is taken from the *root/* folder.
 
 Yep, this module depend on itself. To avoid npm complain
 
-```
+```bash
 $ npm install --save-dev fibo-gulptasks
 Refusing to install fibo-gulptasks as a dependency of itself
 ```
 
 install from GitHub instead, without saving
 
-```
+```bash
 $ npm install fibo/fibo-gulptasks
 ```
 

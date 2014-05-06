@@ -2,5 +2,12 @@
 layout: default
 ---
 
-api
+<% for section, api of @dox: %>
+  <h2><%= section %></h2>
+
+  <% for item in api: %>
+    <%= item.description.summary %>
+    <br>
+  <% end %>
+<% end %>
 

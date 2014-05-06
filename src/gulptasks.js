@@ -111,7 +111,7 @@ function createTaskTouchFile (gulp, fileName) {
  * @api private
  */
 
-function doxParse(source, target) {
+function doxParse (source, target) {
   var fileContent
 
   gutil.log('doxParse ' + source + ' -> ' + target)
@@ -181,7 +181,7 @@ function npmInstallDevDependency (packageName) {
  */
 
 function npmInstallDependency (packageName) {
-  npmInstall(packageName, ' -save')
+  npmInstall(packageName, ' --save')
 }
 
 
