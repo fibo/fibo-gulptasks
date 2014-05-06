@@ -59,10 +59,11 @@ Calls the following tasks
 
 ### dox
 
-Parses *.js* sources with [dox](https://github.com/visionmedia/dox) and generates
-an omonym *.json* file in the *targetDir*. File *index.js* is ignored.
+Parses *.js* sources with [dox](https://github.com/visionmedia/dox) and
+generates *outputFile*. File *index.js* is ignored. Directory containing
+*outputFile* is created by this task.
 
-  * targetDir: docs/src/files/json/dox
+  * outputFile: docs/src/files/json/dox.json
 
 ### generatefiles
 
@@ -77,7 +78,7 @@ Lints sources in `src/*js`
 
 ### mkdirs
 
-Create `dox.targetDir` and the following dirs
+Create the following dirs
 
   * src
   * docs/out

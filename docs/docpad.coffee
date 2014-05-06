@@ -6,7 +6,7 @@ path = require('path')
 
 pkg = require('../package.json')
 
-#gulptasks = require('./src/files/json/dox/gulptasks.json')
+gulptasks = require('./src/files/json/dox/gulptasks.json')
 
 dox = {}
 doxDir = './src/files/json/dox'
@@ -16,11 +16,12 @@ fs.readdir doxDir, (err, files) ->
     console.log(file)
     objName = path.basename(file, '.json')
     objPath = path.join(baseDir, file)
-    #objData = require(objPath)
     console.log(objName)
-    dox.objName = objData
 
-#dox.gulptasks = gulptasks
+#objData = require(objPath)
+#dox.objName = objData
+
+dox.gulptasks = gulptasks
 
 docpadConfig = {
   templateData: {

@@ -107,14 +107,14 @@ function createTaskTouchFile (gulp, fileName) {
 /**
  *
  * @param source {String} /path/to/input/file.js
- * @param target {String} /path/to/output/file.json
+ * @return doxObj {Object}
  * @api private
  */
 
-function doxParse (source, target) {
+function doxParse (source) {
   var fileContent
 
-  gutil.log('doxParse ' + source + ' -> ' + target)
+  gutil.log('doxParse ' + source)
 
   try {
     fileContent = fs.readFileSync(source, {encoding: 'utf8'})
@@ -123,12 +123,9 @@ function doxParse (source, target) {
 
   var doxOptions = {debug: false, raw: true}
 
-  var obj = dox.parseComments(fileContent, doxOptions)
+  var doxObj = dox.parseComments(fileContent, doxOptions)
 
-  try {
-    fs.writeFileSync(target, JSON.stringify(obj, null, 4), {encoding: 'utf8'})
-  }
-  catch (err) { throw err }
+  return doxObj
 }
 
 /**
@@ -209,10 +206,9 @@ module.exports = function (gulp, pkg) {
   gulp.task('docs', config.tasks.docs)
 
   gulp.task('dox', function () {
-    var conf   = config.tasks.dox
-      , source
-      , srcDir = 'src'
-      , target
+    var conf    = config.tasks.dox
+      , doxData = {}
+      , srcDir  = 'src'
 
     var files = fs.readdirSync(srcDir)
 
@@ -221,13 +217,19 @@ module.exports = function (gulp, pkg) {
       if (fileName === 'index.js')
         return
 
-      // All input files should have extension .js, so adding 'on' to fileName
-      // turns their extension in .json, LOL!
-      target = path.join(conf.targetdir, fileName + 'on')
-      source = path.join(srcDir, fileName)
+      // All input files should have extension .js
+      var source = path.join(srcDir, fileName)
+      var item = path.basename(fileName, '.js')
 
-      doxParse(source, target)
+      var doxObj = doxParse(source)
+      doxData[item] = doxObj
     })
+
+    try {
+      mkdirp(path.dirname(conf.outputfile))
+      fs.writeFileSync(conf.outputfile, JSON.stringify(doxData, null, 4), {encoding: 'utf8'})
+    }
+    catch (err) { throw err }
   })
 
   gulp.task('default', config.tasks.default)
@@ -241,8 +243,6 @@ module.exports = function (gulp, pkg) {
   })
 
   gulp.task('mkdirs', function () {
-    mkdirp(config.tasks.dox.targetdir)
-
     config.tasks.mkdirs.forEach(function (dir) { mkdirp(dir) })
   })
 

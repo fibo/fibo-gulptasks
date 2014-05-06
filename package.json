@@ -1,6 +1,6 @@
 {
   "name": "fibo-gulptasks",
-  "version": "0.1.57",
+  "version": "0.1.58",
   "description": "common gulp tasks among projects",
   "main": "index.js",
   "scripts": {
