@@ -4,7 +4,7 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>fibo-gulptasks</title>
+  <title>fibo-gulptasks | null</title>
 
   <!-- Bootstrap -->
   <!-- Latest compiled and minified CSS -->
@@ -14,58 +14,21 @@
   <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap-theme.min.css">
 </head>
 <body style>
-  <h1></h1>
-
   <div class="navbar navbar-default navbar-fixed-top navbar-inverse" role="navigation">
     <div class="container">
       <div class="navbar-header">
-        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-          <span class="sr-only">Toggle navigation</span>
-
-          <span class="icon-bar"></span>
-
-          <span class="icon-bar"></span>
-
-          <!--span class="icon-bar"></span-->
-        </button>
-
-        <span class="navbar-brand">fibo-gulptasks</span>
+        <a href="../" class="navbar-brand">fibo-gulptasks</a>
       </div>
 
       <div class="navbar-collapse collapse">
         <ul class="nav navbar-nav">
-          <li class="active"><a href="./">Home</a></li>
-
-          <li><a href="./api.html">api</a></li>
-
-          <!--li><a href="./spec.html">spec</a></li-->
+          <li ><a href="./api.html">api</a></li>
         </ul>
 
         <ul class="nav navbar-nav navbar-right">
-          <!-- li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Projects <b class="caret"></b></a>
-            <ul class="dropdown-menu">
-              <li><a href="#">Action</a></li>
-
-              <li><a href="#">Another action</a></li>
-
-              <li><a href="#">Something else here</a></li>
-
-              <li class="divider"></li>
-
-              <li class="dropdown-header">Nav header</li>
-
-              <li><a href="#">Separated link</a></li>
-
-              <li><a href="#">One more separated link</a></li>
-            </ul>
-          </li -->
-
           <li><a href="https://github.com/fibo/fibo-gulptasks">repo</a></li>
 
           <li><a href="http://g14n.info">about me</a></li>
-
-          <!-- li class="active"><a href="./">Static top</a></li -->
         </ul>
       </div>
     </div> <!-- div class="container" -->
@@ -77,47 +40,82 @@
   <h2>gulptasks</h2>
 
   
-    Relative paths
-    <br>
+    
+      <p>
+        <h3>baseDir</h3>
+        <h4></h4>
+      </p>
+    
   
-    @param {Object} gulp
-    <br>
+    
   
-    Generates a file, use instead of *createTaskCopyFile* if file has a special
-meaning, like *.npmignore* and *.gitignore* and it cannot be stored as a raw file.
-Files will not be overwritten.
-
-    <br>
+    
   
-    @param {Object} gulp
-    <br>
+    
   
-    Copies a file **only** if it does not exists.
-
-    <br>
+    
   
-    @param source {String} /path/to/input/file.js
-    <br>
+    
   
-    Read configuration parameters from markdown file
-
-    <br>
+    
   
-    Install npm package
-
-    <br>
+    
   
-    @param {String} packageName
-    <br>
+    
   
-    @param {String} packageName
-    <br>
+    
   
-    @param {Object} gulp
-    <br>
+    
   
 
   </div>
+
+  <script >(function(){
+	/* Did we just livereload? */
+var log = !!(localStorage && console && console.log && true);
+if ( log && localStorage.getItem('/docpad-livereload/reloaded') === 'yes' ) {
+	localStorage.removeItem('/docpad-livereload/reloaded');
+	console.log('LiveReload completed at', new Date())
+}
+
+/* Listen for the regenerated event and perform a reload of the page when the event occurs */
+var listen = function(){
+	var primus = new Primus('/docpad-livereload');
+	primus.on('data', function(data){
+		if ( data && data.message ) {
+			if ( data.message === 'generateBefore' ) {
+				if ( log ) {
+					console.log('LiveReload started at', new Date());
+				}
+				if ( typeof document.getElementsByTagName !== 'undefined' ) {
+	document.getElementsByTagName('html')[0].className += ' wait';
+}
+			}
+			else if ( data.message === 'generateAfter' ) {
+				if ( log ) {
+					localStorage.setItem('/docpad-livereload/reloaded', 'yes');
+				}
+				document.location.reload();
+			}
+		}
+	});
+};
+	/* Inject socket into our page */
+var inject = function(){
+	var t = document.createElement('script');
+	t.type = 'text/javascript';
+	t.async = 'async';
+	t.src = '/primus/primus.js';
+	t.onload = listen;
+	var s = document.getElementsByTagName('script')[0];
+	s.parentNode.insertBefore(t, s);
+};
+	if ( typeof Primus !== 'undefined' ) {
+		listen();
+	} else {
+		inject();
+	}
+})();</script>
 
   <script type="text/javascript"> <!-- Start of Google Analytics tracking code -->
 
