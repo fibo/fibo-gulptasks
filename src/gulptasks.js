@@ -129,6 +129,7 @@ function doxParse (source) {
 }
 
 /**
+ *  Read configuration parameters from markdown file
  *
  * @param fileName {String} /path/to/file.md
  * @api private
@@ -146,6 +147,7 @@ function mdconfFromFile (fileName) {
 }
 
 /**
+ *  Install npm package
  *
  * @param packageName {String}
  * @param flag {String} npm install option flag
@@ -182,7 +184,7 @@ function npmInstallDependency (packageName) {
 }
 
 
-/**
+/*!
  *
  * @param {Object} gulp
  * @param {Object} pkg object from package.json

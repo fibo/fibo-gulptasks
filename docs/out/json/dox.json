@@ -195,13 +195,21 @@
         {
             "tags": [
                 {
+                    "type": "param",
+                    "types": [
+                        "fileName"
+                    ],
+                    "name": "{String}",
+                    "description": "/path/to/file.md"
+                },
+                {
                     "type": "api",
                     "visibility": "private"
                 }
             ],
             "description": {
-                "full": "@param fileName {String} /path/to/file.md",
-                "summary": "@param fileName {String} /path/to/file.md",
+                "full": "Read configuration parameters from markdown file\n",
+                "summary": "Read configuration parameters from markdown file\n",
                 "body": ""
             },
             "isPrivate": true,
@@ -218,6 +226,14 @@
                 {
                     "type": "param",
                     "types": [
+                        "packageName"
+                    ],
+                    "name": "{String}",
+                    "description": ""
+                },
+                {
+                    "type": "param",
+                    "types": [
                         "flag"
                     ],
                     "name": "{String}",
@@ -229,8 +245,8 @@
                 }
             ],
             "description": {
-                "full": "@param packageName {String}",
-                "summary": "@param packageName {String}",
+                "full": "Install npm package\n",
+                "summary": "Install npm package\n",
                 "body": ""
             },
             "isPrivate": true,
@@ -301,7 +317,7 @@
                 "body": ""
             },
             "isPrivate": false,
-            "ignore": false,
+            "ignore": true,
             "code": "s')\n        .pipe(jshint())\n        .pipe(jshint.reporter('default'))\n  })\n\n  gulp.task('mkdirs', function () {\n    config.tasks.mkdirs.forEach(function (dir) { mkdirp(dir) })\n  })\n\n  gulp.task('npm:install', function () {\n    var conf = config.tasks['npm:install']\n\n    conf.devdependency.forEach(npmInstallDevDependency)\n\n    conf.dependency.forEach(npmInstallDependency)\n  })\n\n  gulp.task('overwrite:package.json', function () {\n    pkg.homepage = \"http://www.g14n.info/\" + pkg.name\n\n    pkg.scripts.test = \"mocha --bail --require should --reporter min\"\n\n    pkg.license = [\n      {\n        \"type\": \"MIT\",\n        \"url\": \"http://fibo.mit-license.org/\"\n      }\n    ]\n\n    fs.writeFileSync('./package.json', JSON.stringify(pkg, null, 2), {encoding: 'utf8'})\n  })\n\n  var renderTemplatesConf = config.tasks.rendertemplates\n    , renderTemplatesDeps = ['copyfiles', 'touchfiles']\n\n  renderTemplatesConf.forEach(function (element) {\n    renderTemplatesDeps.push(element)\n  })\n\n  renderTemplatesConf.forEach(function (fileName) {\n    var templateData = {\n      pkg: pkg\n    , readmeContent: '**TODO:** edit file ' + readmeContentPath\n    , readmeContentPath: readmeContentPath\n    }\n\n    fs.readFile(readmeContentPath, {encoding: 'utf8'}, function (err, data) {\n      if (!err)\n        templateData.readmeContent = data\n    })\n\n    createTaskRenderTemplate(gulp, fileName, templateData)\n  })\n\n  gulp.task('rendertemplates', renderTemplatesDeps)\n\n  gulp.task('scaffold', config.tasks.scaffold)\n\n  gulp.task('test', function () {\n    var conf = config.tasks.test\n\n    gulp.src('test/*js')\n        .pipe(gmocha({reporter: conf.reporter}))\n  })\n\n  config.tasks.touchfiles.forEach(function (fileName) {\n    createTaskTouchFile(gulp, fileName)\n  })\n\n  gulp.task('touchfiles', config.tasks.touchfiles)\n}"
         }
     ]

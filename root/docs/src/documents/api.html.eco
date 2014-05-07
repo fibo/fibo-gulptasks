@@ -6,7 +6,9 @@ layout: default
   <h2><%= section %></h2>
 
   <% for item in api: %>
-    <%= item.description.summary %>
+    <% if not item.ignore and not item.isPrivate and item.ctx: %>
+      <%= item.ctx.name %>
+    <% end %>
     <br>
   <% end %>
 <% end %>
