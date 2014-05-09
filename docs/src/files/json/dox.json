@@ -307,17 +307,25 @@
                     "types": [
                         "Object"
                     ],
+                    "name": "gulp",
+                    "description": ""
+                },
+                {
+                    "type": "param",
+                    "types": [
+                        "Object"
+                    ],
                     "name": "pkg",
                     "description": "object from package.json"
                 }
             ],
             "description": {
-                "full": "@param {Object} gulp",
-                "summary": "@param {Object} gulp",
+                "full": "Create gulp tasks\n",
+                "summary": "Create gulp tasks\n",
                 "body": ""
             },
             "isPrivate": false,
-            "ignore": true,
+            "ignore": false,
             "code": "s')\n        .pipe(jshint())\n        .pipe(jshint.reporter('default'))\n  })\n\n  gulp.task('mkdirs', function () {\n    config.tasks.mkdirs.forEach(function (dir) { mkdirp(dir) })\n  })\n\n  gulp.task('npm:install', function () {\n    var conf = config.tasks['npm:install']\n\n    conf.devdependency.forEach(npmInstallDevDependency)\n\n    conf.dependency.forEach(npmInstallDependency)\n  })\n\n  gulp.task('overwrite:package.json', function () {\n    pkg.homepage = \"http://www.g14n.info/\" + pkg.name\n\n    pkg.scripts.test = \"mocha --bail --require should --reporter min\"\n\n    pkg.license = [\n      {\n        \"type\": \"MIT\",\n        \"url\": \"http://fibo.mit-license.org/\"\n      }\n    ]\n\n    fs.writeFileSync('./package.json', JSON.stringify(pkg, null, 2), {encoding: 'utf8'})\n  })\n\n  var renderTemplatesConf = config.tasks.rendertemplates\n    , renderTemplatesDeps = ['copyfiles', 'touchfiles']\n\n  renderTemplatesConf.forEach(function (element) {\n    renderTemplatesDeps.push(element)\n  })\n\n  renderTemplatesConf.forEach(function (fileName) {\n    var templateData = {\n      pkg: pkg\n    , readmeContent: '**TODO:** edit file ' + readmeContentPath\n    , readmeContentPath: readmeContentPath\n    }\n\n    fs.readFile(readmeContentPath, {encoding: 'utf8'}, function (err, data) {\n      if (!err)\n        templateData.readmeContent = data\n    })\n\n    createTaskRenderTemplate(gulp, fileName, templateData)\n  })\n\n  gulp.task('rendertemplates', renderTemplatesDeps)\n\n  gulp.task('scaffold', config.tasks.scaffold)\n\n  gulp.task('test', function () {\n    var conf = config.tasks.test\n\n    gulp.src('test/*js')\n        .pipe(gmocha({reporter: conf.reporter}))\n  })\n\n  config.tasks.touchfiles.forEach(function (fileName) {\n    createTaskTouchFile(gulp, fileName)\n  })\n\n  gulp.task('touchfiles', config.tasks.touchfiles)\n}"
         }
     ]

@@ -184,13 +184,14 @@ function npmInstallDependency (packageName) {
 }
 
 
-/*!
+/**
+ * Create gulp tasks
  *
  * @param {Object} gulp
  * @param {Object} pkg object from package.json
  */
 
-module.exports = function (gulp, pkg) {
+function gulptasks (gulp, pkg) {
   createTaskGenerateIgnoreFile(gulp, '.gitignore', config.tasks['.gitignore'])
 
   createTaskGenerateIgnoreFile(gulp, '.npmignore', config.tasks['.npmignore'])
@@ -310,4 +311,10 @@ module.exports = function (gulp, pkg) {
 
   gulp.task('touchfiles', config.tasks.touchfiles)
 }
+
+/*
+ * Expose `gulptasks`
+ */
+
+module.exports = gulptasks
 

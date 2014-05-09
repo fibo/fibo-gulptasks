@@ -8,6 +8,7 @@
 Generates a *.gitignore* file with the following content
 
   * *~
+  * .codio
   * node_modules
   * npm-debug.log
 
