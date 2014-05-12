@@ -11,6 +11,7 @@ Install packages
 ```bash
 $ npm install -g gulp
 $ npm install --save-dev gulp fibo-gulptasks
+$ npm install --save-dev fibo/fibo-gulptasks
 ```
 
 Then create a *gulpfile.js*
@@ -56,23 +57,6 @@ Almost all the content is taken from the *root/* folder.
 |package.json                        |[overwrite:package.json](https://github.com/fibo/fibo-gulptasks/blob/master/config.md#overwritepackagejson)|some attributes are overwritten  |
 |README.md                           |[rendertemplates](https://github.com/fibo/fibo-gulptasks/blob/master/config.md#rendertemplates)            |source is *readmeContent.md* file|
 |test/require.js                     |[copyfiles](https://github.com/fibo/fibo-gulptasks/blob/master/config.md#copyfiles)                        | |
-
-# Development
-
-Yep, this module depend on itself. To avoid npm complain
-
-```bash
-$ npm install --save-dev fibo-gulptasks
-Refusing to install fibo-gulptasks as a dependency of itself
-```
-
-install from GitHub instead, without saving
-
-```bash
-$ npm install fibo/fibo-gulptasks
-```
-
-
 
 # License
 

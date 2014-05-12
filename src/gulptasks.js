@@ -178,10 +178,6 @@ function mdconfFromFile (fileName) {
  */
 
 function gulptasks (gulp, pkg) {
-  createTaskGenerateIgnoreFile(gulp, '.gitignore', config.tasks['.gitignore'])
-
-  createTaskGenerateIgnoreFile(gulp, '.npmignore', config.tasks['.npmignore'])
-
   gulp.task('config', function () {
     console.log(JSON.stringify(config, null, 4))
   })
@@ -225,6 +221,8 @@ function gulptasks (gulp, pkg) {
 
   gulp.task('generatefiles', config.tasks.generatefiles)
 
+  createTaskGenerateIgnoreFile(gulp, 'gitignore', config.tasks['gitignore'])
+
   gulp.task('jshint', function () {
     gulp.src('src/*js')
         .pipe(jshint())
@@ -235,14 +233,16 @@ function gulptasks (gulp, pkg) {
     config.tasks.mkdirs.forEach(function (dir) { mkdirp(dir) })
   })
 
-  gulp.task('npm_install', function () {
+  createTaskGenerateIgnoreFile(gulp, 'npmignore', config.tasks['npmignore'])
+
+  gulp.task('npminstall', function () {
     execCommand('npm install')()
   })
 
-  gulp.task('package_json', function () {
-    var conf = config.tasks['package_json']
+  gulp.task('packagejson', function () {
+    var conf = config.tasks['packagejson']
 
-    pkg.devDependencies = cond.devdependecies
+    pkg.devDependencies = conf.devdependecies
 
     pkg.homepage = 'http://www.g14n.info/' + pkg.name
 

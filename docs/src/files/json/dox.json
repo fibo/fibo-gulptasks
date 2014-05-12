@@ -74,6 +74,14 @@
                 {
                     "type": "api",
                     "visibility": "private"
+                },
+                {
+                    "type": "t",
+                    "string": ""
+                },
+                {
+                    "type": "t",
+                    "string": ""
                 }
             ],
             "description": {
@@ -195,6 +203,42 @@
         {
             "tags": [
                 {
+                    "type": "api",
+                    "visibility": "private"
+                },
+                {
+                    "type": "param",
+                    "types": [
+                        "String"
+                    ],
+                    "name": "command",
+                    "description": ""
+                },
+                {
+                    "type": "return",
+                    "types": [
+                        "Function"
+                    ],
+                    "description": "execChild"
+                }
+            ],
+            "description": {
+                "full": "Executes given command as a child\n\n```\nexecCommand('npm install')()\n```\n",
+                "summary": "Executes given command as a child",
+                "body": "```\nexecCommand('npm install')()\n```\n"
+            },
+            "isPrivate": true,
+            "ignore": false,
+            "code": "function execCommand(command) {\n  return function execChild() {\n    var child = exec(command)\n\n    gutil.log(command)\n\n    child.stderr.pipe(process.stderr)\n  }\n}",
+            "ctx": {
+                "type": "function",
+                "name": "execCommand",
+                "string": "execCommand()"
+            }
+        },
+        {
+            "tags": [
+                {
                     "type": "param",
                     "types": [
                         "fileName"
@@ -226,85 +270,6 @@
                 {
                     "type": "param",
                     "types": [
-                        "packageName"
-                    ],
-                    "name": "{String}",
-                    "description": ""
-                },
-                {
-                    "type": "param",
-                    "types": [
-                        "flag"
-                    ],
-                    "name": "{String}",
-                    "description": "npm install option flag"
-                },
-                {
-                    "type": "api",
-                    "visibility": "private"
-                }
-            ],
-            "description": {
-                "full": "Install npm package\n",
-                "summary": "Install npm package\n",
-                "body": ""
-            },
-            "isPrivate": true,
-            "ignore": false,
-            "code": "function npmInstall (packageName, flag) {\n  var npmCommand = 'npm install ' + packageName + flag\n    , child      = exec(npmCommand)\n\n  gutil.log(npmCommand)\n\n  child.stderr.pipe(process.stderr)\n}",
-            "ctx": {
-                "type": "function",
-                "name": "npmInstall",
-                "string": "npmInstall()"
-            }
-        },
-        {
-            "tags": [
-                {
-                    "type": "api",
-                    "visibility": "private"
-                }
-            ],
-            "description": {
-                "full": "@param {String} packageName",
-                "summary": "@param {String} packageName",
-                "body": ""
-            },
-            "isPrivate": true,
-            "ignore": false,
-            "code": "function npmInstallDevDependency (packageName) {\n  npmInstall(packageName, ' --save-dev')\n}",
-            "ctx": {
-                "type": "function",
-                "name": "npmInstallDevDependency",
-                "string": "npmInstallDevDependency()"
-            }
-        },
-        {
-            "tags": [
-                {
-                    "type": "api",
-                    "visibility": "private"
-                }
-            ],
-            "description": {
-                "full": "@param {String} packageName",
-                "summary": "@param {String} packageName",
-                "body": ""
-            },
-            "isPrivate": true,
-            "ignore": false,
-            "code": "function npmInstallDependency (packageName) {\n  npmInstall(packageName, ' --save')\n}",
-            "ctx": {
-                "type": "function",
-                "name": "npmInstallDependency",
-                "string": "npmInstallDependency()"
-            }
-        },
-        {
-            "tags": [
-                {
-                    "type": "param",
-                    "types": [
                         "Object"
                     ],
                     "name": "gulp",
@@ -326,7 +291,7 @@
             },
             "isPrivate": false,
             "ignore": false,
-            "code": "function gulptasks (gulp, pkg) {\n  createTaskGenerateIgnoreFile(gulp, '.gitignore', config.tasks['.gitignore'])\n\n  createTaskGenerateIgnoreFile(gulp, '.npmignore', config.tasks['.npmignore'])\n\n  gulp.task('config', function () {\n    console.log(JSON.stringify(config, null, 4))\n  })\n\n  config.tasks.copyfiles.forEach(function (fileName) {\n    createTaskCopyFile(gulp, fileName)\n  })\n\n  gulp.task('copyfiles', config.tasks.copyfiles)\n\n  gulp.task('docs', config.tasks.docs)\n\n  gulp.task('dox', function () {\n    var conf    = config.tasks.dox\n      , doxData = {}\n      , srcDir  = 'src'\n\n    var files = fs.readdirSync(srcDir)\n\n    files.forEach(function (fileName) {\n      // ignore index\n      if (fileName === 'index.js')\n        return\n\n      // All input files should have extension .js\n      var source = path.join(srcDir, fileName)\n      var item = path.basename(fileName, '.js')\n\n      var doxObj = doxParse(source)\n      doxData[item] = doxObj\n    })\n\n    try {\n      mkdirp(path.dirname(conf.outputfile))\n      fs.writeFileSync(conf.outputfile, JSON.stringify(doxData, null, 4), {encoding: 'utf8'})\n    }\n    catch (err) { throw err }\n  })\n\n  gulp.task('default', config.tasks.default)\n\n  gulp.task('generatefiles', config.tasks.generatefiles)\n\n  gulp.task('jshint', function () {\n    gulp.src('src",
+            "code": "function gulptasks (gulp, pkg) {\n  createTaskGenerateIgnoreFile(gulp, '.gitignore', config.tasks['.gitignore'])\n\n  createTaskGenerateIgnoreFile(gulp, '.npmignore', config.tasks['.npmignore'])\n\n  gulp.task('config', function () {\n    console.log(JSON.stringify(config, null, 4))\n  })\n\n  config.tasks.copyfiles.forEach(function (fileName) {\n    createTaskCopyFile(gulp, fileName)\n  })\n\n  gulp.task('copyfiles', config.tasks.copyfiles)\n\n  gulp.task('docs', config.tasks.docs)\n\n  gulp.task('dox', function () {\n    var conf    = config.tasks.dox\n      , doxData = {}\n      , srcDir  = 'src'\n\n    var files = fs.readdirSync(srcDir)\n\n    files.forEach(function (fileName) {\n      // ignore index.js\n      if (fileName === 'index.js')\n        return\n\n      // All input files should have extension .js\n      var source = path.join(srcDir, fileName)\n      var item = path.basename(fileName, '.js')\n\n      var doxObj = doxParse(source)\n      doxData[item] = doxObj\n    })\n\n    try {\n      mkdirp(path.dirname(conf.outputfile))\n      fs.writeFileSync(conf.outputfile, JSON.stringify(doxData, null, 4), {encoding: 'utf8'})\n    }\n    catch (err) { throw err }\n  })\n\n  gulp.task('default', config.tasks.default)\n\n  gulp.task('generatefiles', config.tasks.generatefiles)\n\n  gulp.task('jshint', function () {\n    gulp.src('src",
             "ctx": {
                 "type": "function",
                 "name": "gulptasks",
@@ -336,9 +301,9 @@
         {
             "tags": [],
             "description": {
-                "full": "s')\n        .pipe(jshint())\n        .pipe(jshint.reporter('default'))\n  })\n\n  gulp.task('mkdirs', function () {\n    config.tasks.mkdirs.forEach(function (dir) { mkdirp(dir) })\n  })\n\n  gulp.task('npm:install', function () {\n    var conf = config.tasks['npm:install']\n\n    conf.devdependency.forEach(npmInstallDevDependency)\n\n    conf.dependency.forEach(npmInstallDependency)\n  })\n\n  gulp.task('overwrite:package.json', function () {\n    pkg.homepage = \"http://www.g14n.info/\" + pkg.name\n\n    pkg.scripts.test = \"mocha --bail --require should --reporter min\"\n\n    pkg.license = [\n      {\n        \"type\": \"MIT\",\n        \"url\": \"http://fibo.mit-license.org/\"\n      }\n    ]\n\n    fs.writeFileSync('./package.json', JSON.stringify(pkg, null, 2), {encoding: 'utf8'})\n  })\n\n  var renderTemplatesConf = config.tasks.rendertemplates\n    , renderTemplatesDeps = ['copyfiles', 'touchfiles']\n\n  renderTemplatesConf.forEach(function (element) {\n    renderTemplatesDeps.push(element)\n  })\n\n  renderTemplatesConf.forEach(function (fileName) {\n    var templateData = {\n      pkg: pkg\n    , readmeContent: '**TODO:** edit file ' + readmeContentPath\n    , readmeContentPath: readmeContentPath\n    }\n\n    fs.readFile(readmeContentPath, {encoding: 'utf8'}, function (err, data) {\n      if (!err)\n        templateData.readmeContent = data\n    })\n\n    createTaskRenderTemplate(gulp, fileName, templateData)\n  })\n\n  gulp.task('rendertemplates', renderTemplatesDeps)\n\n  gulp.task('scaffold', config.tasks.scaffold)\n\n  gulp.task('test', function () {\n    var conf = config.tasks.test\n\n    gulp.src('test/*js')\n        .pipe(gmocha({reporter: conf.reporter}))\n  })\n\n  config.tasks.touchfiles.forEach(function (fileName) {\n    createTaskTouchFile(gulp, fileName)\n  })\n\n  gulp.task('touchfiles', config.tasks.touchfiles)\n}\n\n/*!\nExport",
+                "full": "s')\n        .pipe(jshint())\n        .pipe(jshint.reporter('default'))\n  })\n\n  gulp.task('mkdirs', function () {\n    config.tasks.mkdirs.forEach(function (dir) { mkdirp(dir) })\n  })\n\n  gulp.task('npm_install', function () {\n    execCommand('npm install')()\n  })\n\n  gulp.task('package_json', function () {\n    var conf = config.tasks['package_json']\n\n    pkg.devDependencies = cond.devdependecies\n\n    pkg.homepage = 'http://www.g14n.info/' + pkg.name\n\n    pkg.license = [ conf.license ]\n\n    pkg.scripts.test = conf.scripts.test\n\n    fs.writeFileSync('./package.json', JSON.stringify(pkg, null, 2), {encoding: 'utf8'})\n  })\n\n  var renderTemplatesConf = config.tasks.rendertemplates\n    , renderTemplatesDeps = ['copyfiles', 'touchfiles']\n\n  renderTemplatesConf.forEach(function (element) {\n    renderTemplatesDeps.push(element)\n  })\n\n  renderTemplatesConf.forEach(function (fileName) {\n    var templateData = {\n      pkg: pkg\n    , readmeContent: '**TODO:** edit file ' + readmeContentPath\n    , readmeContentPath: readmeContentPath\n    }\n\n    fs.readFile(readmeContentPath, {encoding: 'utf8'}, function (err, data) {\n      if (!err)\n        templateData.readmeContent = data\n    })\n\n    createTaskRenderTemplate(gulp, fileName, templateData)\n  })\n\n  gulp.task('rendertemplates', renderTemplatesDeps)\n\n  gulp.task('scaffold', config.tasks.scaffold)\n\n  gulp.task('test', function () {\n    var conf = config.tasks.test\n\n    gulp.src('test/*js')\n        .pipe(gmocha({reporter: conf.reporter}))\n  })\n\n  config.tasks.touchfiles.forEach(function (fileName) {\n    createTaskTouchFile(gulp, fileName)\n  })\n\n  gulp.task('touchfiles', config.tasks.touchfiles)\n}\n\n/*!\nExport",
                 "summary": "s')\n        .pipe(jshint())\n        .pipe(jshint.reporter('default'))\n  })",
-                "body": "  gulp.task('mkdirs', function () {\n    config.tasks.mkdirs.forEach(function (dir) { mkdirp(dir) })\n  })\n\n  gulp.task('npm:install', function () {\n    var conf = config.tasks['npm:install']\n\n    conf.devdependency.forEach(npmInstallDevDependency)\n\n    conf.dependency.forEach(npmInstallDependency)\n  })\n\n  gulp.task('overwrite:package.json', function () {\n    pkg.homepage = \"http://www.g14n.info/\" + pkg.name\n\n    pkg.scripts.test = \"mocha --bail --require should --reporter min\"\n\n    pkg.license = [\n      {\n        \"type\": \"MIT\",\n        \"url\": \"http://fibo.mit-license.org/\"\n      }\n    ]\n\n    fs.writeFileSync('./package.json', JSON.stringify(pkg, null, 2), {encoding: 'utf8'})\n  })\n\n  var renderTemplatesConf = config.tasks.rendertemplates\n    , renderTemplatesDeps = ['copyfiles', 'touchfiles']\n\n  renderTemplatesConf.forEach(function (element) {\n    renderTemplatesDeps.push(element)\n  })\n\n  renderTemplatesConf.forEach(function (fileName) {\n    var templateData = {\n      pkg: pkg\n    , readmeContent: '**TODO:** edit file ' + readmeContentPath\n    , readmeContentPath: readmeContentPath\n    }\n\n    fs.readFile(readmeContentPath, {encoding: 'utf8'}, function (err, data) {\n      if (!err)\n        templateData.readmeContent = data\n    })\n\n    createTaskRenderTemplate(gulp, fileName, templateData)\n  })\n\n  gulp.task('rendertemplates', renderTemplatesDeps)\n\n  gulp.task('scaffold', config.tasks.scaffold)\n\n  gulp.task('test', function () {\n    var conf = config.tasks.test\n\n    gulp.src('test/*js')\n        .pipe(gmocha({reporter: conf.reporter}))\n  })\n\n  config.tasks.touchfiles.forEach(function (fileName) {\n    createTaskTouchFile(gulp, fileName)\n  })\n\n  gulp.task('touchfiles', config.tasks.touchfiles)\n}\n\n/*!\nExport"
+                "body": "  gulp.task('mkdirs', function () {\n    config.tasks.mkdirs.forEach(function (dir) { mkdirp(dir) })\n  })\n\n  gulp.task('npm_install', function () {\n    execCommand('npm install')()\n  })\n\n  gulp.task('package_json', function () {\n    var conf = config.tasks['package_json']\n\n    pkg.devDependencies = cond.devdependecies\n\n    pkg.homepage = 'http://www.g14n.info/' + pkg.name\n\n    pkg.license = [ conf.license ]\n\n    pkg.scripts.test = conf.scripts.test\n\n    fs.writeFileSync('./package.json', JSON.stringify(pkg, null, 2), {encoding: 'utf8'})\n  })\n\n  var renderTemplatesConf = config.tasks.rendertemplates\n    , renderTemplatesDeps = ['copyfiles', 'touchfiles']\n\n  renderTemplatesConf.forEach(function (element) {\n    renderTemplatesDeps.push(element)\n  })\n\n  renderTemplatesConf.forEach(function (fileName) {\n    var templateData = {\n      pkg: pkg\n    , readmeContent: '**TODO:** edit file ' + readmeContentPath\n    , readmeContentPath: readmeContentPath\n    }\n\n    fs.readFile(readmeContentPath, {encoding: 'utf8'}, function (err, data) {\n      if (!err)\n        templateData.readmeContent = data\n    })\n\n    createTaskRenderTemplate(gulp, fileName, templateData)\n  })\n\n  gulp.task('rendertemplates', renderTemplatesDeps)\n\n  gulp.task('scaffold', config.tasks.scaffold)\n\n  gulp.task('test', function () {\n    var conf = config.tasks.test\n\n    gulp.src('test/*js')\n        .pipe(gmocha({reporter: conf.reporter}))\n  })\n\n  config.tasks.touchfiles.forEach(function (fileName) {\n    createTaskTouchFile(gulp, fileName)\n  })\n\n  gulp.task('touchfiles', config.tasks.touchfiles)\n}\n\n/*!\nExport"
             },
             "ignore": false,
             "code": "module.exports = gulptasks",

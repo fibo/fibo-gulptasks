@@ -85,11 +85,11 @@ Create the following dirs
   * docs/out
   * test
 
-### npm_install
+### npminstall
 
 Installs npm packages: spawns an `npm install`
 
-### package_json
+### packagejson
 
 Overwrites *package.json* attributes.
 
@@ -98,6 +98,7 @@ Overwrites *package.json* attributes.
   * gulp: ^3.6.2
   * mocha: ^1.18.2
   * should: ^3.1.4
+  * fibo-gulptasks: git://github.com/fibo/fibo-gulptasks
 
 #### license
 
@@ -122,7 +123,7 @@ Calls the following tasks
   * mkdirs
   * generatefiles
   * copyfiles
-  * package_json
+  * packagejson
   * rendertemplates
 
 ### test
