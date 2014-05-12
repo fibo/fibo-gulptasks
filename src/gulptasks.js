@@ -11,7 +11,7 @@ var dox      = require('dox')
   , template = require('gulp-template')
   , thisPkg  = require('../package.json')
 
-/*
+/*!
  * Relative paths
  */
 
@@ -51,6 +51,8 @@ function createTaskCopyFile (gulp, fileName) {
  * @param {String} fileName
  * @param {Array} rows file content
  * @api private
+t
+t
  */
 
 function createTaskGenerateIgnoreFile (gulp, fileName, rows) {
@@ -128,6 +130,28 @@ function doxParse (source) {
   return doxObj
 }
 
+/*
+ * Executes given command as a child
+ *
+ * ```
+ * execCommand('npm install')()
+ * ```
+ *
+ * @api private
+ * @param {String} command
+ * @return {Function} execChild
+ */
+
+function execCommand(command) {
+  return function execChild() {
+    var child = exec(command)
+
+    gutil.log(command)
+
+    child.stderr.pipe(process.stderr)
+  }
+}
+
 /**
  *  Read configuration parameters from markdown file
  *
@@ -145,44 +169,6 @@ function mdconfFromFile (fileName) {
 
   return mdconf(fileContent)
 }
-
-/**
- *  Install npm package
- *
- * @param packageName {String}
- * @param flag {String} npm install option flag
- * @api private
- */
-
-function npmInstall (packageName, flag) {
-  var npmCommand = 'npm install ' + packageName + flag
-    , child      = exec(npmCommand)
-
-  gutil.log(npmCommand)
-
-  child.stderr.pipe(process.stderr)
-}
-
-/**
- *
- * @param {String} packageName
- * @api private
- */
-
-function npmInstallDevDependency (packageName) {
-  npmInstall(packageName, ' --save-dev')
-}
-
-/**
- *
- * @param {String} packageName
- * @api private
- */
-
-function npmInstallDependency (packageName) {
-  npmInstall(packageName, ' --save')
-}
-
 
 /**
  * Create gulp tasks
@@ -216,7 +202,7 @@ function gulptasks (gulp, pkg) {
     var files = fs.readdirSync(srcDir)
 
     files.forEach(function (fileName) {
-      // ignore index
+      // ignore index.js
       if (fileName === 'index.js')
         return
 
@@ -249,25 +235,20 @@ function gulptasks (gulp, pkg) {
     config.tasks.mkdirs.forEach(function (dir) { mkdirp(dir) })
   })
 
-  gulp.task('npm:install', function () {
-    var conf = config.tasks['npm:install']
-
-    conf.devdependency.forEach(npmInstallDevDependency)
-
-    conf.dependency.forEach(npmInstallDependency)
+  gulp.task('npm_install', function () {
+    execCommand('npm install')()
   })
 
-  gulp.task('overwrite:package.json', function () {
-    pkg.homepage = "http://www.g14n.info/" + pkg.name
+  gulp.task('package_json', function () {
+    var conf = config.tasks['package_json']
 
-    pkg.scripts.test = "mocha --bail --require should --reporter min"
+    pkg.devDependencies = cond.devdependecies
 
-    pkg.license = [
-      {
-        "type": "MIT",
-        "url": "http://fibo.mit-license.org/"
-      }
-    ]
+    pkg.homepage = 'http://www.g14n.info/' + pkg.name
+
+    pkg.license = [ conf.license ]
+
+    pkg.scripts.test = conf.scripts.test
 
     fs.writeFileSync('./package.json', JSON.stringify(pkg, null, 2), {encoding: 'utf8'})
   })
@@ -312,8 +293,8 @@ function gulptasks (gulp, pkg) {
   gulp.task('touchfiles', config.tasks.touchfiles)
 }
 
-/*
- * Expose `gulptasks`
+/*!
+ * Export
  */
 
 module.exports = gulptasks

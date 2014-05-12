@@ -85,23 +85,28 @@ Create the following dirs
   * docs/out
   * test
 
-### npm:install
+### npm_install
 
-Installs npm packages I always use.
+Installs npm packages: spawns an `npm install`
 
-#### dependency
+### package_json
 
-  * gulp
+Overwrites *package.json* attributes.
 
-#### devdependency
+#### devDependencies
 
-  * gulp
-  * mocha
-  * should
+  * gulp: ^3.6.2
+  * mocha: ^1.18.2
+  * should: ^3.1.4
 
-### overwrite:package.json
+#### license
 
-Overwrites package.json attributes.
+  * type: MIT
+  * url: http://fibo.mit-license.org/
+
+#### scripts
+
+  * test: mocha --bail --require should --reporter min
 
 ### rendertemplates
 
@@ -117,14 +122,14 @@ Calls the following tasks
   * mkdirs
   * generatefiles
   * copyfiles
-  * overwrite:package.json
+  * package_json
   * rendertemplates
 
 ### test
 
 Runs tests with [mocha](http://visionmedia.github.io/mocha/)
 
-  * reporter: list
+  * reporter: nyan
 
 ### touchfiles
 

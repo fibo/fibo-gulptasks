@@ -41,11 +41,13 @@
 
 	
 		
+			
+				
+			
+
 			<p>
 				<h3>baseDir</h3>
-
 				<h4>Relative paths</h4>
-
 				
 			</p>
 		
@@ -68,6 +70,110 @@
 	
 		
 	
+		
+			
+				
+			
+
+			<p>
+				<h3>gulptasks()</h3>
+				<h4>Create gulp tasks
+</h4>
+				
+					
+						<span>param gulp</span>
+					
+				
+					
+						<span>param pkg</span>
+					
+				
+			</p>
+		
+	
+		
+			
+				
+			
+
+			<p>
+				<h3>exports</h3>
+				<h4>s')
+        .pipe(jshint())
+        .pipe(jshint.reporter('default'))
+  })
+
+  gulp.task('mkdirs', function () {
+    config.tasks.mkdirs.forEach(function (dir) { mkdirp(dir) })
+  })
+
+  gulp.task('npm:install', function () {
+    var conf = config.tasks['npm:install']
+
+    conf.devdependency.forEach(npmInstallDevDependency)
+
+    conf.dependency.forEach(npmInstallDependency)
+  })
+
+  gulp.task('overwrite:package.json', function () {
+    pkg.homepage = &quot;http://www.g14n.info/&quot; + pkg.name
+
+    pkg.scripts.test = &quot;mocha --bail --require should --reporter min&quot;
+
+    pkg.license = [
+      {
+        &quot;type&quot;: &quot;MIT&quot;,
+        &quot;url&quot;: &quot;http://fibo.mit-license.org/&quot;
+      }
+    ]
+
+    fs.writeFileSync('./package.json', JSON.stringify(pkg, null, 2), {encoding: 'utf8'})
+  })
+
+  var renderTemplatesConf = config.tasks.rendertemplates
+    , renderTemplatesDeps = ['copyfiles', 'touchfiles']
+
+  renderTemplatesConf.forEach(function (element) {
+    renderTemplatesDeps.push(element)
+  })
+
+  renderTemplatesConf.forEach(function (fileName) {
+    var templateData = {
+      pkg: pkg
+    , readmeContent: '**TODO:** edit file ' + readmeContentPath
+    , readmeContentPath: readmeContentPath
+    }
+
+    fs.readFile(readmeContentPath, {encoding: 'utf8'}, function (err, data) {
+      if (!err)
+        templateData.readmeContent = data
+    })
+
+    createTaskRenderTemplate(gulp, fileName, templateData)
+  })
+
+  gulp.task('rendertemplates', renderTemplatesDeps)
+
+  gulp.task('scaffold', config.tasks.scaffold)
+
+  gulp.task('test', function () {
+    var conf = config.tasks.test
+
+    gulp.src('test/*js')
+        .pipe(gmocha({reporter: conf.reporter}))
+  })
+
+  config.tasks.touchfiles.forEach(function (fileName) {
+    createTaskTouchFile(gulp, fileName)
+  })
+
+  gulp.task('touchfiles', config.tasks.touchfiles)
+}
+
+/*
+Expose `gulptasks`</h4>
+				
+			</p>
 		
 	
 
