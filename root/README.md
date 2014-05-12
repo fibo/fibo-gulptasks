@@ -8,5 +8,5 @@
 
 # License
 
-[MIT](http://fibo.mit-license.org/)
+[<%= pkg.license.type %>](<%= pkg.license.url %>)
 

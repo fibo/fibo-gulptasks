@@ -22,13 +22,21 @@ Copies the following files
 
 Calls the following tasks
 
-  * config
+  * docsserver
+  * watch
 
 ### docs
 
 Calls the following tasks
 
   * dox
+
+### docsserver
+
+Gulp-connect server with options
+
+  * root: docs
+  * livereload: true **(hardcoded)**
 
 ### dox
 
@@ -74,7 +82,7 @@ Lints sources in `src/*js`
 Create the following dirs
 
   * src
-  * docs/out
+  * docs
   * test
 
 ### npmignore
@@ -86,7 +94,7 @@ Generates a *.npmignore* file with the following content
   * docs/
   * gulpfile.js
 
-Note that this task is treated a part and not in *copyfiles* cause adding a 
+Note that this task is treated a part and not in *copyfiles* cause adding a
 *.npmignore* in the *root/* folder will tell npm to ignore such files.
 
 Existing *.npmignore* file will not be overwritten.

@@ -1,15 +1,16 @@
 
-var dox      = require('dox')
-  , exec     = require('child_process').exec
-  , fs       = require('fs')
-  , gmocha   = require('gulp-mocha')
-  , gutil    = require('gulp-util')
-  , jshint   = require('gulp-jshint')
-  , mdconf   = require('mdconf')
-  , mkdirp   = require('mkdirp')
-  , path     = require('path')
-  , template = require('gulp-template')
-  , thisPkg  = require('../package.json')
+var dox         = require('dox')
+  , exec        = require('child_process').exec
+  , fs          = require('fs')
+  , gconnect    = require('gulp-connect')
+  , jshint      = require('gulp-jshint')
+  , gmocha      = require('gulp-mocha')
+  , gutil       = require('gulp-util')
+  , mdconf      = require('mdconf')
+  , mkdirp      = require('mkdirp')
+  , path        = require('path')
+  , template    = require('gulp-template')
+  , thisPkg     = require('../package.json')
 
 /*!
  * Relative paths
@@ -193,6 +194,20 @@ function gulptasks (gulp, pkg) {
 
   gulp.task('docs', config.tasks.docs)
 
+  gulp.task('docsreload', function (next) {
+     gulp.src('./docs/*.html')
+         .pipe(gconnect.reload())
+  })
+
+  gulp.task('docsserver', function (next) {
+    var conf = config.tasks.docsserver
+
+    gconnect.server({
+      root: conf.root,
+      livereload: true
+    })
+  })
+
   gulp.task('dox', function () {
     var conf    = config.tasks.dox
       , doxData = {}
@@ -243,7 +258,7 @@ function gulptasks (gulp, pkg) {
   gulp.task('npminstall', execCommand(config.tasks.npminstall))
 
   gulp.task('packagejson', function () {
-    var conf = config.tasks['packagejson']
+    var conf = config.tasks.packagejson
 
     pkg.devDependencies = conf.devdependecies
 
@@ -294,6 +309,15 @@ function gulptasks (gulp, pkg) {
   })
 
   gulp.task('touchfiles', config.tasks.touchfiles)
+
+  gulp.task('watch', function () {
+    gulp.watch('./docs/*.html', ['docsreload'])
+
+    gulp.watch('src/**', [])
+        .on('change', function (event) {
+          gutil.log('File '+event.path+' was '+event.type+', running tasks...')
+        })
+  })
 }
 
 /*!
