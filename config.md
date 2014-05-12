@@ -73,6 +73,12 @@ Calls the following tasks
   * .gitignore
   * .npmignore
 
+### gitpush
+
+Push code to remote repo, launches
+
+  * git push
+
 ### jshint
 
 Lints sources in `src/*js`

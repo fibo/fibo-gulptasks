@@ -149,6 +149,7 @@ function execCommand(command) {
     gutil.log(command)
 
     child.stderr.pipe(process.stderr)
+    child.stdout.pipe(process.stdout)
   }
 }
 
@@ -221,7 +222,9 @@ function gulptasks (gulp, pkg) {
 
   gulp.task('generatefiles', config.tasks.generatefiles)
 
-  createTaskGenerateIgnoreFile(gulp, 'gitignore', config.tasks['gitignore'])
+  createTaskGenerateIgnoreFile(gulp, 'gitignore', config.tasks.gitignore)
+
+  gulp.task('gitpush', execCommand(config.tasks.gitpush))
 
   gulp.task('jshint', function () {
     gulp.src('src/*js')
@@ -233,7 +236,7 @@ function gulptasks (gulp, pkg) {
     config.tasks.mkdirs.forEach(function (dir) { mkdirp(dir) })
   })
 
-  createTaskGenerateIgnoreFile(gulp, 'npmignore', config.tasks['npmignore'])
+  createTaskGenerateIgnoreFile(gulp, 'npmignore', config.tasks.npmignore)
 
   gulp.task('npminstall', function () {
     execCommand('npm install')()
