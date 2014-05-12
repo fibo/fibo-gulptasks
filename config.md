@@ -9,11 +9,6 @@ Copies the following files
 
   * .jshintrc
   * .travis.yml
-  * docs/docpad.coffee
-  * docs/package.json
-  * docs/src/documents/api.html.eco
-  * docs/src/documents/spec.html.eco
-  * docs/src/layouts/default.html.eco
   * index.js
   * gulpfile.js
   * test/require.js
@@ -24,12 +19,6 @@ Calls the following tasks
 
   * docsserver
   * watch
-
-### docs
-
-Calls the following tasks
-
-  * dox
 
 ### docsserver
 
@@ -44,7 +33,7 @@ Parses *.js* sources with [dox](https://github.com/visionmedia/dox) and
 generates *outputFile*. File *index.js* is ignored. Directory containing
 *outputFile* is created by this task.
 
-  * outputFile: docs/src/files/json/dox.json
+  * outputfile: docs/json/dox.json
 
 ### generatefiles
 
@@ -129,7 +118,7 @@ Overwrites *package.json* attributes.
 
 Renders the following templates
 
-  * docs/src/documents/index.html.md
+  * docs/api.html
   * README.md
 
 ### scaffold

@@ -1,34 +1,32 @@
 
-var dox         = require('dox')
-  , exec        = require('child_process').exec
-  , fs          = require('fs')
-  , gconnect    = require('gulp-connect')
-  , jshint      = require('gulp-jshint')
-  , gmocha      = require('gulp-mocha')
-  , gutil       = require('gulp-util')
-  , mdconf      = require('mdconf')
-  , mkdirp      = require('mkdirp')
-  , path        = require('path')
-  , template    = require('gulp-template')
-  , thisPkg     = require('../package.json')
-
-/*!
- * Relative paths
- */
+var _         = require('lodash')
+  , dox       = require('dox')
+  , exec      = require('child_process').exec
+  , fs        = require('fs')
+  , gconnect  = require('gulp-connect')
+  , jshint    = require('gulp-jshint')
+  , gmocha    = require('gulp-mocha')
+  , gtemplate = require('gulp-template')
+  , gutil     = require('gulp-util')
+  , mdconf    = require('mdconf')
+  , mkdirp    = require('mkdirp')
+  , path      = require('path')
+  , thisPkg   = require('../package.json')
 
 var baseDir = path.join(__dirname, '..')
-var configMd  = path.join(baseDir , 'config.md')
-  , rootDir   = path.join(baseDir , 'root')
+
+var configMd = path.join(baseDir , 'config.md')
+  , rootDir  = path.join(baseDir , 'root')
 
 var config = mdconfFromFile(configMd).config
 
 var readmeContentPath = 'readmeContent.md'
 
-/**
+/*
  *
+ * @api private
  * @param {Object} gulp
  * @param {String} filename
- * @api private
  */
 
 function createTaskCopyFile (gulp, fileName) {
@@ -43,17 +41,15 @@ function createTaskCopyFile (gulp, fileName) {
   })
 }
 
-/**
+/*
  * Generates a file, use instead of *createTaskCopyFile* if file has a special
  * meaning, like *.npmignore* and *.gitignore* and it cannot be stored as a raw file.
  * Files will not be overwritten.
  *
+ * @api private
  * @param {Object} gulp
  * @param {String} taskName
  * @param {Array} rows file content
- * @api private
-t
-t
  */
 
 function createTaskGenerateIgnoreFile (gulp, taskName, rows) {
@@ -72,12 +68,12 @@ function createTaskGenerateIgnoreFile (gulp, taskName, rows) {
     })
 }
 
-/**
+/*
  *
+ * @api private
  * @param {Object} gulp
  * @param {String} fileName
  * @param {Object} templateData
- * @api private
  */
 
 function createTaskRenderTemplate (gulp, fileName, templateData) {
@@ -88,17 +84,17 @@ function createTaskRenderTemplate (gulp, fileName, templateData) {
      gutil.log('render ' + src + ' -> ' + dest)
 
      return gulp.src(src)
-                .pipe(template(templateData))
+                .pipe(gtemplate(templateData))
                 .pipe(gulp.dest(dest))
   })
 }
 
-/**
+/*
  * Copies a file **only** if it does not exists.
  *
+ * @api private
  * @param {Object} gulp
  * @param {String} fileName
- * @api private
  */
 
 function createTaskTouchFile (gulp, fileName) {
@@ -109,22 +105,31 @@ function createTaskTouchFile (gulp, fileName) {
     createTaskCopyFile(gulp, fileName)
 }
 
-/**
+/*
+ * Get content from file
  *
- * @param source {String} /path/to/input/file.js
- * @return doxObj {Object}
+ * @param {String} path
+ * @return {String} fileContent
+ */
+
+function readFileContent (path) {
+  try {
+    fileContent = fs.readFileSync(path, {encoding: 'utf8'})
+  }
+  catch (err) { throw err }
+}
+
+/*
+ *
  * @api private
+ * @param {String} source /path/to/input/file.js
+ * @return {Object} doxObj
  */
 
 function doxParse (source) {
-  var fileContent
-
   gutil.log('doxParse ' + source)
 
-  try {
-    fileContent = fs.readFileSync(source, {encoding: 'utf8'})
-  }
-  catch (err) { throw err }
+  var fileContent = readFileContent(source)
 
   var doxOptions = {debug: false, raw: true}
 
@@ -156,11 +161,11 @@ function execCommand(command) {
   }
 }
 
-/**
- *  Read configuration parameters from markdown file
+/*
+ * Read configuration parameters from markdown file
  *
- * @param fileName {String} /path/to/file.md
  * @api private
+ * @param fileName {String} /path/to/file.md
  */
 
 function mdconfFromFile (fileName) {
@@ -174,7 +179,7 @@ function mdconfFromFile (fileName) {
   return mdconf(fileContent)
 }
 
-/**
+/*
  * Create gulp tasks
  *
  * @param {Object} gulp
@@ -272,7 +277,7 @@ function gulptasks (gulp, pkg) {
   })
 
   var renderTemplatesConf = config.tasks.rendertemplates
-    , renderTemplatesDeps = ['copyfiles', 'touchfiles']
+    , renderTemplatesDeps = ['copyfiles', 'touchfiles', 'dox']
 
   renderTemplatesConf.forEach(function (element) {
     renderTemplatesDeps.push(element)
@@ -280,10 +285,23 @@ function gulptasks (gulp, pkg) {
 
   renderTemplatesConf.forEach(function (fileName) {
     var templateData = {
-      pkg: pkg
-    , readmeContent: '**TODO:** edit file ' + readmeContentPath
-    , readmeContentPath: readmeContentPath
-    }
+          pkg: pkg
+        , readmeContent: '**TODO:** edit file ' + readmeContentPath
+        , readmeContentPath: readmeContentPath
+        }
+      , docs = {}
+
+    docs.header = _.template(readFileContent(path.join(rootDir, 'docs', '_header.html')), templateData)
+    docs.footer = _.template(readFileContent(path.join(rootDir, 'docs', '_footer.html')), templateData)
+    gutil.log(docs.header)
+
+    templateData.docs = docs
+
+    if (fs.existsSync(config.tasks.dox.outputfile))
+      templateData.dox = require(config.tasks.dox.outputfile)
+    else
+      templateData.dox = {}
+
 
     fs.readFile(readmeContentPath, {encoding: 'utf8'}, function (err, data) {
       if (!err)
