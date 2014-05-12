@@ -3,34 +3,6 @@
 
 ## Tasks
 
-### .gitignore
-
-Generates a *.gitignore* file with the following content
-
-  * *~
-  * .codio
-  * node_modules
-  * npm-debug.log
-
-Note that this task is treated a part and not in *copyfiles* cause adding a 
-*.gitignore* in the *root/* folder will tell git to ignore such files.
-
-Existing *.gitignore* file will not be overwritten.
-
-### .npmignore
-
-Generates a *.npmignore* file with the following content
-
-  * .travis.yml
-  * .jshintrc
-  * docs/
-  * gulpfile.js
-
-Note that this task is treated a part and not in *copyfiles* cause adding a 
-*.npmignore* in the *root/* folder will tell npm to ignore such files.
-
-Existing *.npmignore* file will not be overwritten.
-
 ### copyfiles
 
 Copies the following files
@@ -70,8 +42,22 @@ generates *outputFile*. File *index.js* is ignored. Directory containing
 
 Calls the following tasks
 
-  * .gitignore
-  * .npmignore
+  * gitignore
+  * npmignore
+
+### gitignore
+
+Generates a *.gitignore* file with the following content
+
+  * *~
+  * .codio
+  * node_modules
+  * npm-debug.log
+
+Note that this task is treated a part and not in *copyfiles* cause adding a 
+*.gitignore* in the *root/* folder will tell git to ignore such files.
+
+Existing *.gitignore* file will not be overwritten.
 
 ### gitpush
 
@@ -91,9 +77,25 @@ Create the following dirs
   * docs/out
   * test
 
+### npmignore
+
+Generates a *.npmignore* file with the following content
+
+  * .travis.yml
+  * .jshintrc
+  * docs/
+  * gulpfile.js
+
+Note that this task is treated a part and not in *copyfiles* cause adding a 
+*.npmignore* in the *root/* folder will tell npm to ignore such files.
+
+Existing *.npmignore* file will not be overwritten.
+
 ### npminstall
 
-Installs npm packages: spawns an `npm install`
+Install npm packages, launches
+
+  * npm install
 
 ### packagejson
 
