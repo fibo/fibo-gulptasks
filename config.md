@@ -143,3 +143,31 @@ Copies the following files, only if they did not exist yet
 
   * docs/package.json
 
+### watch
+
+Start watching files
+
+#### src
+
+Watch sources
+
+  * glob: src/**
+
+Execute the following
+
+##### tasks
+
+  * dox
+
+#### docs
+
+Watch docs
+
+  * glob: docs/**
+
+Execute the following
+
+##### tasks
+
+  * docsreload
+

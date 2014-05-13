@@ -23,7 +23,6 @@ var config = mdconfFromFile(configMd).config
 var readmeContentPath = 'readmeContent.md'
 
 /*
- *
  * @api private
  * @param {Object} gulp
  * @param {String} filename
@@ -113,10 +112,14 @@ function createTaskTouchFile (gulp, fileName) {
  */
 
 function readFileContent (path) {
+  var fileContent
+
   try {
     fileContent = fs.readFileSync(path, {encoding: 'utf8'})
   }
   catch (err) { throw err }
+
+  return fileContent
 }
 
 /*
@@ -129,11 +132,11 @@ function readFileContent (path) {
 function doxParse (source) {
   gutil.log('doxParse ' + source)
 
-  var fileContent = readFileContent(source)
+  var doxObj
+    , doxOptions = {debug: false, raw: true}
+    , fileContent = readFileContent(source)
 
-  var doxOptions = {debug: false, raw: true}
-
-  var doxObj = dox.parseComments(fileContent, doxOptions)
+  doxObj = dox.parseComments(fileContent, doxOptions)
 
   return doxObj
 }
@@ -285,7 +288,8 @@ function gulptasks (gulp, pkg) {
 
   renderTemplatesConf.forEach(function (fileName) {
     var templateData = {
-          pkg: pkg
+          dox: {}
+        , pkg: pkg
         , readmeContent: '**TODO:** edit file ' + readmeContentPath
         , readmeContentPath: readmeContentPath
         }
@@ -298,10 +302,7 @@ function gulptasks (gulp, pkg) {
     templateData.docs = docs
 
     if (fs.existsSync(config.tasks.dox.outputfile))
-      templateData.dox = require(config.tasks.dox.outputfile)
-    else
-      templateData.dox = {}
-
+      templateData.dox = JSON.parse(readFileContent(config.tasks.dox.outputfile))
 
     fs.readFile(readmeContentPath, {encoding: 'utf8'}, function (err, data) {
       if (!err)
@@ -329,12 +330,17 @@ function gulptasks (gulp, pkg) {
   gulp.task('touchfiles', config.tasks.touchfiles)
 
   gulp.task('watch', function () {
-    gulp.watch('./docs/*.html', ['docsreload'])
+    var conf = config.tasks.watch
 
-    gulp.watch('src/**', [])
-        .on('change', function (event) {
-          gutil.log('File '+event.path+' was '+event.type+', running tasks...')
-        })
+    function logFileChanged (event) {
+      gutil.log('File '+event.path+' was '+event.type+', running tasks...')
+    }
+
+    gulp.watch(conf.docs.glob, conf.docs.tasks)
+        .on('change', logFileChanged)
+
+    gulp.watch(conf.src.glob, conf.src.tasks)
+        .on('change', logFileChanged)
   })
 }
 
