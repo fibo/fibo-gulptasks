@@ -3,16 +3,6 @@
 
 ## Tasks
 
-### copyfiles
-
-Copies the following files
-
-  * .jshintrc
-  * .travis.yml
-  * index.js
-  * gulpfile.js
-  * test/require.js
-
 ### default
 
 Calls the following tasks
@@ -37,6 +27,19 @@ generates *outputFile*. File *index.js* is ignored. Directory containing
 
 ### generatefiles
 
+Generate the following files
+
+  * .jshintrc
+  * .travis.yml
+  * index.js
+  * gulpfile.js
+  * docs/api.html
+  * docs/index.html
+  * test/require.js
+  * src/index.js
+
+### generateignorefiles
+
 Calls the following tasks
 
   * gitignore
@@ -56,6 +59,12 @@ Note that this task is treated a part and not in *copyfiles* cause adding a
 
 Existing *.gitignore* file will not be overwritten.
 
+### gitpull
+
+Pull code from remote repo, launches
+
+  * git pull
+
 ### gitpush
 
 Push code to remote repo, launches
@@ -65,6 +74,12 @@ Push code to remote repo, launches
 ### jshint
 
 Lints sources in `src/*js`
+
+### mocha
+
+Runs tests with [mocha](http://visionmedia.github.io/mocha/)
+
+  * reporter: nyan
 
 ### mkdirs
 
@@ -114,13 +129,19 @@ Overwrites *package.json* attributes.
 
   * test: mocha --bail --require should --reporter min
 
-### renderindex
+### indexhtml
 
 Generate *docs/index.html* from *README.md*
 
-### renderreadme
+### readme
 
 Overwrite some *README.md* sections.
+
+### renderdocs
+
+Calls the following tasks
+
+  * indexhtml
 
 ### rendertemplates
 
@@ -136,13 +157,21 @@ Calls the following tasks
   * generatefiles
   * copyfiles
   * packagejson
-  * rendertemplates
+  * indexhtml
+
+### setup
+
+Calls the following tasks
+
+  * gitpull
+  * npminstall
 
 ### test
 
-Runs tests with [mocha](http://visionmedia.github.io/mocha/)
+Calls the following tasks
 
-  * reporter: nyan
+  * jshint
+  * mocha
 
 ### watch
 

@@ -33,7 +33,8 @@
     "gulp": "^3.5.6",
     "mocha": "~1.18.2",
     "gulp-connect": "^2.0.5",
-    "lodash": "^2.4.1"
+    "lodash": "^2.4.1",
+    "marked": "^0.3.2"
   },
   "homepage": "http://www.g14n.info/fibo-gulptasks",
   "readme": "# fibo-gulptasks\r\n\r\n> common gulp tasks among projects\r\n\r\n[![Build Status](https://travis-ci.org/fibo/fibo-gulptasks.png?branch=master)](https://travis-ci.org/fibo/fibo-gulptasks.png?branch=master) [![NPM version](https://badge.fury.io/js/fibo-gulptasks.png)](http://badge.fury.io/js/fibo-gulptasks)\r\n\r\n\r\n# Installation\r\n\r\nInstall packages\r\n\r\n```bash\r\nnpm install -g gulp\r\nnpm install --save-dev gulp fibo-gulptasks\r\n```\r\n\r\nThen create a *gulpfile.js*\r\n\r\n```bash\r\ncat <<EOF > gulpfile.js\r\n\r\nvar gulp = require('gulp')\r\n\r\nrequire('fibo-gulptasks')(gulp)\r\n\r\nEOF\r\n```\r\n\r\n# Configuration\r\n\r\nConfig is stored in *config.md* file, you can see it in JSON format launching\r\n\r\n```bash\r\ngulp config\r\n```\r\n\r\n# Development\r\n\r\nYep, this module depend on itself. To avoid npm complain\r\n\r\n```\r\n$ npm install --save-dev fibo-gulptasks\r\nRefusing to install fibo-gulptasks as a dependency of itself\r\n```\r\n\r\ninstall from GitHub instead, without saving\r\n\r\n```\r\n$ npm install fibo/fibo-gulptasks\r\n```\r\n\r\n\r\n\r\n# License\r\n\r\n[MIT](http://fibo.mit-license.org/)\r\n\r\n",

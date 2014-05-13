@@ -8,6 +8,7 @@ var _         = require('lodash')
   , gmocha    = require('gulp-mocha')
   , gtemplate = require('gulp-template')
   , gutil     = require('gulp-util')
+  , marked   = require('marked')
   , mdconf    = require('mdconf')
   , mkdirp    = require('mkdirp')
   , path      = require('path')
@@ -16,33 +17,16 @@ var _         = require('lodash')
 var baseDir = path.join(__dirname, '..')
 
 var configMd = path.join(baseDir , 'config.md')
+  , configMdContent = readFileContent(configMd)
   , rootDir  = path.join(baseDir , 'root')
 
-var config = mdconf(readFileContent(configMd)).config
+var config = mdconf(configMdContent).config
 
-var readmeContentPath = 'readmeContent.md'
-
-/*
- * @api private
- * @param {Object} gulp
- * @param {String} filename
- */
-
-function createTaskCopyFile (gulp, fileName) {
-  gulp.task(fileName, function () {
-     var dest = path.dirname(fileName)
-       , src  = path.join(rootDir, fileName)
-
-     gutil.log('copy ' + src + ' -> ' + dest)
-
-     return gulp.src(src)
-                .pipe(gulp.dest(dest))
-  })
-}
-
-/*
- * Generates a file, use instead of *createTaskCopyFile* if file has a special
- * meaning, like *.npmignore* and *.gitignore* and it cannot be stored as a raw file.
+/* Generate *ignore* files
+ *
+ * Use instead of *createTaskGenerateFile* cause *.npmignore* and *.gitignore* 
+ * cannot be stored as raw files.
+ *
  * Files will not be overwritten.
  *
  * @api private
@@ -63,24 +47,43 @@ function createTaskGenerateIgnoreFile (gulp, taskName, rows) {
 
       var content = [header, rows.join("\n"), footer].join("\n")
 
-      fs.writeFileSync(fileName, content, {encoding: 'utf8'})
+      writeFileContent(fileName, content)
     })
 }
 
-/*
- *
+/* Render files from template
  * @api private
  * @param {Object} gulp
+ * @param {String} taskName
  * @param {String} fileName
- * @param {Object} templateData
+ * @param {Object} pkg
+ * @param {Object} config
  */
 
-function createTaskRenderTemplate (gulp, fileName, templateData) {
-  gulp.task(fileName, function () {
+function createTaskGenerateFile (gulp, fileName, pkg, config) {
+  var taskName = fileName
+    , templateData = {
+        bootstrap: {
+          cdn: '//netdna.bootstrapcdn.com/bootstrap/3.1.1/'
+        }
+      , dox: {}
+      , docs: {}
+      , pkg: pkg
+      , readme: {}
+      }
+
+  templateData.readme.md = readFileContent('./README.md')
+  templateData.readme.html = marked(templateData.readme.md)
+
+  templateData.docs.header = _.template(readFileContent(path.join(rootDir, 'docs', '_header.html')), templateData)
+  templateData.docs.footer = _.template(readFileContent(path.join(rootDir, 'docs', '_footer.html')), templateData)
+
+  if (fs.existsSync(config.tasks.dox.outputfile))
+    templateData.dox = JSON.parse(readFileContent(config.tasks.dox.outputfile))
+
+  gulp.task(taskName, function () {
      var dest = path.dirname(fileName)
        , src  = path.join(rootDir, fileName)
-
-     gutil.log('render ' + src + ' -> ' + dest)
 
      return gulp.src(src)
                 .pipe(gtemplate(templateData))
@@ -88,8 +91,7 @@ function createTaskRenderTemplate (gulp, fileName, templateData) {
   })
 }
 
-/*
- * Get content from file
+/* Get content from file
  *
  * @api private
  * @param {String} path
@@ -107,7 +109,22 @@ function readFileContent (path) {
   return fileContent
 }
 
-/*
+/* Write content to file
+ *
+ * @api private
+ * @param {String} filePath
+ * @param {String} fileContent
+ */
+
+function writeFileContent (filePath, fileContent) {
+    try {
+      mkdirp(path.dirname(filePath))
+      fs.writeFileSync(filePath, fileContent, {encoding: 'utf8'})
+    }
+    catch (err) { throw err }
+}
+
+/* Parse source comments with dox
  *
  * @api private
  * @param {String} source /path/to/input/file.js
@@ -127,7 +144,7 @@ function doxParse (source) {
 }
 
 /*
- * Executes given command as a child
+ * Executes given command
  *
  * ```
  * execCommand('npm install')()
@@ -138,8 +155,8 @@ function doxParse (source) {
  * @return {Function} execChild
  */
 
-function execCommand(command) {
-  return function execChild() {
+function execCommand (command) {
+  return function execChild () {
     var child = exec(command)
 
     gutil.log(command)
@@ -149,25 +166,18 @@ function execCommand(command) {
   }
 }
 
-/*
- * Create gulp tasks
+/* Create gulp tasks
  *
  * @param {Object} gulp
  * @param {Object} pkg object from package.json
  */
 
 function gulptasks (gulp, pkg) {
-  gulp.task('config', function () {
-    console.log(JSON.stringify(config, null, 4))
+  config.tasks.generatefiles.forEach(function (fileName) {
+    createTaskGenerateFile(gulp, fileName, pkg, config)
   })
 
-  config.tasks.copyfiles.forEach(function (fileName) {
-    createTaskCopyFile(gulp, fileName)
-  })
-
-  gulp.task('copyfiles', config.tasks.copyfiles)
-
-  gulp.task('docs', config.tasks.docs)
+  gulp.task('generatefiles', config.tasks.generatefiles)
 
   gulp.task('docsreload', function (next) {
      gulp.src(config.tasks.watch.docs.glob)
@@ -203,18 +213,16 @@ function gulptasks (gulp, pkg) {
       doxData[item] = doxObj
     })
 
-    try {
-      mkdirp(path.dirname(conf.outputfile))
-      fs.writeFileSync(conf.outputfile, JSON.stringify(doxData, null, 4), {encoding: 'utf8'})
-    }
-    catch (err) { throw err }
+    writeFileContent(conf.outputfile, JSON.stringify(doxData, null, 4))
   })
 
   gulp.task('default', config.tasks.default)
 
-  gulp.task('generatefiles', config.tasks.generatefiles)
+  gulp.task('generateignorefiles', config.tasks.generateignorefiles)
 
   createTaskGenerateIgnoreFile(gulp, 'gitignore', config.tasks.gitignore)
+
+  gulp.task('gitpull', execCommand(config.tasks.gitpull))
 
   gulp.task('gitpush', execCommand(config.tasks.gitpush))
 
@@ -222,6 +230,13 @@ function gulptasks (gulp, pkg) {
     gulp.src('src/*js')
         .pipe(jshint())
         .pipe(jshint.reporter('default'))
+  })
+
+  gulp.task('mocha', function () {
+    var conf = config.tasks.mocha
+
+    gulp.src('test/*js')
+        .pipe(gmocha({reporter: conf.reporter}))
   })
 
   gulp.task('mkdirs', function () {
@@ -243,55 +258,14 @@ function gulptasks (gulp, pkg) {
 
     pkg.scripts.test = conf.scripts.test
 
-    fs.writeFileSync('./package.json', JSON.stringify(pkg, null, 2), {encoding: 'utf8'})
+    writeFileContent('./package.json', JSON.stringify(pkg, null, 2))
   })
-
-  var renderTemplatesConf = config.tasks.rendertemplates
-    , renderTemplatesDeps = ['copyfiles', 'dox']
-
-  renderTemplatesConf.forEach(function (element) {
-    renderTemplatesDeps.push(element)
-  })
-
-  renderTemplatesConf.forEach(function (fileName) {
-    var templateData = {
-          bootstrap: {
-            cdn: '//netdna.bootstrapcdn.com/bootstrap/3.1.1/'
-          }
-        , dox: {}
-        , pkg: pkg
-        , readmeContent: '**TODO:** edit file ' + readmeContentPath
-        , readmeContentPath: readmeContentPath
-        }
-      , docs = {}
-
-    docs.header = _.template(readFileContent(path.join(rootDir, 'docs', '_header.html')), templateData)
-    docs.footer = _.template(readFileContent(path.join(rootDir, 'docs', '_footer.html')), templateData)
-    gutil.log(docs.header)
-
-    templateData.docs = docs
-
-    if (fs.existsSync(config.tasks.dox.outputfile))
-      templateData.dox = JSON.parse(readFileContent(config.tasks.dox.outputfile))
-
-    fs.readFile(readmeContentPath, {encoding: 'utf8'}, function (err, data) {
-      if (!err)
-        templateData.readmeContent = data
-    })
-
-    createTaskRenderTemplate(gulp, fileName, templateData)
-  })
-
-  gulp.task('rendertemplates', renderTemplatesDeps)
 
   gulp.task('scaffold', config.tasks.scaffold)
 
-  gulp.task('test', function () {
-    var conf = config.tasks.test
+  gulp.task('setup', config.tasks.setup)
 
-    gulp.src('test/*js')
-        .pipe(gmocha({reporter: conf.reporter}))
-  })
+  gulp.task('test', config.tasks.test)
 
   gulp.task('watch', function () {
     var conf = config.tasks.watch
