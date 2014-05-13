@@ -114,12 +114,19 @@ Overwrites *package.json* attributes.
 
   * test: mocha --bail --require should --reporter min
 
+### renderindex
+
+Generate *docs/index.html* from *README.md*
+
+### renderreadme
+
+Overwrite some *README.md* sections.
+
 ### rendertemplates
 
 Renders the following templates
 
   * docs/api.html
-  * README.md
 
 ### scaffold
 
@@ -136,12 +143,6 @@ Calls the following tasks
 Runs tests with [mocha](http://visionmedia.github.io/mocha/)
 
   * reporter: nyan
-
-### touchfiles
-
-Copies the following files, only if they did not exist yet
-
-  * docs/package.json
 
 ### watch
 

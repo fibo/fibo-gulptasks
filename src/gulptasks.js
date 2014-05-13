@@ -18,7 +18,7 @@ var baseDir = path.join(__dirname, '..')
 var configMd = path.join(baseDir , 'config.md')
   , rootDir  = path.join(baseDir , 'root')
 
-var config = mdconfFromFile(configMd).config
+var config = mdconf(readFileContent(configMd)).config
 
 var readmeContentPath = 'readmeContent.md'
 
@@ -89,24 +89,9 @@ function createTaskRenderTemplate (gulp, fileName, templateData) {
 }
 
 /*
- * Copies a file **only** if it does not exists.
- *
- * @api private
- * @param {Object} gulp
- * @param {String} fileName
- */
-
-function createTaskTouchFile (gulp, fileName) {
-  // Create an empty task if fileName already exists
-  if (fs.existsSync(fileName))
-    gulp.task(fileName, [])
-  else
-    createTaskCopyFile(gulp, fileName)
-}
-
-/*
  * Get content from file
  *
+ * @api private
  * @param {String} path
  * @return {String} fileContent
  */
@@ -165,24 +150,6 @@ function execCommand(command) {
 }
 
 /*
- * Read configuration parameters from markdown file
- *
- * @api private
- * @param fileName {String} /path/to/file.md
- */
-
-function mdconfFromFile (fileName) {
-  var fileContent
-
-  try {
-    fileContent = fs.readFileSync(fileName, {encoding: 'utf8'})
-  }
-  catch (err) { throw err }
-
-  return mdconf(fileContent)
-}
-
-/*
  * Create gulp tasks
  *
  * @param {Object} gulp
@@ -203,7 +170,7 @@ function gulptasks (gulp, pkg) {
   gulp.task('docs', config.tasks.docs)
 
   gulp.task('docsreload', function (next) {
-     gulp.src('./docs/*.html')
+     gulp.src(config.tasks.watch.docs.glob)
          .pipe(gconnect.reload())
   })
 
@@ -280,7 +247,7 @@ function gulptasks (gulp, pkg) {
   })
 
   var renderTemplatesConf = config.tasks.rendertemplates
-    , renderTemplatesDeps = ['copyfiles', 'touchfiles', 'dox']
+    , renderTemplatesDeps = ['copyfiles', 'dox']
 
   renderTemplatesConf.forEach(function (element) {
     renderTemplatesDeps.push(element)
@@ -288,7 +255,10 @@ function gulptasks (gulp, pkg) {
 
   renderTemplatesConf.forEach(function (fileName) {
     var templateData = {
-          dox: {}
+          bootstrap: {
+            cdn: '//netdna.bootstrapcdn.com/bootstrap/3.1.1/'
+          }
+        , dox: {}
         , pkg: pkg
         , readmeContent: '**TODO:** edit file ' + readmeContentPath
         , readmeContentPath: readmeContentPath
@@ -323,12 +293,6 @@ function gulptasks (gulp, pkg) {
         .pipe(gmocha({reporter: conf.reporter}))
   })
 
-  config.tasks.touchfiles.forEach(function (fileName) {
-    createTaskTouchFile(gulp, fileName)
-  })
-
-  gulp.task('touchfiles', config.tasks.touchfiles)
-
   gulp.task('watch', function () {
     var conf = config.tasks.watch
 
@@ -343,10 +307,6 @@ function gulptasks (gulp, pkg) {
         .on('change', logFileChanged)
   })
 }
-
-/*!
- * Export
- */
 
 module.exports = gulptasks
 
