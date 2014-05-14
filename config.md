@@ -153,11 +153,9 @@ Renders the following templates
 
 Calls the following tasks
 
-  * mkdirs
+  * generateignorefiles
   * generatefiles
-  * copyfiles
   * packagejson
-  * indexhtml
 
 ### setup
 
