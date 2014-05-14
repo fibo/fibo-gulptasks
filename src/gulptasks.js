@@ -188,16 +188,6 @@ function execCommand (command) {
  */
 
 function gulptasks (gulp, pkg) {
-  config.tasks.generatefiles.touch.forEach(function (fileName) {
-    createTaskGenerateFile(gulp, fileName, pkg, config, true)
-  })
-
-  config.tasks.generatefiles.overwrite.forEach(function (fileName) {
-    createTaskGenerateFile(gulp, fileName, pkg, config, false)
-  })
-
-  gulp.task('generatefiles', config.tasks.generatefiles.touch.concat(config.tasks.generatefiles.overwrite))
-
   gulp.task('docsreload', function (next) {
      gulp.src(config.tasks.watch.docs.glob)
          .pipe(gconnect.reload())
@@ -237,7 +227,17 @@ function gulptasks (gulp, pkg) {
 
   gulp.task('default', config.tasks.default)
 
-  gulp.task('dev', config.tasks.dev.tasks)
+  gulp.task('dev', config.tasks.dev.deps)
+
+  config.tasks.generatefiles.touch.forEach(function (fileName) {
+    createTaskGenerateFile(gulp, fileName, pkg, config, true)
+  })
+
+  config.tasks.generatefiles.overwrite.forEach(function (fileName) {
+    createTaskGenerateFile(gulp, fileName, pkg, config, false)
+  })
+
+  gulp.task('generatefiles', config.tasks.generatefiles.touch.concat(config.tasks.generatefiles.overwrite))
 
   gulp.task('generateignorefiles', config.tasks.generateignorefiles.deps)
 
@@ -292,6 +292,9 @@ function gulptasks (gulp, pkg) {
     }
 
     gulp.watch(conf.docs.glob, conf.docs.tasks)
+        .on('change', logFileChanged)
+
+    gulp.watch(conf.readme.glob, conf.readme.tasks)
         .on('change', logFileChanged)
 
     gulp.watch(conf.src.glob, conf.src.tasks)

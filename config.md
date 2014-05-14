@@ -12,7 +12,7 @@ Calls the following tasks
 
 ### dev
 
-#### tasks
+#### deps
 
   * docsserver
   * watch
@@ -56,6 +56,12 @@ Generate the following files
 
   * gitignore
   * npmignore
+
+### npminstall
+
+Install npm packages, launches
+
+  * npm install
 
 ### gitignore
 
@@ -141,18 +147,6 @@ Generate *docs/index.html* from *README.md*
 
 Overwrite some *README.md* sections.
 
-### renderdocs
-
-Calls the following tasks
-
-  * indexhtml
-
-### rendertemplates
-
-Renders the following templates
-
-  * docs/api.html
-
 ### scaffold
 
 Calls the following tasks
@@ -203,4 +197,16 @@ Execute the following
 ##### tasks
 
   * docsreload
+
+#### readme
+
+Watch *README.md*
+
+  * glob: README.md
+
+Execute the following
+
+##### tasks
+
+  * docs/index.html
 
