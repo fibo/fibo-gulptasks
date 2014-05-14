@@ -49,6 +49,7 @@ Generate the following files
 #### touch
 
   * README.md
+  * src/index.js
 
 ### generateignorefiles
 
@@ -77,6 +78,12 @@ Note that this task is treated a part and not in *copyfiles* cause adding a
 
 Existing *.gitignore* file will not be overwritten.
 
+### githubpages
+
+Update GitHub pages, launches
+
+  * git subtree push --prefix docs origin gh-pages
+
 ### gitpull
 
 Pull code from remote repo, launches
@@ -91,7 +98,7 @@ Push code to remote repo, launches
 
 ### jshint
 
-Lints sources in `src/*js`
+Lints sources
 
 ### mocha
 
@@ -121,14 +128,13 @@ Install npm packages, launches
 
 ### packagejson
 
-Overwrites *package.json* attributes.
+Overwrite *package.json* attributes.
 
-#### devDependencies
+#### devdependencies
 
   * gulp: ^3.6.2
   * mocha: ^1.18.2
   * should: ^3.1.4
-  * fibo-gulptasks: git://github.com/fibo/fibo-gulptasks
 
 #### license
 
@@ -139,17 +145,9 @@ Overwrites *package.json* attributes.
 
   * test: mocha --bail --require should --reporter min
 
-### indexhtml
-
-Generate *docs/index.html* from *README.md*
-
-### readme
-
-Overwrite some *README.md* sections.
-
 ### scaffold
 
-Calls the following tasks
+#### deps
 
   * generateignorefiles
   * generatefiles
@@ -160,6 +158,7 @@ Calls the following tasks
 #### deps
 
   * packagejson
+  * scaffold
   * gitpull
   * npminstall
 
@@ -176,11 +175,7 @@ Start watching files
 
 #### src
 
-Watch sources
-
-  * glob: src/**
-
-Execute the following
+  * glob: src/*js
 
 ##### tasks
 
@@ -188,11 +183,7 @@ Execute the following
 
 #### docs
 
-Watch docs
-
   * glob: docs/**
-
-Execute the following
 
 ##### tasks
 
@@ -200,13 +191,17 @@ Execute the following
 
 #### readme
 
-Watch *README.md*
-
   * glob: README.md
-
-Execute the following
 
 ##### tasks
 
   * docs/index.html
+
+#### test
+
+  * glob: test/*js
+
+##### tasks
+
+  * test
 

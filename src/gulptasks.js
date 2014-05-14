@@ -58,7 +58,7 @@ function createTaskGenerateIgnoreFile (gulp, taskName, rows) {
  * @param {String} fileName
  * @param {Object} pkg
  * @param {Object} config
- * @param {Bool} touch do not overwrite file
+ * @param {Boolean} touch do not overwrite file
  */
 
 function createTaskGenerateFile (gulp, fileName, pkg, config, touch) {
@@ -72,11 +72,13 @@ function createTaskGenerateFile (gulp, fileName, pkg, config, touch) {
           cdn: '//netdna.bootstrapcdn.com/bootstrap/3.1.1/'
         }
       , dox: {}
-      , document : {}
       , docs: {}
+      , my : {}
       , pkg: pkg
       , readme: {}
       }
+
+  templateData.my.filename = path.basename(fileName)
 
   // TODO il README potrebbe essere ancora non generato, metti a posto usando functional javascript e togli tutti i Sync
   if (fs.existsSync('./README.md'))
@@ -92,13 +94,9 @@ function createTaskGenerateFile (gulp, fileName, pkg, config, touch) {
   if (fs.existsSync(config.tasks.dox.outputfile))
     templateData.dox = JSON.parse(readFileContent(config.tasks.dox.outputfile))
 
-  templateData.document.basename = path.basename(fileName)
-
   gulp.task(taskName, function () {
      var dest = path.dirname(fileName)
        , src  = path.join(rootDir, fileName)
-
-     gutil.log('file ' + fileName)
 
      return gulp.src(src)
                 .pipe(gtemplate(templateData))
@@ -243,21 +241,25 @@ function gulptasks (gulp, pkg) {
 
   createTaskGenerateIgnoreFile(gulp, 'gitignore', config.tasks.gitignore)
 
+  gulp.task('githubpages', execCommand(config.tasks.githubpages))
+
   gulp.task('gitpull', execCommand(config.tasks.gitpull))
 
   gulp.task('gitpush', execCommand(config.tasks.gitpush))
 
-  gulp.task('jshint', function () {
-    gulp.src('src/*js')
+  gulp.task('jshint', function (next) {
+    gulp.src(config.tasks.watch.src.glob)
         .pipe(jshint())
         .pipe(jshint.reporter('default'))
+
+    next(err)
   })
 
   gulp.task('mocha', function () {
     var conf = config.tasks.mocha
 
-    gulp.src('test/*js')
-        .pipe(gmocha({reporter: conf.reporter}))
+    return gulp.src('test/*js')
+               .pipe(gmocha({reporter: conf.reporter}))
   })
 
   createTaskGenerateIgnoreFile(gulp, 'npmignore', config.tasks.npmignore)
@@ -278,7 +280,7 @@ function gulptasks (gulp, pkg) {
     writeFileContent('./package.json', JSON.stringify(pkg, null, 2))
   })
 
-  gulp.task('scaffold', config.tasks.scaffold)
+  gulp.task('scaffold', config.tasks.scaffold.deps)
 
   gulp.task('setup', config.tasks.setup.deps)
 

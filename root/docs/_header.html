@@ -17,14 +17,12 @@
   <div class="navbar navbar-default navbar-fixed-top navbar-inverse" role="navigation">
     <div class="container">
       <div class="navbar-header">
-        <a href=<% if (document.basename === 'index.html') { %><%="./"%><% } else { %><%="../"%><% } %> class="navbar-brand"><%= pkg.name %></a>
-        <%= document.basename %>
-        <!--a href="./" class="navbar-brand"><%= pkg.name %></a-->
+        <a href=<% if (my.filename === 'index.html') { %><%="./"%><% } else { %><%="../"%><% } %> class="navbar-brand"><%= pkg.name %></a>
       </div>
 
       <div class="navbar-collapse collapse">
         <ul class="nav navbar-nav">
-          <li class="active"><a href="./api.html">api</a></li>
+          <li <% if (my.filename === 'api.html') { %><% print('class="active"') %><% } %>><a href="./api.html">api</a></li>
         </ul>
 
         <ul class="nav navbar-nav navbar-right">

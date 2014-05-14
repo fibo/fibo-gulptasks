@@ -4,7 +4,7 @@
 
 [![Build Status](https://travis-ci.org//fibo-gulptasks.png?branch=master)](https://travis-ci.org//fibo-gulptasks.png?branch=master) [![NPM version](https://badge.fury.io/js/fibo-gulptasks.png)](http://badge.fury.io/js/fibo-gulptasks) [![Dependency Status](https://gemnasium.com//fibo-gulptasks.png)](https://gemnasium.com//fibo-gulptasks) [![Stories in Ready](https://badge.waffle.io//fibo-gulptasks.png?label=ready&title=Ready)](https://waffle.io//fibo-gulptasks)
 
-# Install
+# Installation
 
 Install packages
 

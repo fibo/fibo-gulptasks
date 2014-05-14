@@ -1,7 +1,28 @@
 <%= docs.header %>
 
 <% for (var section in dox) { %>
-<%= section.toString() %>
+  <h1><%= section %></h1>
+
+  <% dox[section].forEach(function(elem) { %>
+    <% if (!elem.ctx) elem.ctx = {} %>
+    <h2><%= elem.ctx.name %></h2>
+    <p><%= elem.description.full %></p>
+    <div>
+      <% elem.tags.forEach(function(tag) { %>
+        <% if (tag.type === 'param') { %>
+         <dl>
+           <dt>
+             <%= tag.name %>
+               <% tag.types.forEach(function(type) { %>
+                 <span class="badge"><%= type %></span>
+               <% }) %>
+           </dt>
+           <dd><%= tag.description %></dd>
+         </dl>
+        <% } %>
+      <% }) %>
+    </div>
+  <% }) %>
 <% } %>
 
 <%= docs.footer %>
