@@ -66,7 +66,13 @@ function createTaskGenerateFile (gulp, fileName, pkg, config, touch) {
   if (touch && fs.existsSync(fileName))
     return gulp.task(fileName, [])
 
-  var taskName = fileName
+  var badges = [
+        '[![Build Status](https://travis-ci.org/<%= pkg.user %>/<%= pkg.name %>.png?branch=master)](https://travis-ci.org/<%= pkg.user %>/<%= pkg.name %>.png?branch=master)'
+      , '[![NPM version](https://badge.fury.io/js/<%= pkg.name %>.png)](http://badge.fury.io/js/<%= pkg.name %>)'
+      , '[![Dependency Status](https://gemnasium.com/<%= pkg.user %>/<%= pkg.name %>.png)](https://gemnasium.com/<%= pkg.user %>/<%= pkg.name %>)'
+      , '[![Stories in Ready](https://badge.waffle.io/<%= pkg.user %>/<%= pkg.name %>.png?label=ready&title=Ready)](https://waffle.io/<%= pkg.user %>/<%= pkg.name %>)'
+      ]
+    , taskName = fileName
     , templateData = {
         bootstrap: {
           cdn: '//netdna.bootstrapcdn.com/bootstrap/3.1.1/'
@@ -80,7 +86,7 @@ function createTaskGenerateFile (gulp, fileName, pkg, config, touch) {
 
   templateData.my.filename = path.basename(fileName)
 
-  // TODO il README potrebbe essere ancora non generato, metti a posto usando functional javascript e togli tutti i Sync
+  templateData.badges = _.template(badges.join(' ')), templateData)
   if (fs.existsSync('./README.md'))
     templateData.readme.md = readFileContent('./README.md')
   else

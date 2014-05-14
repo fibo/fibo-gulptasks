@@ -130,7 +130,7 @@ Install npm packages, launches
 
 Overwrite *package.json* attributes.
 
-#### devdependencies
+#### devDependencies
 
   * gulp: ^3.6.2
   * mocha: ^1.18.2
