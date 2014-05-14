@@ -7,6 +7,13 @@
 
 Calls the following tasks
 
+  * setup
+  * dev
+
+### dev
+
+#### tasks
+
   * docsserver
   * watch
 
@@ -29,6 +36,8 @@ generates *outputFile*. File *index.js* is ignored. Directory containing
 
 Generate the following files
 
+#### overwrite
+
   * .jshintrc
   * .travis.yml
   * index.js
@@ -36,11 +45,14 @@ Generate the following files
   * docs/api.html
   * docs/index.html
   * test/require.js
-  * src/index.js
+
+#### touch
+
+  * README.md
 
 ### generateignorefiles
 
-Calls the following tasks
+#### deps
 
   * gitignore
   * npmignore
@@ -80,14 +92,6 @@ Lints sources in `src/*js`
 Runs tests with [mocha](http://visionmedia.github.io/mocha/)
 
   * reporter: nyan
-
-### mkdirs
-
-Create the following dirs
-
-  * src
-  * docs
-  * test
 
 ### npmignore
 
@@ -159,14 +163,15 @@ Calls the following tasks
 
 ### setup
 
-Calls the following tasks
+#### deps
 
+  * packagejson
   * gitpull
   * npminstall
 
 ### test
 
-Calls the following tasks
+#### deps
 
   * jshint
   * mocha

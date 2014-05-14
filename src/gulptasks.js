@@ -58,21 +58,32 @@ function createTaskGenerateIgnoreFile (gulp, taskName, rows) {
  * @param {String} fileName
  * @param {Object} pkg
  * @param {Object} config
+ * @param {Bool} touch do not overwrite file
  */
 
-function createTaskGenerateFile (gulp, fileName, pkg, config) {
+function createTaskGenerateFile (gulp, fileName, pkg, config, touch) {
+  // Create an empty task if fileName already exists
+  if (touch && fs.existsSync(fileName))
+    return gulp.task(fileName, [])
+
   var taskName = fileName
     , templateData = {
         bootstrap: {
           cdn: '//netdna.bootstrapcdn.com/bootstrap/3.1.1/'
         }
       , dox: {}
+      , document : {}
       , docs: {}
       , pkg: pkg
       , readme: {}
       }
 
-  templateData.readme.md = readFileContent('./README.md')
+  // TODO il README potrebbe essere ancora non generato, metti a posto usando functional javascript e togli tutti i Sync
+  if (fs.existsSync('./README.md'))
+    templateData.readme.md = readFileContent('./README.md')
+  else
+    templateData.readme.md = _.template(readFileContent(path.join(rootDir, 'README.md')), templateData)
+
   templateData.readme.html = marked(templateData.readme.md)
 
   templateData.docs.header = _.template(readFileContent(path.join(rootDir, 'docs', '_header.html')), templateData)
@@ -81,9 +92,13 @@ function createTaskGenerateFile (gulp, fileName, pkg, config) {
   if (fs.existsSync(config.tasks.dox.outputfile))
     templateData.dox = JSON.parse(readFileContent(config.tasks.dox.outputfile))
 
+  templateData.document.basename = path.basename(fileName)
+
   gulp.task(taskName, function () {
      var dest = path.dirname(fileName)
        , src  = path.join(rootDir, fileName)
+
+     gutil.log('file ' + fileName)
 
      return gulp.src(src)
                 .pipe(gtemplate(templateData))
@@ -173,11 +188,15 @@ function execCommand (command) {
  */
 
 function gulptasks (gulp, pkg) {
-  config.tasks.generatefiles.forEach(function (fileName) {
-    createTaskGenerateFile(gulp, fileName, pkg, config)
+  config.tasks.generatefiles.touch.forEach(function (fileName) {
+    createTaskGenerateFile(gulp, fileName, pkg, config, true)
   })
 
-  gulp.task('generatefiles', config.tasks.generatefiles)
+  config.tasks.generatefiles.overwrite.forEach(function (fileName) {
+    createTaskGenerateFile(gulp, fileName, pkg, config, false)
+  })
+
+  gulp.task('generatefiles', config.tasks.generatefiles.touch.concat(config.tasks.generatefiles.overwrite))
 
   gulp.task('docsreload', function (next) {
      gulp.src(config.tasks.watch.docs.glob)
@@ -218,7 +237,9 @@ function gulptasks (gulp, pkg) {
 
   gulp.task('default', config.tasks.default)
 
-  gulp.task('generateignorefiles', config.tasks.generateignorefiles)
+  gulp.task('dev', config.tasks.dev.tasks)
+
+  gulp.task('generateignorefiles', config.tasks.generateignorefiles.deps)
 
   createTaskGenerateIgnoreFile(gulp, 'gitignore', config.tasks.gitignore)
 
@@ -237,10 +258,6 @@ function gulptasks (gulp, pkg) {
 
     gulp.src('test/*js')
         .pipe(gmocha({reporter: conf.reporter}))
-  })
-
-  gulp.task('mkdirs', function () {
-    config.tasks.mkdirs.forEach(function (dir) { mkdirp(dir) })
   })
 
   createTaskGenerateIgnoreFile(gulp, 'npmignore', config.tasks.npmignore)
@@ -263,9 +280,9 @@ function gulptasks (gulp, pkg) {
 
   gulp.task('scaffold', config.tasks.scaffold)
 
-  gulp.task('setup', config.tasks.setup)
+  gulp.task('setup', config.tasks.setup.deps)
 
-  gulp.task('test', config.tasks.test)
+  gulp.task('test', config.tasks.test.deps)
 
   gulp.task('watch', function () {
     var conf = config.tasks.watch

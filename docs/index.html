@@ -4,7 +4,7 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>fibo</title>
+  <title>fibo-gulptasks</title>
 
   <!-- Bootstrap -->
   <!-- Latest compiled and minified CSS -->
@@ -17,7 +17,9 @@
   <div class="navbar navbar-default navbar-fixed-top navbar-inverse" role="navigation">
     <div class="container">
       <div class="navbar-header">
-        <a href="./" class="navbar-brand">fibo-gulptasks</a>
+        <a href=../ class="navbar-brand">fibo-gulptasks</a>
+        
+        <!--a href="./" class="navbar-brand">fibo-gulptasks</a-->
       </div>
 
       <div class="navbar-collapse collapse">
@@ -40,7 +42,30 @@
 
 
 
-[object Object]
+<h1 id="fibo-gulptasks">fibo-gulptasks</h1>
+<blockquote>
+<p>common gulp tasks among projects</p>
+</blockquote>
+<p><a href="https://travis-ci.org//fibo-gulptasks.png?branch=master"><img src="https://travis-ci.org//fibo-gulptasks.png?branch=master" alt="Build Status"></a> <a href="http://badge.fury.io/js/fibo-gulptasks"><img src="https://badge.fury.io/js/fibo-gulptasks.png" alt="NPM version"></a> <a href="https://gemnasium.com//fibo-gulptasks"><img src="https://gemnasium.com//fibo-gulptasks.png" alt="Dependency Status"></a> <a href="https://waffle.io//fibo-gulptasks"><img src="https://badge.waffle.io//fibo-gulptasks.png?label=ready&amp;title=Ready" alt="Stories in Ready"></a></p>
+<h1 id="installation">Installation</h1>
+<p>Install packages</p>
+<pre><code class="lang-bash">$ npm install -g gulp
+$ npm install --save-dev fibo/fibo-gulptasks
+$ npm install --save-dev fibo-gulptasks
+</code></pre>
+<p>Then create a <em>gulpfile.js</em></p>
+<pre><code class="lang-bash">$ cat &lt;&lt;EOF &gt; gulpfile.js
+
+var gulp = require(&#39;gulp&#39;)
+  , pkg  = require(&#39;./package.json&#39;)
+
+require(&#39;fibo-gulptasks&#39;)(gulp, pkg)
+
+EOF
+</code></pre>
+<h1 id="license">License</h1>
+<p><a href="http://fibo.mit-license.org/">MIT</a></p>
+
 
   </div> <!-- div class="container" -->
 
