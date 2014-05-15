@@ -87,7 +87,7 @@ function createTaskGenerateFile (gulp, fileName, pkg, config, touch) {
 
   templateData.my.filename = path.basename(fileName)
 
-  templateData.badges = _.template(badges.join(' ')), templateData)
+  templateData.badges = _.template(badges.join(' '), templateData)
   if (fs.existsSync('./README.md'))
     templateData.readme.md = readFileContent('./README.md')
   else
