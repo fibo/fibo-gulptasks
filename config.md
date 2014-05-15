@@ -7,7 +7,6 @@
 
 Calls the following tasks
 
-  * setup
   * dev
 
 ### dev
@@ -24,6 +23,10 @@ Gulp-connect server with options
   * root: docs
   * livereload: true **(hardcoded)**
 
+#### deps
+
+  * generatedocs
+
 ### dox
 
 Parses *.js* sources with [dox](https://github.com/visionmedia/dox) and
@@ -32,24 +35,39 @@ generates *outputFile*. File *index.js* is ignored. Directory containing
 
   * outputfile: docs/json/dox.json
 
-### generatefiles
+#### deps
 
-Generate the following files
+  * test
 
-#### overwrite
+### generatedocs
+
+#### deps
+
+  * dox
+  * touch
+
+#### files
+
+  * docs/api.html
+  * docs/index.html
+
+### touch
+
+Generate the following files if they do not exists yet
+
+#### files
 
   * .jshintrc
   * .travis.yml
-  * index.js
-  * gulpfile.js
-  * docs/api.html
-  * docs/index.html
-  * test/require.js
-
-#### touch
-
   * README.md
   * src/index.js
+  * index.js
+  * test/require.js
+
+#### deps
+
+  * generateignorefiles
+  * packagejson
 
 ### generateignorefiles
 
@@ -57,12 +75,6 @@ Generate the following files
 
   * gitignore
   * npmignore
-
-### npminstall
-
-Install npm packages, launches
-
-  * npm install
 
 ### gitignore
 
@@ -124,7 +136,8 @@ Existing *.npmignore* file will not be overwritten.
 
 Install npm packages, launches
 
-  * npm install
+  * npm install mocha --save-dev
+  * npm install should --save-dev
 
 ### packagejson
 
@@ -145,21 +158,19 @@ Overwrite *package.json* attributes.
 
   * test: mocha --bail --require should --reporter min
 
-### scaffold
+### deploy
 
 #### deps
 
-  * generateignorefiles
-  * generatefiles
-  * packagejson
+  * test
 
 ### setup
 
 #### deps
 
   * gitpull
-  * packagejson
-  * scaffold
+  * npminstall
+  * touch
 
 ### test
 
