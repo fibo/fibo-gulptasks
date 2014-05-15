@@ -157,10 +157,9 @@ Overwrite *package.json* attributes.
 
 #### deps
 
+  * gitpull
   * packagejson
   * scaffold
-  * gitpull
-  * npminstall
 
 ### test
 

@@ -9,7 +9,7 @@
 With [npm](https://npmjs.org/) do
 
 ```bash
-npm install <%= pkg.name %>
+$ npm install <%= pkg.name %>
 ```
 
 # License
