@@ -18,7 +18,7 @@
   <div class="navbar navbar-default navbar-fixed-top navbar-inverse" role="navigation">
     <div class="container">
       <div class="navbar-header">
-        <a href=<% if (my.filename === 'index.html') { %><%="./"%><% } else { %><%="../"%><% } %> class="navbar-brand"><%= pkg.name %></a>
+        <a href="./" %> class="navbar-brand"><%= pkg.name %></a>
       </div>
 
       <div class="navbar-collapse collapse">
@@ -27,9 +27,9 @@
         </ul>
 
         <ul class="nav navbar-nav navbar-right">
-          <li><a href="https://github.com/<%= pkg.author %>/<%= pkg.name %>">repo</a></li>
+          <li><a href="https://github.com/<%= pkg.author.name %>/<%= pkg.name %>">repo</a></li>
 
-          <li><a href="http://g14n.info">about me</a></li>
+	  <li><a href="<%= pkg.author.url %>" >about me</a></li>
         </ul>
       </div>
     </div> <!-- div class="container" -->

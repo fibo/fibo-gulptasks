@@ -12,7 +12,14 @@ With [npm](https://npmjs.org/) do
 $ npm install <%= pkg.name %>
 ```
 
+# Development
+
+Install [fibo/fibo-gulptasks][1] for development tasks automation.
+
 # License
 
-[<%= pkg.license[0].type %>](<%= pkg.license[0].url %>)
+[<%= pkg.license[0].type %>][2]
+
+[1]: https://github.com/<%= pkg.author.name %>/fibo-gulptasks
+[2]: <%= pkg.license[0].url %>
 

@@ -1,6 +1,11 @@
 
 # config
 
+## Author
+
+  * name: fibo
+  * url: http://g14n.info
+
 ## Tasks
 
 ### default
@@ -136,18 +141,11 @@ Existing *.npmignore* file will not be overwritten.
 
 Install npm packages, launches
 
-  * npm install mocha --save-dev
-  * npm install should --save-dev
+  * npm install mocha should --save-dev
 
 ### packagejson
 
 Overwrite *package.json* attributes.
-
-#### devDependencies
-
-  * gulp: ^3.6.2
-  * mocha: ^1.18.2
-  * should: ^3.1.4
 
 #### license
 

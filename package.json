@@ -12,7 +12,8 @@
     "url": "git://github.com/fibo/fibo-gulptasks.git"
   },
   "author": {
-    "name": "fibo"
+    "name": "fibo",
+    "url": "http://g14n.info"
   },
   "keywords": [
     "build"
@@ -34,9 +35,11 @@
     "gulp": "^3.6.2",
     "gulp-connect": "^2.0.5",
     "lodash": "^2.4.1",
-    "marked": "^0.3.2",
+    "marked": "^0.3.2"
+  },
+  "homepage": "http://g14n.info/fibo-gulptasks",
+  "devDependencies": {
     "should": "^3.3.1",
     "mocha": "^1.18.2"
-  },
-  "homepage": "http://www.g14n.info/fibo-gulptasks"
+  }
 }

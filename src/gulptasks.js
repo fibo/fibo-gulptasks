@@ -290,7 +290,9 @@ function gulptasks (gulp, pkg) {
   gulp.task('packagejson', function (next) {
     var conf = config.tasks.packagejson
 
-    pkg.homepage = 'http://www.g14n.info/' + pkg.name
+    pkg.author = config.author
+
+    pkg.homepage = config.author.url + '/' + pkg.name
 
     pkg.license = [ conf.license ]
 

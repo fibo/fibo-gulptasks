@@ -27,7 +27,14 @@ require('fibo-gulptasks')(gulp, pkg)
 EOF
 ```
 
+# Development
+
+Install [fibo/fibo-gulptasks][1] for development tasks automation.
+
 # License
 
-[MIT](http://fibo.mit-license.org/)
+[MIT][2]
+
+[1]: https://github.com/fibo/fibo-gulptasks
+[2]: http://fibo.mit-license.org/
 

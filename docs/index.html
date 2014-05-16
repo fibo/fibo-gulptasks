@@ -2,7 +2,7 @@
 <head>
   <meta charset="utf-8">
 
-  <meta name="keywords" content="Casati,Gianluca,fibo">
+  <meta name="keywords" content="build">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <title>fibo-gulptasks</title>
@@ -18,7 +18,7 @@
   <div class="navbar navbar-default navbar-fixed-top navbar-inverse" role="navigation">
     <div class="container">
       <div class="navbar-header">
-        <a href=./ class="navbar-brand">fibo-gulptasks</a>
+        <a href="./" %> class="navbar-brand">fibo-gulptasks</a>
       </div>
 
       <div class="navbar-collapse collapse">
@@ -27,9 +27,9 @@
         </ul>
 
         <ul class="nav navbar-nav navbar-right">
-          <li><a href="https://github.com/[object Object]/fibo-gulptasks">repo</a></li>
+          <li><a href="https://github.com/fibo/fibo-gulptasks">repo</a></li>
 
-          <li><a href="http://g14n.info">about me</a></li>
+	  <li><a href="http://g14n.info" >about me</a></li>
         </ul>
       </div>
     </div> <!-- div class="container" -->
@@ -45,22 +45,13 @@
 <blockquote>
 <p>common gulp tasks among projects</p>
 </blockquote>
-<p><a href="https://travis-ci.org/fibo/fibo-gulptasks.png?branch=master"><img src="https://travis-ci.org/fibo/fibo-gulptasks.png?branch=master" alt="Build Status"></a> <a href="https://gemnasium.com/fibo/fibo-gulptasks"><img src="https://gemnasium.com/fibo/fibo-gulptasks.png" alt="Dependency Status"></a></p>
-<p><img src="http://www.g14n.info/fibo-gulptasks/img/tasks-flow.png" alt="tasks-flow!"></p>
+<p><a href="http://badge.fury.io/js/fibo-gulptasks"><img src="https://badge.fury.io/js/fibo-gulptasks.png" alt="NPM version"></a> <a href="https://travis-ci.org/fibo/fibo-gulptasks.png?branch=master"><img src="https://travis-ci.org/fibo/fibo-gulptasks.png?branch=master" alt="Build Status"></a> <a href="https://gemnasium.com/fibo/fibo-gulptasks"><img src="https://gemnasium.com/fibo/fibo-gulptasks.png" alt="Dependency Status"></a> <a href="https://waffle.io/fibo/fibo-gulptasks"><img src="https://badge.waffle.io/fibo/fibo-gulptasks.png?label=ready&amp;title=Ready" alt="Stories in Ready"></a></p>
 <h1 id="installation">Installation</h1>
 <p>With <a href="https://npmjs.org/">npm</a> do</p>
-<pre><code class="lang-bash">$ npm install -g gulp
-$ npm install --save-dev gulp
-$ npm install fibo/fibo-gulptasks
+<pre><code class="lang-bash">$ npm install fibo-gulptasks
 </code></pre>
-<p>Then create a <em>gulpfile.js</em></p>
-<pre><code class="lang-bash">$ cat &lt;&lt;EOF &gt; gulpfile.js
-var gulp = require(&#39;gulp&#39;)
-  , pkg  = require(&#39;./package.json&#39;)
-
-require(&#39;fibo-gulptasks&#39;)(gulp, pkg)
-EOF
-</code></pre>
+<h1 id="development">Development</h1>
+<p>Install <a href="https://github.com/fibo/fibo-gulptasks">fibo/fibo-gulptasks</a> for development tasks automation.</p>
 <h1 id="license">License</h1>
 <p><a href="http://fibo.mit-license.org/">MIT</a></p>
 
