@@ -71,6 +71,7 @@ function createTaskGenerateFile (gulp, fileName, pkg, config, touch) {
     return gulp.task(fileName, emptyTask)
 
   // TODO if pkg is private do not add version (first) badge
+  // TODO ## Template section in config.md
   var badges = [
         '[![NPM version](https://badge.fury.io/js/<%= pkg.name %>.png)](http://badge.fury.io/js/<%= pkg.name %>)'
       , '[![Build Status](https://travis-ci.org/<%= pkg.author.name %>/<%= pkg.name %>.png?branch=master)](https://travis-ci.org/<%= pkg.author.name %>/<%= pkg.name %>.png?branch=master)'
@@ -84,14 +85,21 @@ function createTaskGenerateFile (gulp, fileName, pkg, config, touch) {
         }
       , dox: {}
       , docs: {}
+      , meta: {
+          keywords: ['Casati', 'Gianluca', 'fibo']
+        }
       , my : {}
       , pkg: pkg
       , readme: {}
       }
 
+  if (pkg.keywords)
+    templateData.meta.keywords = pkg.keywords
+
   templateData.my.filename = path.basename(fileName)
 
   templateData.badges = _.template(badges.join(' '), templateData)
+
   if (fs.existsSync('./README.md'))
     templateData.readme.md = readFileContent('./README.md')
   else
