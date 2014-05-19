@@ -172,10 +172,17 @@ function doxParse (source) {
 
   doxObj = dox.parseComments(fileContent, doxOptions)
 
-  doxObj.forEach(function (elem, index) {
-    doxObj[index].description.body    = marked(elem.description.body)
-    doxObj[index].description.full    = marked(elem.description.full)
-    doxObj[index].description.summary = marked(elem.description.summary)
+  doxObj.forEach(function (elem, i) {
+    doxObj[i].description.body    = marked(elem.description.body)
+    doxObj[i].description.full    = marked(elem.description.full)
+    doxObj[i].description.summary = marked(elem.description.summary)
+
+    if (elem.tags)
+      elem.tags.forEach(function(tag, j) {
+        if (doxObj[i].tags[j].description)
+          doxObj[i].tags[j].description = marked(doxObj[i].tags[j].description)
+      })
+
   })
 
   return doxObj
@@ -208,8 +215,8 @@ function execCommand (command) {
 
 /* Create gulp tasks
  *
- * @param {Object} gulp
- * @param {Object} pkg object from package.json
+ * @param {Object} gulp object from `require(gulp)`
+ * @param {Object} pkg data from package.json
  */
 
 function gulptasks (gulp, pkg) {
@@ -285,7 +292,7 @@ function gulptasks (gulp, pkg) {
   gulp.task('mocha', function () {
     var conf = config.tasks.mocha
 
-    return gulp.src('test/*js')
+    return gulp.src(config.tasks.watch.test.glob)
                .pipe(gmocha({reporter: conf.reporter}))
   })
 
@@ -331,6 +338,9 @@ function gulptasks (gulp, pkg) {
         .on('change', logFileChanged)
 
     gulp.watch(conf.src.glob, conf.src.tasks)
+        .on('change', logFileChanged)
+
+    gulp.watch(conf.test.glob, conf.test.tasks)
         .on('change', logFileChanged)
   })
 }
