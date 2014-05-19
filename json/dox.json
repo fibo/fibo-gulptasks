@@ -28,7 +28,7 @@
                         "Array"
                     ],
                     "name": "rows",
-                    "description": "file content"
+                    "description": "<p>file content</p>\n"
                 }
             ],
             "description": {
@@ -97,7 +97,7 @@
                         "Boolean"
                     ],
                     "name": "touch",
-                    "description": "do not overwrite file"
+                    "description": "<p>do not overwrite file</p>\n"
                 }
             ],
             "description": {
@@ -133,7 +133,7 @@
                     "types": [
                         "String"
                     ],
-                    "description": "fileContent"
+                    "description": "<p>fileContent</p>\n"
                 }
             ],
             "description": {
@@ -199,14 +199,14 @@
                         "String"
                     ],
                     "name": "source",
-                    "description": "/path/to/input/file.js"
+                    "description": "<p>/path/to/input/file.js</p>\n"
                 },
                 {
                     "type": "return",
                     "types": [
                         "Object"
                     ],
-                    "description": "doxObj"
+                    "description": "<p>doxObj</p>\n"
                 }
             ],
             "description": {
@@ -216,7 +216,7 @@
             },
             "isPrivate": true,
             "ignore": false,
-            "code": "function doxParse (source) {\n  gutil.log('doxParse ' + source)\n\n  var doxObj\n    , doxOptions = {debug: false, raw: true}\n    , fileContent = readFileContent(source)\n\n  doxObj = dox.parseComments(fileContent, doxOptions)\n\n  doxObj.forEach(function (elem, index) {\n    doxObj[index].description.body    = marked(elem.description.body)\n    doxObj[index].description.full    = marked(elem.description.full)\n    doxObj[index].description.summary = marked(elem.description.summary)\n  })\n\n  return doxObj\n}",
+            "code": "function doxParse (source) {\n  gutil.log('doxParse ' + source)\n\n  var doxObj\n    , doxOptions = {debug: false, raw: true}\n    , fileContent = readFileContent(source)\n\n  doxObj = dox.parseComments(fileContent, doxOptions)\n\n  doxObj.forEach(function (elem, i) {\n    doxObj[i].description.body    = marked(elem.description.body)\n    doxObj[i].description.full    = marked(elem.description.full)\n    doxObj[i].description.summary = marked(elem.description.summary)\n\n    if (elem.tags)\n      elem.tags.forEach(function(tag, j) {\n        if (doxObj[i].tags[j].description)\n          doxObj[i].tags[j].description = marked(doxObj[i].tags[j].description)\n      })\n\n  })\n\n  return doxObj\n}",
             "ctx": {
                 "type": "function",
                 "name": "doxParse",
@@ -242,7 +242,7 @@
                     "types": [
                         "Function"
                     ],
-                    "description": "execChild"
+                    "description": "<p>execChild</p>\n"
                 }
             ],
             "description": {
@@ -267,7 +267,7 @@
                         "Object"
                     ],
                     "name": "gulp",
-                    "description": ""
+                    "description": "<p>object from <code>require(gulp)</code></p>\n"
                 },
                 {
                     "type": "param",
@@ -275,7 +275,7 @@
                         "Object"
                     ],
                     "name": "pkg",
-                    "description": "object from package.json"
+                    "description": "<p>data from package.json</p>\n"
                 }
             ],
             "description": {
@@ -285,7 +285,12 @@
             },
             "isPrivate": false,
             "ignore": false,
-            "code": "s')\n               .pipe(gmocha({reporter: conf.reporter}))\n  })\n\n  createTaskGenerateIgnoreFile(gulp, 'npmignore', config.tasks.npmignore)\n\n  gulp.task('npminstall', execCommand(config.tasks.npminstall))\n\n  gulp.task('packagejson', function (next) {\n    var conf = config.tasks.packagejson\n\n    pkg.author = config.author\n\n    pkg.homepage = config.author.url + '/' + pkg.name\n\n    pkg.license = [ conf.license ]\n\n    pkg.scripts.test = conf.scripts.test\n\n    writeFileContent('./package.json', JSON.stringify(pkg, null, 2))\n\n    next()\n  })\n\n  var macroTasks = ['dev', 'deploy' ,'setup' , 'test']\n\n  macroTasks.forEach(function(taskName) {\n    var deps = config.tasks[taskName].deps || []\n\n    gulp.task(taskName, deps, emptyTask)\n  })\n\n  gulp.task('watch', function () {\n    var conf = config.tasks.watch\n\n    function logFileChanged (event) {\n      gutil.log('File '+event.path+' was '+event.type+', running tasks...')\n    }\n\n    gulp.watch(conf.docs.glob, conf.docs.tasks)\n        .on('change', logFileChanged)\n\n    gulp.watch(conf.readme.glob, conf.readme.tasks)\n        .on('change', logFileChanged)\n\n    gulp.watch(conf.src.glob, conf.src.tasks)\n        .on('change', logFileChanged)\n  })\n}\n\nmodule.exports = gulptasks"
+            "code": "function gulptasks (gulp, pkg) {\n  gulp.task('default', config.tasks.default)\n\n  gulp.task('docsreload', function () {\n     gulp.src(config.tasks.watch.docs.glob)\n         .pipe(gconnect.reload())\n  })\n\n  gulp.task('docsserver', config.tasks.docsserver.deps, function () {\n    var conf = config.tasks.docsserver\n\n    gconnect.server({\n      root: conf.root,\n      livereload: true\n    })\n  })\n\n  gulp.task('dox', config.tasks.dox.deps, function (next) {\n    var conf    = config.tasks.dox\n      , doxData = {}\n      , srcDir  = 'src'\n\n    var files = fs.readdirSync(srcDir)\n\n    files.forEach(function (fileName) {\n      // ignore index.js\n      if (fileName === 'index.js')\n        return\n\n      // All input files should have extension .js\n      var source = path.join(srcDir, fileName)\n      var item = path.basename(fileName, '.js')\n\n      var doxObj = doxParse(source)\n      doxData[item] = doxObj\n    })\n\n    writeFileContent(conf.outputfile, JSON.stringify(doxData, null, 4))\n\n    next()\n  })\n\n  config.tasks.touch.files.forEach(function (fileName) {\n    createTaskGenerateFile(gulp, fileName, pkg, config, true)\n  })\n\n  gulp.task('touch', config.tasks.touch.deps.concat(config.tasks.touch.files), emptyTask)\n\n  config.tasks.generatedocs.files.forEach(function (fileName) {\n    createTaskGenerateFile(gulp, fileName, pkg, config, false)\n  })\n\n  gulp.task('generatedocs', config.tasks.generatedocs.deps.concat(config.tasks.generatedocs.files), emptyTask)\n\n  gulp.task('generateignorefiles', config.tasks.generateignorefiles.deps, emptyTask)\n\n  createTaskGenerateIgnoreFile(gulp, 'gitignore', config.tasks.gitignore)\n\n  gulp.task('githubpages', execCommand(config.tasks.githubpages))\n\n  gulp.task('gitpull', execCommand(config.tasks.gitpull))\n\n  gulp.task('gitpush', execCommand(config.tasks.gitpush))\n\n  gulp.task('jshint', function () {\n    return gulp.src(config.tasks.watch.src.glob)\n               .pipe(jshint())\n               .pipe(jshint.reporter('default'))\n  })\n\n  gulp.task('mocha', function () {\n    var conf = config.tasks.mocha\n\n    return gulp.src(config.tasks.watch.test.glob)\n               .pipe(gmocha({reporter: conf.reporter}))\n  })\n\n  createTaskGenerateIgnoreFile(gulp, 'npmignore', config.tasks.npmignore)\n\n  gulp.task('npminstall', execCommand(config.tasks.npminstall))\n\n  gulp.task('packagejson', function (next) {\n    var conf = config.tasks.packagejson\n\n    pkg.author = config.author\n\n    pkg.homepage = config.author.url + '/' + pkg.name\n\n    pkg.license = [ conf.license ]\n\n    pkg.scripts.test = conf.scripts.test\n\n    writeFileContent('./package.json', JSON.stringify(pkg, null, 2))\n\n    next()\n  })\n\n  var macroTasks = ['dev', 'deploy' ,'setup' , 'test']\n\n  macroTasks.forEach(function(taskName) {\n    var deps = config.tasks[taskName].deps || []\n\n    gulp.task(taskName, deps, emptyTask)\n  })\n\n  gulp.task('watch', function () {\n    var conf = config.tasks.watch\n\n    function logFileChanged (event) {\n      gutil.log('File '+event.path+' was '+event.type+', running tasks...')\n    }\n\n    gulp.watch(conf.docs.glob, conf.docs.tasks)\n        .on('change', logFileChanged)\n\n    gulp.watch(conf.readme.glob, conf.readme.tasks)\n        .on('change', logFileChanged)\n\n    gulp.watch(conf.src.glob, conf.src.tasks)\n        .on('change', logFileChanged)\n\n    gulp.watch(conf.test.glob, conf.test.tasks)\n        .on('change', logFileChanged)\n  })\n}\n\nmodule.exports = gulptasks",
+            "ctx": {
+                "type": "function",
+                "name": "gulptasks",
+                "string": "gulptasks()"
+            }
         }
     ]
 }
