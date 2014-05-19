@@ -1,28 +1,65 @@
 <%= docs.header %>
 
 <% for (var section in dox) { %>
-  <h1><%= section %></h1>
+  <section>
+    <h1><%= section %></h1>
 
-  <% dox[section].forEach(function(elem) { %>
-    <% if (!elem.ctx) elem.ctx = {} %>
-    <h2><%= elem.ctx.name %></h2>
-    <p><%= elem.description.full %></p>
-    <div>
-      <% elem.tags.forEach(function(tag) { %>
-        <% if (tag.type === 'param') { %>
-         <dl>
-           <dt>
-             <%= tag.name %>
-               <% tag.types.forEach(function(type) { %>
-                 <span class="badge"><%= type %></span>
-               <% }) %>
-           </dt>
-           <dd><%= tag.description %></dd>
-         </dl>
-        <% } %>
-      <% }) %>
-    </div>
-  <% }) %>
+    <% dox[section].forEach(function(elem) { %>
+      <% if (elem.isPrivate) return %>
+      <% if (!elem.ctx) elem.ctx = {} %>
+      <% if (!elem.description) elem.description = {} %>
+      <% body = elem.description.body || 'body' %>
+      <% name = elem.ctx.string || 'name' %>
+      <% summary = elem.description.summary || 'summary' %>
+
+      <h2><%= name %></h2>
+
+      <p><%= summary %></p>
+
+      <div class="table-responsive">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>param</th>
+              <th>type</th>
+              <th></th>
+              <th></th>
+              <th></th>
+              <th></th>
+              <th></th>
+              <th></th>
+              <th></th>
+              <th></th>
+              <th></th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <% elem.tags.forEach(function(tag) { %>
+              <% if (tag.type === 'param') { %>
+                <tr>
+                  <th>
+                    <%= tag.name %>
+                  </th>
+                  <td>
+                    <% tag.types.forEach(function(type) { %>
+                      <span class="badge"><%= type %></span>
+                    <% }) %>
+                  </td>
+                  <td colspan="10">
+                    <% if (tag.description) { %>
+                      <%= tag.description %>
+                    <% } %>
+                  </td>
+                <tr>
+              <% } %>
+            <% }) %>
+          </tbody>
+        </table>
+      </div>
+    <% }) %>
+
+  </section>
 <% } %>
 
 <%= docs.footer %>

@@ -32,9 +32,9 @@
                 }
             ],
             "description": {
-                "full": "Generate *ignore* files\n\nUse instead of *createTaskGenerateFile* cause *.npmignore* and *.gitignore* \ncannot be stored as raw files.\n\nFiles will not be overwritten.\n",
-                "summary": "Generate *ignore* files",
-                "body": "Use instead of *createTaskGenerateFile* cause *.npmignore* and *.gitignore* \ncannot be stored as raw files.\n\nFiles will not be overwritten.\n"
+                "full": "<p>Generate <em>ignore</em> files</p>\n<p>Use instead of <em>createTaskGenerateFile</em> cause <em>.npmignore</em> and <em>.gitignore</em> \ncannot be stored as raw files.</p>\n<p>Files will not be overwritten.</p>\n",
+                "summary": "<p>Generate <em>ignore</em> files</p>\n",
+                "body": "<p>Use instead of <em>createTaskGenerateFile</em> cause <em>.npmignore</em> and <em>.gitignore</em> \ncannot be stored as raw files.</p>\n<p>Files will not be overwritten.</p>\n"
             },
             "isPrivate": true,
             "ignore": false,
@@ -101,8 +101,8 @@
                 }
             ],
             "description": {
-                "full": "Render files from template",
-                "summary": "Render files from template",
+                "full": "<p>Render files from template</p>\n",
+                "summary": "<p>Render files from template</p>\n",
                 "body": ""
             },
             "isPrivate": true,
@@ -137,8 +137,8 @@
                 }
             ],
             "description": {
-                "full": "Get content from file\n",
-                "summary": "Get content from file\n",
+                "full": "<p>Get content from file</p>\n",
+                "summary": "<p>Get content from file</p>\n",
                 "body": ""
             },
             "isPrivate": true,
@@ -174,8 +174,8 @@
                 }
             ],
             "description": {
-                "full": "Write content to file\n",
-                "summary": "Write content to file\n",
+                "full": "<p>Write content to file</p>\n",
+                "summary": "<p>Write content to file</p>\n",
                 "body": ""
             },
             "isPrivate": true,
@@ -210,13 +210,13 @@
                 }
             ],
             "description": {
-                "full": "Parse source comments with dox\n",
-                "summary": "Parse source comments with dox\n",
+                "full": "<p>Parse source comments with dox</p>\n",
+                "summary": "<p>Parse source comments with dox</p>\n",
                 "body": ""
             },
             "isPrivate": true,
             "ignore": false,
-            "code": "function doxParse (source) {\n  gutil.log('doxParse ' + source)\n\n  var doxObj\n    , doxOptions = {debug: false, raw: true}\n    , fileContent = readFileContent(source)\n\n  doxObj = dox.parseComments(fileContent, doxOptions)\n\n  doxObj.forEach(function (elem, index) {\n    console.log(index)\n    console.log(elem.description.summary)\n    doxObj[index].description.body    = marked(elem.description.body)\n    doxObj[index].description.full    = marked(elem.description.full)\n    doxObj[index].description.summary = marked(elem.description.summary)\n  })\n\n  return doxObj\n}",
+            "code": "function doxParse (source) {\n  gutil.log('doxParse ' + source)\n\n  var doxObj\n    , doxOptions = {debug: false, raw: true}\n    , fileContent = readFileContent(source)\n\n  doxObj = dox.parseComments(fileContent, doxOptions)\n\n  doxObj.forEach(function (elem, index) {\n    doxObj[index].description.body    = marked(elem.description.body)\n    doxObj[index].description.full    = marked(elem.description.full)\n    doxObj[index].description.summary = marked(elem.description.summary)\n  })\n\n  return doxObj\n}",
             "ctx": {
                 "type": "function",
                 "name": "doxParse",
@@ -246,9 +246,9 @@
                 }
             ],
             "description": {
-                "full": "Executes given command\n\n```\nexecCommand('npm install')()\n```\n",
-                "summary": "Executes given command",
-                "body": "```\nexecCommand('npm install')()\n```\n"
+                "full": "<p>Executes given command</p>\n<pre><code>execCommand(&#39;npm install&#39;)()\n</code></pre>",
+                "summary": "<p>Executes given command</p>\n",
+                "body": "<pre><code>execCommand(&#39;npm install&#39;)()\n</code></pre>"
             },
             "isPrivate": true,
             "ignore": false,
@@ -279,8 +279,8 @@
                 }
             ],
             "description": {
-                "full": "Create gulp tasks\n",
-                "summary": "Create gulp tasks\n",
+                "full": "<p>Create gulp tasks</p>\n",
+                "summary": "<p>Create gulp tasks</p>\n",
                 "body": ""
             },
             "isPrivate": false,
