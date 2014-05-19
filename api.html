@@ -8,17 +8,25 @@
   <title>fibo-gulptasks</title>
 
   <!-- Bootstrap -->
-  <!-- Latest compiled and minified CSS -->
-  <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1//css/bootstrap.min.css">
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1//css/bootstrap.min.css">
 
-  <!-- Optional theme -->
-  <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1//css/bootstrap-theme.min.css">
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1//css/bootstrap-theme.min.css">
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1//js/bootstrap.min.js"></script>
+  <!-- Bootstrap END -->
+
 </head>
 <body style>
   <div class="navbar navbar-default navbar-fixed-top navbar-inverse" role="navigation">
     <div class="container">
       <div class="navbar-header">
-        <a href="./" %> class="navbar-brand">fibo-gulptasks</a>
+        <a href="./" class="navbar-brand">fibo-gulptasks</a>
       </div>
 
       <div class="navbar-collapse collapse">
@@ -42,283 +50,88 @@
 
 
 
-  <h1>gulptasks</h1>
+  <section>
+    <h1>gulptasks</h1>
 
-  
     
-    <h2>createTaskGenerateIgnoreFile</h2>
-    <p>Generate *ignore* files
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
 
-Use instead of *createTaskGenerateFile* cause *.npmignore* and *.gitignore* 
-cannot be stored as raw files.
+      <h2>name</h2>
 
-Files will not be overwritten.
+      <p><p>Create gulp tasks</p>
 </p>
-    <div>
-      
-        
-      
-        
-         <dl>
-           <dt>
-             gulp
-               
-                 <span class="badge">Object</span>
-               
-           </dt>
-           <dd></dd>
-         </dl>
-        
-      
-        
-         <dl>
-           <dt>
-             taskName
-               
-                 <span class="badge">String</span>
-               
-           </dt>
-           <dd></dd>
-         </dl>
-        
-      
-        
-         <dl>
-           <dt>
-             rows
-               
-                 <span class="badge">Array</span>
-               
-           </dt>
-           <dd>file content</dd>
-         </dl>
-        
-      
-    </div>
-  
-    
-    <h2>createTaskGenerateFile</h2>
-    <p>Render files from template</p>
-    <div>
-      
-        
-      
-        
-         <dl>
-           <dt>
-             gulp
-               
-                 <span class="badge">Object</span>
-               
-           </dt>
-           <dd></dd>
-         </dl>
-        
-      
-        
-         <dl>
-           <dt>
-             taskName
-               
-                 <span class="badge">String</span>
-               
-           </dt>
-           <dd></dd>
-         </dl>
-        
-      
-        
-         <dl>
-           <dt>
-             fileName
-               
-                 <span class="badge">String</span>
-               
-           </dt>
-           <dd></dd>
-         </dl>
-        
-      
-        
-         <dl>
-           <dt>
-             pkg
-               
-                 <span class="badge">Object</span>
-               
-           </dt>
-           <dd></dd>
-         </dl>
-        
-      
-        
-         <dl>
-           <dt>
-             config
-               
-                 <span class="badge">Object</span>
-               
-           </dt>
-           <dd></dd>
-         </dl>
-        
-      
-        
-         <dl>
-           <dt>
-             touch
-               
-                 <span class="badge">Boolean</span>
-               
-           </dt>
-           <dd>do not overwrite file</dd>
-         </dl>
-        
-      
-    </div>
-  
-    
-    <h2>readFileContent</h2>
-    <p>Get content from file
-</p>
-    <div>
-      
-        
-      
-        
-         <dl>
-           <dt>
-             path
-               
-                 <span class="badge">String</span>
-               
-           </dt>
-           <dd></dd>
-         </dl>
-        
-      
-        
-      
-    </div>
-  
-    
-    <h2>writeFileContent</h2>
-    <p>Write content to file
-</p>
-    <div>
-      
-        
-      
-        
-         <dl>
-           <dt>
-             filePath
-               
-                 <span class="badge">String</span>
-               
-           </dt>
-           <dd></dd>
-         </dl>
-        
-      
-        
-         <dl>
-           <dt>
-             fileContent
-               
-                 <span class="badge">String</span>
-               
-           </dt>
-           <dd></dd>
-         </dl>
-        
-      
-    </div>
-  
-    
-    <h2>doxParse</h2>
-    <p>Parse source comments with dox
-</p>
-    <div>
-      
-        
-      
-        
-         <dl>
-           <dt>
-             source
-               
-                 <span class="badge">String</span>
-               
-           </dt>
-           <dd>/path/to/input/file.js</dd>
-         </dl>
-        
-      
-        
-      
-    </div>
-  
-    
-    <h2>execCommand</h2>
-    <p>Executes given command
 
-```
-execCommand('npm install')()
-```
-</p>
-    <div>
-      
-        
-      
-        
-         <dl>
-           <dt>
-             command
-               
-                 <span class="badge">String</span>
-               
-           </dt>
-           <dd></dd>
-         </dl>
-        
-      
-        
-      
-    </div>
-  
+      <div class="table-responsive">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>param</th>
+              <th>type</th>
+              <th></th>
+              <th></th>
+              <th></th>
+              <th></th>
+              <th></th>
+              <th></th>
+              <th></th>
+              <th></th>
+              <th></th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            
+              
+                <tr>
+                  <th>
+                    gulp
+                  </th>
+                  <td>
+                    
+                      <span class="badge">Object</span>
+                    
+                  </td>
+                  <td colspan="10">
+                    
+                  </td>
+                <tr>
+              
+            
+              
+                <tr>
+                  <th>
+                    pkg
+                  </th>
+                  <td>
+                    
+                      <span class="badge">Object</span>
+                    
+                  </td>
+                  <td colspan="10">
+                    
+                      object from package.json
+                    
+                  </td>
+                <tr>
+              
+            
+          </tbody>
+        </table>
+      </div>
     
-    <h2></h2>
-    <p>Create gulp tasks
-</p>
-    <div>
-      
-        
-         <dl>
-           <dt>
-             gulp
-               
-                 <span class="badge">Object</span>
-               
-           </dt>
-           <dd></dd>
-         </dl>
-        
-      
-        
-         <dl>
-           <dt>
-             pkg
-               
-                 <span class="badge">Object</span>
-               
-           </dt>
-           <dd>object from package.json</dd>
-         </dl>
-        
-      
-    </div>
-  
+
+  </section>
 
 
   </div> <!-- div class="container" -->
