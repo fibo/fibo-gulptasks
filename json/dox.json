@@ -216,7 +216,7 @@
             },
             "isPrivate": true,
             "ignore": false,
-            "code": "function doxParse (source) {\n  gutil.log('doxParse ' + source)\n\n  var doxObj\n    , doxOptions = {debug: false, raw: true}\n    , fileContent = readFileContent(source)\n\n  doxObj = dox.parseComments(fileContent, doxOptions)\n\n  return doxObj\n}",
+            "code": "function doxParse (source) {\n  gutil.log('doxParse ' + source)\n\n  var doxObj\n    , doxOptions = {debug: false, raw: true}\n    , fileContent = readFileContent(source)\n\n  doxObj = dox.parseComments(fileContent, doxOptions)\n\n  doxObj.forEach(function (elem, index) {\n    console.log(index)\n    console.log(elem.description.summary)\n    doxObj[index].description.body    = marked(elem.description.body)\n    doxObj[index].description.full    = marked(elem.description.full)\n    doxObj[index].description.summary = marked(elem.description.summary)\n  })\n\n  return doxObj\n}",
             "ctx": {
                 "type": "function",
                 "name": "doxParse",
