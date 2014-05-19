@@ -161,6 +161,7 @@ Overwrite *package.json* attributes.
 #### deps
 
   * test
+  * gitpush
 
 ### setup
 

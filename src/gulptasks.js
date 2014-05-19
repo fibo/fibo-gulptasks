@@ -172,6 +172,12 @@ function doxParse (source) {
 
   doxObj = dox.parseComments(fileContent, doxOptions)
 
+  doxObj.forEach(function (elem, index) {
+    doxObj[index].description.body    = marked(elem.description.body)
+    doxObj[index].description.full    = marked(elem.description.full)
+    doxObj[index].description.summary = marked(elem.description.summary)
+  })
+
   return doxObj
 }
 

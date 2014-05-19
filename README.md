@@ -12,7 +12,7 @@ With [npm](https://npmjs.org/) do
 
 ```bash
 $ npm install -g gulp
-$ npm install --save-dev gulp
+$ npm install gulp
 $ npm install fibo/fibo-gulptasks
 ```
 
