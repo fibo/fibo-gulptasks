@@ -188,7 +188,7 @@ Start watching files
 
 ##### tasks
 
-  * dox
+  * generatedocs
 
 #### docs
 

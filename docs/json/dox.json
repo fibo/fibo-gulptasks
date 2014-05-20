@@ -267,7 +267,7 @@
                         "Object"
                     ],
                     "name": "gulp",
-                    "description": "<p>object from <code>require(gulp)</code></p>\n"
+                    "description": "<p>from <code>require(gulp)</code></p>\n"
                 },
                 {
                     "type": "param",
@@ -279,9 +279,9 @@
                 }
             ],
             "description": {
-                "full": "<p>Create gulp tasks</p>\n",
+                "full": "<p>Create gulp tasks</p>\n<p>Used in <em>gulpfile.js</em>, see <a href=\"./#gulpfile\">how to create gulpfile</a>.</p>\n",
                 "summary": "<p>Create gulp tasks</p>\n",
-                "body": ""
+                "body": "<p>Used in <em>gulpfile.js</em>, see <a href=\"./#gulpfile\">how to create gulpfile</a>.</p>\n"
             },
             "isPrivate": false,
             "ignore": false,

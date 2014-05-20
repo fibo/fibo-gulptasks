@@ -215,7 +215,10 @@ function execCommand (command) {
 
 /* Create gulp tasks
  *
- * @param {Object} gulp object from `require(gulp)`
+ * Used in *gulpfile.js*, see [installation section](./#installation) to know
+ * how to create a *gulpfile.js*.
+ *
+ * @param {Object} gulp from `require(gulp)`
  * @param {Object} pkg data from package.json
  */
 

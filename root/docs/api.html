@@ -7,16 +7,19 @@
     <% dox[section].forEach(function(elem) { %>
       <% if (elem.isPrivate) return %>
       <% if (!elem.ctx) elem.ctx = {} %>
+      <% name = elem.ctx.string %>
+      <% if (!name) return %>
       <% if (!elem.description) elem.description = {} %>
-      <% body = elem.description.body || 'body' %>
-      <% name = elem.ctx.string || 'name' %>
+      <% body = elem.description.body %>
       <% summary = elem.description.summary || 'summary' %>
 
       <h2><%= name %></h2>
 
-      <p><%= summary %></p>
+      <em><%= summary %></em>
 
-      <div class="table-responsive">
+      <% if (body) { %><p><%= body %></p><% } %>
+
+      <!--div class="table-responsive"-->
         <table class="table">
           <thead>
             <tr>
@@ -56,7 +59,7 @@
             <% }) %>
           </tbody>
         </table>
-      </div>
+      <!--/div-->
     <% }) %>
 
   </section>
