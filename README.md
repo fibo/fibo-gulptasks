@@ -16,8 +16,6 @@ $ npm install gulp
 $ npm install fibo/fibo-gulptasks
 ```
 
-## gulpfile
-
 Then create a *gulpfile.js*
 
 ```bash
@@ -31,7 +29,7 @@ EOF
 
 # Development
 
-Install [fibo/fibo-gulptasks][1] for development tasks automation.
+Yep, this package uses itself for tasks automation, *gulpfile.js* is modified to do so.
 
 # License
 
