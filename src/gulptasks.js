@@ -56,6 +56,7 @@ function createTaskGenerateIgnoreFile (gulp, taskName, rows) {
 }
 
 /* Render files from template
+ *
  * @api private
  * @param {Object} gulp
  * @param {String} taskName
@@ -188,8 +189,7 @@ function doxParse (source) {
   return doxObj
 }
 
-/*
- * Executes given command
+/* Executes given command
  *
  * ```
  * execCommand('npm install')()
@@ -331,7 +331,7 @@ function gulptasks (gulp, pkg) {
     var conf = config.tasks.watch
 
     function logFileChanged (event) {
-      gutil.log('File '+event.path+' was '+event.type+', running tasks...')
+      gutil.log('File ' + event.path + ' was ' + event.type + ', running tasks...')
     }
 
     gulp.watch(conf.docs.glob, conf.docs.tasks)

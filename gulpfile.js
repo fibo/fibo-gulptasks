@@ -2,5 +2,6 @@
 var gulp = require('gulp')
   , pkg  = require('./package.json')
 
-require('fibo-gulptasks')(gulp, pkg)
+// use this module to develop itself
+require('./index')(gulp, pkg)
 
