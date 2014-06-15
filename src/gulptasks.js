@@ -247,15 +247,20 @@ function gulptasks (gulp, pkg) {
     var files = fs.readdirSync(srcDir)
 
     files.forEach(function (fileName) {
+      var doxObj, item, source
+
       // ignore index.js
       if (fileName === 'index.js')
         return
 
       // All input files should have extension .js
-      var source = path.join(srcDir, fileName)
-      var item = path.basename(fileName, '.js')
+      item = path.basename(fileName, '.js')
+      if (item === fileName)
+        return
 
-      var doxObj = doxParse(source)
+      source = path.join(srcDir, fileName)
+
+      doxObj = doxParse(source)
       doxData[item] = doxObj
     })
 
